@@ -14,6 +14,12 @@
 | 기획서 | 기능 명세 | https://app.notion.com/p/3fb4c3788823815083a2c071cb6feca1 | - |
 | 역할 분담 | 역할별 책임 | https://app.notion.com/p/3fb4c378882381ec91dcf2913da3888e | - |
 
+## 작업 로그는 GitHub Actions가 자동 작성
+- `.github/workflows/notion-worklog.yml` 이 PR이 열리면 "PR 대기", Merge되면 "Merge 완료"로 기록한다. 본문 = PR 본문.
+- 파트 = PR 제목의 `[파트]`, 작성자 = PR 작성자 (`.github/notion-team.json` 의 GitHub 아이디 → 노션 user id).
+- 저장소 시크릿 `NOTION_TOKEN`(노션 내부 통합 키)이 필요하다. 팀원 각자의 노션 연결은 필요 없다.
+- 새 팀원이 오면 `.github/notion-team.json` 과 아래 "팀원" 표에 추가한다.
+
 ## 작업 로그 속성
 - 작업 (제목): 한 줄 요약. 예) "[백엔드] 로그인 API 추가"
 - 날짜: 오늘 날짜
