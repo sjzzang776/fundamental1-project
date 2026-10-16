@@ -1,0 +1,32 @@
+# 개발 모드: 코드를 저장하면 컨테이너에 바로 반영됩니다.
+# 실행: docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build <서비스>
+services:
+  backend:
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    environment:
+      WATCHFILES_FORCE_POLLING: "true"
+    volumes:
+      - ./backend/app:/app/app
+
+  model:
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8001 --reload
+    environment:
+      WATCHFILES_FORCE_POLLING: "true"
+    volumes:
+      - ./model/app:/app/app
+      - ./model/weights:/app/weights
+
+  frontend-dev:
+    image: node:22-alpine
+    working_dir: /app
+    command: sh -c "npm install && npm run dev -- --host 0.0.0.0"
+    ports:
+      - "5173:5173"
+    environment:
+      API_PROXY_TARGET: http://backend:8000
+      VITE_USE_POLLING: "true"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend

@@ -1,0 +1,29 @@
+# 환경변수 (비밀번호 포함)
+.env
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# Node
+node_modules/
+dist/
+
+# 모델 데이터·가중치 (용량이 커서 Git에 올리지 않음)
+model/data/*
+!model/data/.gitkeep
+model/weights/*
+!model/weights/.gitkeep
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+
+# OS / 에디터
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
