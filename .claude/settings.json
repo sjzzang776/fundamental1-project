@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "git fetch --all --prune --quiet 2>/dev/null; echo '[자동 확인] 현재 브랜치 상태:'; git status -sb 2>/dev/null | head -n 5; echo '[main 최근 커밋]'; git log origin/main --oneline -5 2>/dev/null; echo '[안내] 사용자가 이어서 작업하려 하면 catch-up 스킬(docs/ai/catch-up.md)을 먼저 제안하라.'"
+          }
+        ]
+      }
+    ]
+  }
+}
