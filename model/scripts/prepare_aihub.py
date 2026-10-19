@@ -301,13 +301,15 @@ def to_flac(args):
     return buf.getvalue()
 
 
-def build(name, train_hours, valid_n, seed, run):
+def build(name, train_hours, valid_n, seed, run, splits=("train", "valid")):
     df, _ = matched_rows(name)
     df = df[(df.seconds > 0.3) & (df.seconds <= MAX_SECONDS)]
     train = df[df.split == "train"].sample(frac=1, random_state=seed)
     train = train[train.seconds.cumsum() <= train_hours * 3600]
     valid = df[df.split == "valid"].sample(min(valid_n, (df.split == "valid").sum()), random_state=seed)
-    picked = pd.concat([train, valid], ignore_index=True)
+    picked = pd.concat([p for s, p in [("train", train), ("valid", valid)] if s in splits], ignore_index=True)
+    if picked.empty:
+        sys.exit(f"❌ {name} {splits}: 고를 음성이 없습니다 (아직 다운로드 중인지 확인)")
     print(f"고른 음성: 학습 {len(train):,}개 ({train.seconds.sum() / 3600:.1f}시간) · 검증 {len(valid):,}개")
 
     out_dir = f"{DATA}/upload/{run}"
@@ -337,9 +339,10 @@ def build(name, train_hours, valid_n, seed, run):
 
     manifest = f"{out_dir}/manifest.csv"
     new = pd.DataFrame(rows)
-    if os.path.exists(manifest):
+    if os.path.exists(manifest):  # 이번에 정리한 (데이터셋, 학습/검증) 줄만 바꾼다
         old = pd.read_csv(manifest)
-        new = pd.concat([old[old.dataset != name], new], ignore_index=True)
+        keep = ~((old.dataset == name) & old.split.isin(list(splits)))
+        new = pd.concat([old[keep], new], ignore_index=True)
     new.to_csv(manifest, index=False)
     total = sum(os.path.getsize(f"{out_dir}/{f}") for f in os.listdir(out_dir))
     print(f"✅ {out_dir} 에 저장 (폴더 전체 {total / 1e9:.2f}GB)")
@@ -362,13 +365,16 @@ def main():
     b.add_argument("--valid-n", type=int, default=1000)
     b.add_argument("--seed", type=int, default=42)
     b.add_argument("--run", default="whisper-small-elderly-v1")
+    b.add_argument("--split", choices=["train", "valid", "all"], default="all",
+                   help="학습용만/검증용만 정리 (다운로드가 덜 끝났을 때)")
     a = ap.parse_args()
     if a.cmd == "download":
         download(a.name, a.datasetkey, a.filekeys)
     elif a.cmd == "inspect":
         inspect(a.name)
     else:
-        build(a.name, a.train_hours, a.valid_n, a.seed, a.run)
+        build(a.name, a.train_hours, a.valid_n, a.seed, a.run,
+              ("train", "valid") if a.split == "all" else (a.split,))
 
 
 if __name__ == "__main__":

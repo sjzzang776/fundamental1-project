@@ -7,7 +7,7 @@ from pydantic import BaseModel
 
 from app import stt
 
-MODEL_VERSION = "whisper-small-0.1"
+MODEL_VERSION = stt.MODEL_VERSION
 
 
 @asynccontextmanager
@@ -30,7 +30,15 @@ class PredictRequest(BaseModel):
 
 @app.get("/health")
 def health():
-    return {"status": "ok", "model_version": MODEL_VERSION}
+    return {"status": "ok", "model_version": MODEL_VERSION, "stt_ready": stt.is_ready()}
+
+
+@app.get("/ready")
+def ready():
+    """음성 인식 모델을 다 불러왔으면 200, 아직이면 503 (쿠버네티스 readinessProbe 용)."""
+    if stt.is_ready():
+        return {"ready": True, "model_version": MODEL_VERSION}
+    return error(503, "MODEL_LOADING", "음성 인식 모델을 불러오는 중입니다")
 
 
 @app.post("/stt")
