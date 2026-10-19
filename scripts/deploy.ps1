@@ -16,10 +16,11 @@ function Run([string]$cmd) {
     if ($LASTEXITCODE -ne 0) { throw "실패: $cmd" }
 }
 
-# 1. 학습한 음성 인식 모델 파일 확인 (없으면 원본 모델로 만들어지고 켤 때마다 464MB를 받는다)
+# 1. 학습한 모델 파일 확인 (음성 인식 + 의도 파악 분류·생성). 없으면 Release 에서 받는다
 if (-not (Test-Path "model/weights/whisper-small-elderly-v1/model.bin")) {
     Run "bash model/scripts/fetch_model.sh"
 }
+Run "bash model/scripts/fetch_nlu_model.sh"
 
 # 2. 이미지 만들어 올리기 (태그 = 지금 커밋)
 $TAG = (git rev-parse --short HEAD).Trim()

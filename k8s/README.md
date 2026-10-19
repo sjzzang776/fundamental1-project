@@ -14,6 +14,7 @@
 `main` 을 최신으로 받은 뒤 저장소 맨 위 폴더에서:
 - Windows: `powershell -ExecutionPolicy Bypass -File scripts/deploy.ps1`
 - macOS: `bash scripts/deploy.sh`
+- 배포 전에 상태를 백업하고, 배포 후 `k8s/DEPLOY_LOG.md` 맨 위에 한 줄 기록 (문제가 생기면 `bash scripts/rollback.sh <이전 태그>`)
 
 ## 처음 한 번만 (2026-10-19 에 해 둠)
 ```
@@ -42,6 +43,7 @@ kubectl -n fundamental1 create secret generic db-secret --from-literal=POSTGRES_
 | 상태 보기 | `kubectl -n fundamental1 get pods,ingress,managedcertificate` |
 | 로그 보기 | `kubectl -n fundamental1 logs deploy/backend` (model, frontend 도 같음) |
 | 직전 버전으로 되돌리기 | `kubectl -n fundamental1 rollout undo deployment/backend` |
+| 화면·백엔드·모델을 한 버전으로 되돌리기 | `bash scripts/rollback.sh <태그>` (태그·기록: `k8s/DEPLOY_LOG.md`) |
 | 잠시 모두 끄기 (CPU 요금 절약) | `kubectl -n fundamental1 scale deploy --all --replicas=0` 과 `kubectl -n fundamental1 scale statefulset postgres --replicas=0` |
 | 다시 켜기 | 위 명령에서 `--replicas=1` |
 | 시연 전 테스트 쿠폰 초기화 | `curl -X POST -d "" https://8-232-203-94.sslip.io/api/demo/reset-coupons` |
