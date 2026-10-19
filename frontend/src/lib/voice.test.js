@@ -138,3 +138,21 @@ describe('안내 음성 (lib/tts.js)', () => {
   })
 })
 
+
+describe('말 시작 감지: 첫소리가 작거나 음절 사이가 잠깐 작아져도', () => {
+  it('짧게(0.15초 이하) 작아진 건 이어진 말로 보고 늦지 않게 시작한다', () => {
+    const d = createSpeechDetector()
+    for (let i = 0; i < 20; i++) d.push(0.005, 50) // 조용한 방
+    // 큰 소리 0.1초 → 0.1초 작아짐("포" 뒤) → 큰 소리 0.2초 : 예전엔 작아질 때 처음부터 다시 세서 더 늦게 시작
+    const seq = [0.2, 0.2, 0.005, 0.005, 0.2, 0.2, 0.2, 0.2]
+    const events = seq.map((v) => d.push(v, 50))
+    expect(events.indexOf('start')).toBe(7) // 큰 소리 합 0.3초가 되는 순간
+  })
+
+  it('길게(0.15초 넘게) 조용하면 처음부터 다시 센다 (짧은 잡음 두 번은 말이 아님)', () => {
+    const d = createSpeechDetector()
+    for (let i = 0; i < 20; i++) d.push(0.005, 50)
+    const seq = [0.2, 0.2, 0.005, 0.005, 0.005, 0.005, 0.2, 0.2]
+    expect(seq.map((v) => d.push(v, 50))).not.toContain('start')
+  })
+})

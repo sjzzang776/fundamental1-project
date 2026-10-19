@@ -1,7 +1,7 @@
 // 음성: 손님이 말하면 버튼 없이 바로 듣고, 말을 멈추면 바로 서버 /voice 로 보낸다 (PM 결정 2026-10-19: 다시 기본으로, #27 되돌림).
 // 마이크 버튼을 누르면 직접 시작하고, 다시 눌러야 끝난다 (조용해도 자동으로 끝내지 않음).
 // 음성 안내: 서버 /api/tts 의 사람 목소리(Google Chirp 3 HD)를 먼저, 안 되면 브라우저 목소리 중 가장 자연스러운 것 (PM 결정 2026-10-19 변경, lib/tts.js)
-// - 주문 중에는 마이크를 계속 열어 두고 소리 크기만 본다. 주변 소음보다 4배 이상 큰 목소리가 0.3초 이어지면 녹음 시작(직전 0.4초 포함).
+// - 주문 중에는 마이크를 계속 열어 두고 소리 크기만 본다. 주변 소음보다 4배 이상 큰 목소리가 0.3초 이어지면 녹음 시작(직전 1초 포함).
 // - 1초 조용하면 녹음을 끝내 16kHz WAV로 보낸다(최대 14초). 안내를 읽는 중에 손님이 말하면 안내를 멈춘다(끼어들기).
 // - 결제·응답 대기·안내 창에서는 멈춤(paused). 마이크 버튼으로도 직접 시작·끝낼 수 있다.
 // - 끄려면 빌드할 때 VITE_HANDS_FREE=0 (버튼을 눌러 말하고 다시 눌러 끝내기만)
@@ -11,7 +11,8 @@ import { createSpeechDetector, rmsOf } from '../lib/vad.js'
 import { encodeWav } from '../lib/wav.js'
 
 export const HANDS_FREE = import.meta.env.VITE_HANDS_FREE !== '0'
-const PRE_ROLL_MS = 400
+const PRE_ROLL_MS = 1000 // 말 시작으로 본 때보다 1초 앞부터 보낸다 (첫소리가 잘리면 "포장해" → "보장해"로 잘못 알아들음)
+const BARGE_IN_PRE_ROLL_MS = 400 // 안내를 읽는 중에 끼어들면 0.4초만 (더 앞은 안내 목소리라 같이 글자로 바뀜)
 const FRAME_SIZE = 2048
 const MANUAL_MAX_MS = 14000 // 버튼으로 시작했는데 끝 버튼을 안 누르면 14초에 보낸다 (서버 최대 15초)
 
@@ -24,7 +25,7 @@ export function useVoice({ onRecorded }) {
 
   const audioRef = useRef(null) // { ctx, stream, proc }
   const detectorRef = useRef(createSpeechDetector())
-  const preRollRef = useRef([]) // 직전 0.4초
+  const preRollRef = useRef([]) // 직전 1초 소리 조각들
   const captureRef = useRef(null) // 듣는 중인 소리 조각들
   const manualRef = useRef(null) // 버튼으로 시작했으면 지금까지 들은 시간(ms). 조용해도 끝내지 않는다
   const pausedRef = useRef(true)
@@ -121,8 +122,14 @@ export function useVoice({ onRecorded }) {
   }, [])
 
   const beginCapture = useCallback(() => {
-    if (speakingRef.current) stopSpeaking() // 손님이 말하면 안내를 멈춘다
-    captureRef.current = [...preRollRef.current]
+    const pre = preRollRef.current
+    let keep = pre.length
+    if (speakingRef.current) {
+      stopSpeaking() // 손님이 말하면 안내를 멈춘다
+      const frameMs = pre.length ? (pre[0].length / (audioRef.current?.ctx.sampleRate || 48000)) * 1000 : 0
+      keep = frameMs ? Math.ceil(BARGE_IN_PRE_ROLL_MS / frameMs) : pre.length
+    }
+    captureRef.current = pre.slice(-keep)
     setMicState('listening')
   }, [stopSpeaking])
 
@@ -131,7 +138,7 @@ export function useVoice({ onRecorded }) {
       const copy = new Float32Array(frame)
       const dtMs = (copy.length / sampleRate) * 1000
 
-      // 직전 0.4초 보관 (첫 음절이 잘리지 않게)
+      // 직전 1초 보관 (첫 음절이 잘리지 않게)
       const pre = preRollRef.current
       pre.push(copy)
       while (pre.length * dtMs > PRE_ROLL_MS) pre.shift()
