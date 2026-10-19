@@ -1,0 +1,4 @@
+# AI Hub 데이터 준비용 (prepare_aihub.py). 빌드: docker build -t aihub-prep -f model/scripts/Dockerfile.prep model/scripts
+FROM python:3.12-slim
+RUN apt-get update && apt-get install -y --no-install-recommends curl && rm -rf /var/lib/apt/lists/*
+RUN pip install --no-cache-dir numpy==2.1.3 pandas==2.2.3 soundfile==0.12.1 soxr==0.5.0.post1
