@@ -5,7 +5,7 @@ from fastapi.concurrency import run_in_threadpool
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 
-from app import nlu_llm, stt
+from app import nlu_intent, nlu_llm, stt
 
 MODEL_VERSION = stt.MODEL_VERSION
 
@@ -39,7 +39,7 @@ class NluRequest(BaseModel):
 
 @app.get("/health")
 def health():
-    return {"status": "ok", "model_version": MODEL_VERSION, "stt_ready": stt.is_ready(), "nlu_llm": nlu_llm.available()}
+    return {"status": "ok", "model_version": MODEL_VERSION, "stt_ready": stt.is_ready(), "nlu_intent": nlu_intent.available(), "nlu_llm": nlu_llm.available()}
 
 
 @app.get("/ready")
@@ -50,16 +50,34 @@ def ready():
     return error(503, "MODEL_LOADING", "음성 인식 모델을 불러오는 중입니다")
 
 
+def _understand(req: NluRequest) -> dict:
+    # 1) 작은 분류 모델 (빠르고 공짜): 표준 문장 18개 중 하나로 확신하면 바로 답한다
+    tried = nlu_intent.available()
+    if tried:
+        result = nlu_intent.classify(req.text, req.step)
+        if result["rewrite"]:
+            return result
+    # 2) Claude (API 키가 있을 때만): 메뉴 이름이 들어간 말 등 분류 모델이 못 고른 말
+    if nlu_llm.available():
+        try:
+            return nlu_llm.rewrite(req.text, req.step, req.menus, req.options, req.cart, req.history)
+        except nlu_llm.NluUnavailable:
+            if not tried:
+                raise
+    if tried:  # 분류 모델은 있으니 503 대신 "모름" (백엔드가 1분 동안 /nlu 를 건너뛰지 않게)
+        return {"rewrite": "", "confidence": 0.0, "model": nlu_intent.model_version()}
+    raise nlu_llm.NluUnavailable("의도 파악 모델도 API 키도 없습니다")
+
+
 @app.post("/nlu")
 async def nlu(req: NluRequest):
-    """백엔드 규칙이 못 알아들은 손님 말을 키오스크가 아는 표준 문장으로 바꾼다 (LLM, C안).
+    """백엔드 규칙이 못 알아들은 손님 말을 키오스크가 아는 표준 문장으로 바꾼다 (C안).
 
-    응답: {"rewrite": "포장", "confidence": 0.9}. API 키가 없거나 LLM이 실패하면 503 → 백엔드는 규칙만 쓴다.
+    순서: 분류 모델(nlu-intent-v1, 있으면) → Claude(ANTHROPIC_API_KEY 있으면).
+    응답: {"rewrite": "포장", "confidence": 0.9, "model": "..."}. 둘 다 없으면 503 → 백엔드는 규칙만 쓴다.
     """
     try:
-        return await run_in_threadpool(
-            nlu_llm.rewrite, req.text, req.step, req.menus, req.options, req.cart, req.history
-        )
+        return await run_in_threadpool(_understand, req)
     except nlu_llm.NluUnavailable as e:
         return error(503, "NLU_UNAVAILABLE", str(e))
 
