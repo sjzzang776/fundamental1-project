@@ -186,6 +186,8 @@ await tap('주문할게요')
 await tap('맞아요')
 await tap('없어요')
 check('결제 화면까지 감', (await kiosk.locator('.progress__text').innerText()).includes('결제'))
+// 안내 문장을 읽는 동안(마이크 표시 "말하는 중")은 타이머가 멈추므로, 읽기가 끝난 뒤부터 15초를 잰다
+await kiosk.waitForFunction(() => !document.querySelector('.mic--speaking'), null, { timeout: 30000 })
 await kiosk.waitForTimeout(15500)
 await shot(kiosk, 'e02-need-help')
 check('결제 화면 15초 무응답 → "도움이 필요하세요?"', await kiosk.getByText('도움이 필요하세요?').first().isVisible())
