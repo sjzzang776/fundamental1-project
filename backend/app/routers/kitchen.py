@@ -1,4 +1,5 @@
 import os
+from datetime import datetime, timezone
 
 from fastapi import APIRouter, Depends, Header
 from pydantic import BaseModel
@@ -7,8 +8,10 @@ from sqlalchemy.orm import Session
 
 from ..db import get_db, now_utc, today_kst
 from ..errors import ApiError
-from ..models import Order, StaffCall
+from ..models import Coupon, Order, StaffCall
+from ..seed import COUPONS
 from ..services import cart as cart_svc
+from ..services.pricing import recalc
 
 # 비어 있으면 확인하지 않는다 (로컬 개발용). 매장에 둘 때는 .env 에 KITCHEN_TOKEN 을 넣는다.
 KITCHEN_TOKEN = os.getenv("KITCHEN_TOKEN", "")
@@ -65,6 +68,26 @@ def update_kitchen_order(order_id: int, req: KitchenUpdate, db: Session = Depend
         order.ready_at = now_utc()
     db.commit()
     return _kitchen_order(order)
+
+
+@router.post("/demo/reset-coupons")
+def reset_test_coupons(db: Session = Depends(get_db)):
+    """시연용: 테스트 쿠폰(TEST0001~0005)을 처음 상태로 되돌려 다시 쓸 수 있게 한다 (이슈 #14).
+
+    이미 결제된 주문의 쿠폰 연결도 풀린다(할인 금액 기록은 남음). 시연 전에만 쓴다.
+    """
+    seeded = {barcode: used for barcode, *_rest, used in COUPONS}
+    reset = []
+    for coupon in db.scalars(select(Coupon).where(Coupon.barcode.in_(seeded))):
+        for order in db.scalars(select(Order).where(Order.coupon_id == coupon.id)):
+            order.coupon = None
+            if order.status in cart_svc.OPEN_STATUSES:
+                recalc(order, now_utc())
+        used = seeded[coupon.barcode]
+        coupon.used_at = datetime.fromisoformat(used).replace(tzinfo=timezone.utc) if used else None
+        reset.append(coupon.barcode)
+    db.commit()
+    return {"reset": sorted(reset)}
 
 
 @router.get("/staff-calls")

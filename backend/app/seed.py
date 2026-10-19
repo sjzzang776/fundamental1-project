@@ -35,7 +35,7 @@ MENUS = [
     (2, "맥너겟 4조각", 2800, None, 190, "밀, 대두, 닭고기", False, ["너겟", "치킨너겟"]),
     (2, "치즈스틱 2조각", 2800, None, 220, "밀, 우유, 대두", False, ["치즈스틱"]),
     (3, "코카콜라 (M)", 1800, None, 140, "없음", False, ["콜라"]),
-    (3, "코카콜라 제로 (M)", 1800, None, 0, "없음", False, ["제로콜라", "제로"]),
+    (3, "코카콜라 제로 (M)", 1800, None, 0, "없음", False, ["제로콜라", "제로", "콜라 제로"]),
     (3, "스프라이트 (M)", 1800, None, 140, "없음", False, ["사이다"]),
     (3, "아메리카노 (M)", 2000, None, 10, "없음", False, ["커피", "아아"]),
     (3, "오렌지 주스", 2500, None, 110, "없음", False, ["주스", "오렌지"]),
@@ -59,7 +59,7 @@ OPTION_ALIASES = {
     "맥너겟 4조각": ["너겟", "치킨너겟", "맥너겟"],
     "치즈스틱 2조각": ["치즈스틱"],
     "코카콜라": ["콜라"],
-    "코카콜라 제로": ["제로콜라", "제로"],
+    "코카콜라 제로": ["제로콜라", "제로", "콜라 제로"],
     "스프라이트": ["사이다"],
     "아메리카노": ["커피", "아아"],
     "오렌지 주스": ["주스", "오렌지"],
@@ -80,9 +80,23 @@ COUPONS = [
 ]
 
 
+def _sync_aliases(db: Session) -> None:
+    """이미 메뉴가 들어 있는 DB에도 새로 추가한 별명을 넣는다."""
+    for _, name, *_rest, aliases in MENUS:
+        item = db.scalar(select(MenuItem).where(MenuItem.name == name))
+        if item is None:
+            continue
+        have = {a.alias for a in item.aliases}
+        for alias in aliases:
+            if alias not in have:
+                item.aliases.append(MenuAlias(alias=alias))
+    db.commit()
+
+
 def seed(db: Session) -> None:
     """메뉴 데이터가 비어 있을 때만 넣는다 (다시 실행해도 중복되지 않음)."""
     if db.scalar(select(MenuCategory.id).limit(1)) is not None:
+        _sync_aliases(db)
         return
 
     for cid, name, order in CATEGORIES:

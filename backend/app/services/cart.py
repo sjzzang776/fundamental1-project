@@ -108,7 +108,14 @@ def update_item(
             raise ApiError(400, "INVALID_QUANTITY", f"수량은 1~{MAX_QUANTITY}개만 고를 수 있습니다")
         item.quantity = quantity
     if option_ids is not None:
-        options = _resolve_options(db, item.menu, item.is_set, option_ids)
+        # 보낸 옵션의 그룹만 바꾸고 나머지는 그대로 둔다. 예: 확인 화면 [사이드 바꾸기] → 맥너겟 id 하나만 보내면 됨
+        by_group = {o.option.option_group_id: o.option_item_id for o in item.options}
+        for oid in option_ids:
+            option = db.get(OptionItem, oid)
+            if option is None:
+                raise ApiError(400, "INVALID_OPTION", "이 메뉴에 고를 수 없는 옵션입니다", {"option_item_id": oid})
+            by_group[option.option_group_id] = oid
+        options = _resolve_options(db, item.menu, item.is_set, list(by_group.values()))
         item.options = [OrderItemOption(option=o, extra_price=o.extra_price) for o in options]
         item.unit_price = unit_price(item.menu, item.is_set, sum(o.extra_price for o in options))
     return recalc(order, now_utc())
@@ -155,7 +162,16 @@ def cart_view(order: Order) -> dict:
                 "menu_id": i.menu_item_id,
                 "menu_name": i.menu.name,
                 "is_set": i.is_set,
-                "options": [{"option_item_id": o.option_item_id, "name": o.option.name, "extra_price": o.extra_price} for o in i.options],
+                "options": [
+                    {
+                        "option_item_id": o.option_item_id,
+                        "name": o.option.name,
+                        "extra_price": o.extra_price,
+                        "option_group_id": o.option.option_group_id,
+                        "group": o.option.group.name,  # 확인 화면 "사이드: 후렌치 후라이 [바꾸기]" 용
+                    }
+                    for o in i.options
+                ],
                 "label": item_label(i),
                 "quantity": i.quantity,
                 "unit_price": i.unit_price,

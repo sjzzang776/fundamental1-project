@@ -100,7 +100,12 @@ def _find(text: str, keys: list[tuple[str, int]], kind: str) -> list[Mention]:
     return sorted(found, key=lambda m: m.start)
 
 
-_QTY_WORDS = [("다섯", 5), ("하나", 1), ("한", 1), ("둘", 2), ("두", 2), ("셋", 3), ("세", 3), ("넷", 4), ("네", 4)]
+# 학습한 음성 인식 모델은 숫자를 한글로 적는다 ("두 개", "여섯 개")
+_QTY_WORDS = [
+    ("다섯", 5), ("여섯", 6), ("일곱", 7), ("여덟", 8), ("아홉", 9), ("하나", 1), ("한", 1), ("둘", 2), ("두", 2),
+    ("셋", 3), ("세", 3), ("넷", 4), ("네", 4), ("열", 10),
+]
+_NUM = r"(\d+|다섯|여섯|일곱|여덟|아홉|하나|한|둘|두|셋|세|넷|네|열)"
 
 
 def _number_at(text: str) -> int | None:
@@ -149,6 +154,8 @@ def _rule_intent(t: str, p: Parsed) -> str:
         return "RESTART"
     if "말고" in t and has_m:
         return "CHANGE_OPTION"
+    if p.options and _has(t, ("바꿔", "바꾸", "변경")):  # "사이드 너겟으로 바꿔 주세요"
+        return "CHANGE_OPTION"
     if has_m and _has(t, ("빼", "삭제", "없애", "지워")):
         return "REMOVE_ITEM"
     if "취소" in t and not has_m:
@@ -160,11 +167,11 @@ def _rule_intent(t: str, p: Parsed) -> str:
     if _has(t, ("뭐담", "장바구니", "주문내역", "뭐시켰", "뭐주문")):
         return "VIEW_CART"
     if re.search(r"더(줘|주세요|요|$)", t):
-        m = re.search(r"(\d+|한|두|세|네)(개|잔)더|(하나|둘|셋|넷)더", t)
-        p.qty_delta = _number_at(m.group(1) or m.group(3)) if m else 1
+        m = re.search(_NUM + r"(개|잔)?더", t)
+        p.qty_delta = _number_at(m.group(1)) if m else 1
         return "CHANGE_QTY"
     if has_m:
-        m = re.search(r"(\d+|하나|한|두|세|네)(개|잔)?(로|만)", t)
+        m = re.search(_NUM + r"(개|잔)?(로|만)", t)
         if m:
             p.qty_absolute = _number_at(m.group(1))
             return "CHANGE_QTY"
