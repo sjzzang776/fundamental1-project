@@ -31,6 +31,11 @@ spec:
               value: postgresql+psycopg://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@postgres:5432/$(POSTGRES_DB)
             - name: MODEL_URL
               value: http://model:8001
+            - name: TTS_API_KEY # 사람 목소리 안내 (Google TTS 키, 클러스터 Secret 에만 있음). 없으면 브라우저 목소리
+              valueFrom:
+                secretKeyRef: { name: tts-secret, key: TTS_API_KEY, optional: true }
+            - name: TTS_VOICE
+              value: ko-KR-Chirp3-HD-Aoede
           readinessProbe:
             httpGet:
               path: /api/health

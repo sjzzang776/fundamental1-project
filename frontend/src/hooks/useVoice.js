@@ -1,11 +1,12 @@
 // 음성: 기본은 마이크 버튼을 눌러 말하고, 다 말하면 다시 눌러 서버 /voice 로 보낸다 (PM 결정 2026-10-19: 자동 감지는 아직 인식이 불안정).
 // 아래는 손 안 대고 듣기(VITE_HANDS_FREE=1)일 때:
-// 음성 안내는 브라우저에 들어 있는 읽어 주기(speechSynthesis)로 확정 (PM 결정 2026-10-19). 서버 /api/tts 는 쓰지 않는다.
+// 음성 안내: 서버 /api/tts 의 사람 목소리(Google Chirp 3 HD)를 먼저, 안 되면 브라우저 목소리 중 가장 자연스러운 것 (PM 결정 2026-10-19 변경, lib/tts.js)
 // - 주문 중에는 마이크를 계속 열어 두고 소리 크기만 본다. 주변 소음보다 4배 이상 큰 목소리가 0.3초 이어지면 녹음 시작(직전 0.4초 포함).
 // - 1초 조용하면 녹음을 끝내 16kHz WAV로 보낸다(최대 14초). 안내를 읽는 중에 손님이 말하면 안내를 멈춘다(끼어들기).
 // - 결제·응답 대기·안내 창에서는 멈춤(paused). 마이크 버튼으로도 직접 시작·끝낼 수 있다.
 // - 켜려면 빌드할 때 VITE_HANDS_FREE=1
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { fetchSpeech, pickBrowserVoice, splitSentences } from '../lib/tts.js'
 import { createSpeechDetector, rmsOf } from '../lib/vad.js'
 import { encodeWav } from '../lib/wav.js'
 
@@ -30,39 +31,85 @@ export function useVoice({ onRecorded }) {
   const speakingRef = useRef(false)
   const utterRef = useRef(null)
   const speakTimerRef = useRef(null)
+  const playerRef = useRef(null) // 지금 재생 중인 서버 음성 (Audio)
+  const speakSeqRef = useRef(0) // 새 안내가 오면 이전 안내(받는 중인 음성 포함)는 버린다
 
   const setSpeakingBoth = useCallback((value) => {
     speakingRef.current = value
     setSpeaking(value)
   }, [])
 
-  const stopSpeaking = useCallback(() => {
+  const stopPlayback = useCallback(() => {
+    speakSeqRef.current += 1
     clearTimeout(speakTimerRef.current)
     window.speechSynthesis?.cancel()
+    const player = playerRef.current
+    playerRef.current = null
+    if (player) {
+      player.pause()
+      URL.revokeObjectURL(player.src)
+    }
+  }, [])
+
+  const stopSpeaking = useCallback(() => {
+    stopPlayback()
     setSpeakingBoth(false)
-  }, [setSpeakingBoth])
+  }, [stopPlayback, setSpeakingBoth])
 
   const speak = useCallback(
     (text) => {
-      const synth = window.speechSynthesis
-      if (!synth || !text) return
-      synth.cancel()
-      const utter = new SpeechSynthesisUtterance(text)
-      utter.lang = 'ko-KR'
-      utter.rate = 0.9 // 어르신이 듣기 편하게 조금 천천히
+      if (!text) return
+      stopPlayback()
+      const seq = speakSeqRef.current
       const done = () => {
+        if (seq !== speakSeqRef.current) return
         clearTimeout(speakTimerRef.current)
+        playerRef.current = null
         setSpeakingBoth(false)
       }
-      utter.onend = done
-      utter.onerror = done
-      utterRef.current = utter // 일부 브라우저는 참조가 없으면 onend 를 안 부른다
       setSpeakingBoth(true) // 읽기 시작 전부터 '말하는 중'으로 본다
-      clearTimeout(speakTimerRef.current)
-      speakTimerRef.current = setTimeout(done, 3000 + text.length * 250) // onend 가 안 오는 경우 대비
-      synth.speak(utter)
+      speakTimerRef.current = setTimeout(done, 6000 + text.length * 300) // 끝 알림이 안 오는 경우 대비
+
+      let fellBack = false
+      const speakWithBrowser = () => {
+        if (seq !== speakSeqRef.current || fellBack) return
+        fellBack = true
+        const synth = window.speechSynthesis
+        if (!synth) return done()
+        synth.cancel()
+        const utter = new SpeechSynthesisUtterance(text)
+        utter.lang = 'ko-KR'
+        utter.rate = 0.9 // 어르신이 듣기 편하게 조금 천천히
+        const voice = pickBrowserVoice(synth.getVoices())
+        if (voice) utter.voice = voice
+        utter.onend = done
+        utter.onerror = done
+        utterRef.current = utter // 일부 브라우저는 참조가 없으면 onend 를 안 부른다
+        synth.speak(utter)
+      }
+
+      // 문장마다 서버 음성을 한꺼번에 요청해 두고 차례로 재생한다 (첫 문장이 오면 바로 시작)
+      const sentences = splitSentences(text)
+      const blobs = sentences.map((s) => fetchSpeech(s))
+      blobs.forEach((p) => p.catch(() => {})) // 아래에서 차례로 기다린다
+      const playAll = async () => {
+        for (let i = 0; i < blobs.length; i++) {
+          const blob = await blobs[i]
+          if (seq !== speakSeqRef.current) return
+          const player = new Audio(URL.createObjectURL(blob))
+          playerRef.current = player
+          await new Promise((resolve, reject) => {
+            player.onended = resolve
+            player.onerror = reject
+            player.play().catch(reject)
+          })
+          URL.revokeObjectURL(player.src)
+        }
+        done()
+      }
+      playAll().catch(speakWithBrowser) // 서버 음성이 없거나 재생이 막히면 브라우저 목소리
     },
-    [setSpeakingBoth],
+    [stopPlayback, setSpeakingBoth],
   )
 
   const finishCapture = useCallback(() => {
@@ -176,11 +223,10 @@ export function useVoice({ onRecorded }) {
 
   useEffect(
     () => () => {
-      clearTimeout(speakTimerRef.current)
-      window.speechSynthesis?.cancel()
+      stopPlayback()
       close()
     },
-    [close],
+    [close, stopPlayback],
   )
 
   return { micState, speaking, speak, stopSpeaking, open, close, setPaused, toggleListening }

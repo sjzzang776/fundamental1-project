@@ -4,7 +4,8 @@ import time
 from contextlib import asynccontextmanager
 
 import httpx
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Response
+from fastapi.concurrency import run_in_threadpool
 from pydantic import BaseModel, Field
 from sqlalchemy import text
 from sqlalchemy.exc import OperationalError
@@ -13,6 +14,7 @@ from .db import Base, SessionLocal, engine
 from .errors import ApiError, register_error_handlers
 from .routers import kitchen, menus, orders, sessions
 from .seed import seed
+from .services import tts as tts_svc
 
 MODEL_URL = os.getenv("MODEL_URL", "http://localhost:8001")
 log = logging.getLogger("backend")
@@ -37,6 +39,7 @@ def init_db(retries: int = 10) -> None:
 @asynccontextmanager
 async def lifespan(_: FastAPI):
     init_db()
+    tts_svc.prewarm_in_background()
     yield
 
 
@@ -83,11 +86,12 @@ async def predict(req: PredictRequest):
 
 @app.post("/api/tts", tags=["공통"])
 async def tts(req: TtsRequest):
-    """안내 문장 → 음성. 모델 서버의 POST /tts 로 넘긴다 (아직 없으면 502, 화면은 글자로 계속 진행)."""
+    """안내 문장 → 사람 목소리 음성 MP3 (Google Cloud TTS, Chirp 3 HD). services/tts.py 참고.
+
+    키가 없거나 실패하면 503 → 화면은 브라우저 목소리로 대신 읽는다.
+    """
     try:
-        async with httpx.AsyncClient(timeout=10) as client:
-            r = await client.post(f"{MODEL_URL}/tts", json=req.model_dump())
-            r.raise_for_status()
-            return r.json()
-    except (httpx.HTTPError, ValueError) as e:
-        raise ApiError(502, "MODEL_UNAVAILABLE", "음성 안내를 만들 수 없습니다. 화면 글자로 안내해 주세요", {"reason": str(e)[:200]})
+        audio = await run_in_threadpool(tts_svc.synthesize, req.text)
+    except tts_svc.TtsUnavailable as e:
+        raise ApiError(503, "TTS_UNAVAILABLE", "음성 안내를 만들 수 없습니다. 브라우저 목소리로 읽어 주세요", {"reason": str(e)})
+    return Response(content=audio, media_type="audio/mpeg", headers={"Cache-Control": "public, max-age=86400"})
