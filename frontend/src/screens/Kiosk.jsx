@@ -41,8 +41,11 @@ export default function Kiosk() {
   const inPayment = Boolean(payment)
   const text = payment ? PAYMENT_TEXT[payment.phase] : res?.reply_text
 
-  // 새 안내 문장이 오면 소리 내어 읽어 준다
+  // 새 안내 문장이 오면 소리 내어 읽어 준다 ("천천히 말해 줘" 등 빠르기 명령은 읽기 전에 먼저 반영)
   useEffect(() => {
+    const speed = res?.actions?.find((a) => a.type === 'UI' && a.command === 'voice')?.speed
+    if (speed) voice.setSpeed(speed)
+    if (!res) voice.setSpeed('normal') // 새 손님은 기본 빠르기로
     if (text) voice.speak(text)
   }, [res, payment?.phase]) // eslint-disable-line react-hooks/exhaustive-deps
 

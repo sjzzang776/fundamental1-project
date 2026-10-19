@@ -57,6 +57,7 @@ class PredictRequest(BaseModel):
 
 class TtsRequest(BaseModel):
     text: str = Field(min_length=1, max_length=300)
+    speed: str = Field("normal", pattern="^(normal|slower|faster|louder)$")  # 손님이 "천천히 말해 줘" 등으로 고른 빠르기
 
 
 @app.get("/api/health", tags=["공통"])
@@ -91,7 +92,7 @@ async def tts(req: TtsRequest):
     키가 없거나 실패하면 503 → 화면은 브라우저 목소리로 대신 읽는다.
     """
     try:
-        audio = await run_in_threadpool(tts_svc.synthesize, req.text)
+        audio = await run_in_threadpool(tts_svc.synthesize, req.text, req.speed)
     except tts_svc.TtsUnavailable as e:
         raise ApiError(503, "TTS_UNAVAILABLE", "음성 안내를 만들 수 없습니다. 브라우저 목소리로 읽어 주세요", {"reason": str(e)})
     return Response(content=audio, media_type="audio/mpeg", headers={"Cache-Control": "public, max-age=86400"})

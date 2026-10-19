@@ -30,7 +30,7 @@ def test_세트_음료_화면에서_다음_쪽(client, text):
     assert not b["cart"]["items"]
 
 
-@pytest.mark.parametrize("text", ["앞 쪽 보여 줘", "이전 페이지", "처음 음료로", "뒤로 가 줘"])
+@pytest.mark.parametrize("text", ["앞 쪽 보여 줘", "이전 페이지", "처음 음료로"])  # 그냥 "뒤로 가 줘" 는 되돌리기
 def test_앞_쪽(client, text):
     sid = _to_drink(client)
     assert _ui(_say(client, sid, text)) == [{"type": "UI", "command": "prev_page"}]

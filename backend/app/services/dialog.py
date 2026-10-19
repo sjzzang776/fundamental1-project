@@ -587,6 +587,45 @@ def _menu_info(menu: MenuItem) -> str:
 
 # ---------- 한 번의 말 처리 ----------
 
+def _undo(db: Session, session: KioskSession, order: Order, state: dict, notes: list[str]):
+    """방금 한 것 되돌리기. 고르던 메뉴 → 빼기, 메뉴 단계 → 방금 담은 메뉴 빼기(없으면 식사 장소로),
+    주문 확인 → 메뉴 고르기, 쿠폰·결제 → 주문 확인. 화면 안내를 바꿀 때만 (문장, 버튼, 화면 구분 값)을 돌려준다."""
+    draft = _first_incomplete(db, state)
+    if session.step == OPTION or draft:
+        if draft:
+            state["drafts"].remove(draft)
+            notes.append(f"{josa(db.get(MenuItem, draft['menu_id']).name, '은', '는')} 담지 않을게요.")
+        back_to_confirm = bool(state.get("return_to_confirm") and order.items)
+        state["return_to_confirm"] = False
+        session.step = CONFIRM if back_to_confirm else MENU
+        return None
+    if session.step == MENU:
+        if order.items:
+            item = max(order.items, key=lambda i: i.id or 0)  # 가장 나중에 담은 것
+            label = cart_svc.item_label(item)
+            problem = cart_svc.remove_item(order, item)
+            notes.append(f"방금 담은 {josa(label, '을', '를')} 뺐어요.")
+            if problem:
+                notes.append(coupon_dropped(problem))
+            return None
+        order.dine_type = None
+        session.step = DINE_TYPE
+        notes.append("식사 장소부터 다시 고를게요.")
+        return None
+    if session.step == CONFIRM:
+        state["return_to_confirm"] = True
+        session.step = MENU
+        return ("어떤 걸 바꿔 드릴까요? 예: '콜라 빼줘', '하나 더'", ["주문할게요"], "EDIT")
+    if session.step in (COUPON, PAYMENT):
+        cart_svc.make_editable(order)
+        state["awaiting"] = None
+        session.step = CONFIRM
+        notes.append("주문 확인으로 돌아갈게요.")
+        return None
+    notes.append("지금이 처음 단계예요.")
+    return None
+
+
 SCREEN_INTENTS = ("PAGE_NEXT", "PAGE_PREV", "SHOW_MENU", "CLOSE_MENU", "REPEAT")
 
 
@@ -691,6 +730,35 @@ def handle(db: Session, session: KioskSession, text: str, transcript: str | None
     if p.intent == "CANCEL_ORDER":
         state["awaiting"] = "CANCEL_CONFIRM"
         return reply(override=("주문을 취소할까요? 담은 메뉴가 모두 지워져요.", ["네, 취소할게요", "아니요"], "CANCEL_CONFIRM"))
+
+    # 안내 목소리 빠르기·크기: 화면(useVoice)이 이번 주문 동안 기억하고, 지금 안내를 다시 읽는다
+    if p.intent in ("SPEAK_SLOWER", "SPEAK_FASTER", "SPEAK_LOUDER"):
+        speed = {"SPEAK_SLOWER": "slower", "SPEAK_FASTER": "faster", "SPEAK_LOUDER": "louder"}[p.intent]
+        actions.append({"type": "UI", "command": "voice", "speed": speed})
+        notes.append({"slower": "네, 천천히 말씀드릴게요.", "faster": "네, 조금 빠르게 말씀드릴게요.",
+                      "louder": "네, 크게 말씀드릴게요."}[speed])
+        return reply()
+    if p.intent == "TOTAL_PRICE":
+        notes.append(f"지금 {_items_sentence(order)}, 모두 {cart_svc.won(order.total_amount)}이에요." if order.items
+                     else "아직 담긴 메뉴가 없어요.")
+        return reply()
+    if p.intent == "CLEAR_CART" and session.step != DINE_TYPE:
+        cart_svc.clear(order)
+        state.update(drafts=[], awaiting=None, return_to_confirm=False)
+        state.pop("pending_coupon_id", None)
+        session.step = MENU
+        notes.append("장바구니를 모두 비웠어요.")
+        return reply()
+    if p.intent == "WAIT":
+        text_, choices_, *rest_ = state.get("override") or prompt(db, session, order, state)
+        return reply(override=("네, 천천히 고르세요. 다 고르시면 말씀해 주세요.", choices_, rest_[0] if rest_ else None))
+    if p.intent == "SMALLTALK":
+        notes.append("네, 고마워요!" if any(w in text for w in ("고마", "감사", "수고")) else "네, 안녕하세요!")
+        return reply()
+
+    # 되돌리기: "잘못 말했어", "전으로 돌아가 줘" → 방금 한 것을 되돌린다 (단계마다 다름, _undo)
+    if p.intent == "UNDO":
+        return reply(override=_undo(db, session, order, state, notes))
 
     # 화면 조작: 말로 쪽 넘기기·메뉴판 보기·다시 듣기. 화면이 actions 의 UI 명령을 따른다 (단계는 그대로)
     if p.intent in SCREEN_INTENTS:

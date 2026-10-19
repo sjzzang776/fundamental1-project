@@ -9,7 +9,8 @@ PM 결정 2026-10-19 (변경): 브라우저 기계음 대신 사람에 가까운
 환경변수
 - TTS_API_KEY: Google Cloud API 키 (Text-to-Speech 에만 쓰도록 제한). 없으면 /api/tts 는 503
 - TTS_VOICE: 목소리 (기본 ko-KR-Chirp3-HD-Aoede, 여성). 예: ko-KR-Chirp3-HD-Charon (남성)
-- TTS_RATE: 말 빠르기 (기본 1.1. HD 목소리는 기본 속도가 느린 편이라 조금 빠르게)
+- TTS_RATE: 말 빠르기 (기본 1.0. PM 요청 2026-10-20: 1.1 에서 10% 천천히)
+손님이 "천천히 말해 줘" / "빨리 말해 줘" / "크게 말해 줘" 라고 하면 화면이 speed 를 보내고 그만큼 바꾼다 (SPEEDS)
 """
 import base64
 import logging
@@ -25,7 +26,8 @@ log = logging.getLogger("backend")
 
 API_KEY = os.getenv("TTS_API_KEY", "")
 VOICE = os.getenv("TTS_VOICE", "ko-KR-Chirp3-HD-Aoede")
-RATE = float(os.getenv("TTS_RATE", "1.1"))
+RATE = float(os.getenv("TTS_RATE", "1.0"))
+SPEEDS = {"normal": 1.0, "slower": 0.85, "faster": 1.15, "louder": 0.92}  # 크게: 조금 천천히 또박또박
 URL = "https://texttospeech.googleapis.com/v1/text:synthesize"
 CACHE_SIZE = 500
 
@@ -66,27 +68,29 @@ def speak_text(sentence: str) -> str:
     return re.sub(r"\s*,\s*", " ", sentence).strip()
 
 
-def synthesize(text: str) -> bytes:
+def synthesize(text: str, speed: str = "normal") -> bytes:
     """안내 전체 → MP3 하나 (문장별 음성을 동시에 만들어 이어 붙임. MP3 는 이어 붙여도 그대로 재생된다)."""
     sentences = split_sentences(text) or [text.strip()]
     if len(sentences) == 1:
-        return synthesize_sentence(sentences[0])
-    return b"".join(_pool.map(synthesize_sentence, sentences))
+        return synthesize_sentence(sentences[0], speed)
+    return b"".join(_pool.map(lambda s: synthesize_sentence(s, speed), sentences))
 
 
-def synthesize_sentence(text: str) -> bytes:
+def synthesize_sentence(text: str, speed: str = "normal") -> bytes:
     """문장 하나 → MP3 바이트. 저장해 둔 게 있으면 바로 돌려준다."""
     text = text.strip()
+    rate = round(RATE * SPEEDS.get(speed, 1.0), 2)
+    key = f"{rate}|{text}"
     with _lock:
-        if text in _cache:
-            _cache.move_to_end(text)
-            return _cache[text]
+        if key in _cache:
+            _cache.move_to_end(key)
+            return _cache[key]
     if not API_KEY:
         raise TtsUnavailable("TTS_API_KEY 가 없습니다")
     body = {
         "input": {"text": speak_text(text)},
         "voice": {"languageCode": "ko-KR", "name": VOICE},
-        "audioConfig": {"audioEncoding": "MP3", "speakingRate": RATE},
+        "audioConfig": {"audioEncoding": "MP3", "speakingRate": rate},
     }
     try:
         r = httpx.post(URL, params={"key": API_KEY}, json=body, timeout=8)
@@ -96,7 +100,7 @@ def synthesize_sentence(text: str) -> bytes:
         # 키 값이 로그에 남지 않게 주소(params)는 빼고 기록
         raise TtsUnavailable(f"음성 합성 실패: {type(e).__name__}") from e
     with _lock:
-        _cache[text] = audio
+        _cache[key] = audio
         while len(_cache) > CACHE_SIZE:
             _cache.popitem(last=False)
     return audio
