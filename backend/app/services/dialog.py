@@ -587,6 +587,55 @@ def _menu_info(menu: MenuItem) -> str:
 
 # ---------- 한 번의 말 처리 ----------
 
+SCREEN_INTENTS = ("PAGE_NEXT", "PAGE_PREV", "SHOW_MENU", "CLOSE_MENU", "REPEAT")
+
+
+def _screen_command(db: Session, session: KioskSession, order: Order, state: dict, p, actions: list) -> tuple:
+    """화면 조작 말 → (안내 문장, 버튼, 화면 구분 값). actions 에 {"type": "UI", "command": …} 를 넣는다."""
+    text, choices, *rest = state.get("override") or prompt(db, session, order, state)
+    question = rest[0] if rest else None
+    intent = p.intent
+    if intent == "PAGE_NEXT" and session.step == MENU and p.category:
+        intent = "SHOW_MENU"  # 메뉴 고르는 중 "다른 햄버거 보여 줘" → 메뉴판을 그 종류로
+    if intent == "REPEAT":
+        return text, choices, question  # 지금 안내를 다시 읽는다
+    if intent == "SHOW_MENU":
+        if session.step != MENU:
+            return f"메뉴판은 메뉴를 고를 때 볼 수 있어요. {text}", choices, question
+        actions.append({"type": "UI", "command": "show_menu", "category": p.category})
+        name = f"{p.category} 메뉴를" if p.category else "메뉴판을"
+        return f"{name} 보여 드릴게요. 화면에서 고르시거나 이름을 말씀해 주세요.", choices, question
+    if intent == "CLOSE_MENU":
+        actions.append({"type": "UI", "command": "close_menu"})
+        return text, choices, question
+    actions.append({"type": "UI", "command": "next_page" if intent == "PAGE_NEXT" else "prev_page"})
+    return ("다음 쪽이에요." if intent == "PAGE_NEXT" else "앞 쪽이에요."), choices, question
+
+
+# 음성 인식 힌트: 지금 화면에서 손님이 할 법한 말 (Whisper hotwords). 메뉴 화면은 None → 모델 서버가 메뉴 이름 전체를 씀.
+# 예전엔 어느 화면이든 메뉴 이름만 힌트로 들어가 "포장해" 가 메뉴 비슷한 말("버거 한다고")로 끌려갔다.
+STEP_HINTS = {
+    DINE_TYPE: ["매장에서", "포장", "포장해 주세요", "먹고 갈게요", "여기서 먹을게요", "가져갈게요"],
+    OPTION: ["세트로 주세요", "단품으로 주세요", "라지", "미디엄", "콜라", "제로 콜라", "사이다", "커피", "주스", "감자튀김", "너겟", "치즈스틱"],
+    CONFIRM: ["맞아요", "수정할게요", "빼 주세요", "하나 더", "바꿔 주세요"],
+    COUPON: ["쿠폰 있어요", "없어요", "쿠폰 없이 결제할게요"],
+    PAYMENT: ["카드 결제", "다시 결제할게요"],
+}
+COMMON_HINTS = ["처음으로", "취소", "직원 불러 주세요"]
+
+
+def stt_hints(db: Session, session: KioskSession) -> list[str] | None:
+    if session.step not in STEP_HINTS:
+        return None  # 메뉴 고르기: 모델 서버가 메뉴 이름·별명 전체를 힌트로
+    state = _state(session)
+    order = cart_svc.open_order(db, session)
+    _, choices, *_ = state.get("override") or prompt(db, session, order, state)
+    words = [*choices, *STEP_HINTS[session.step], *COMMON_HINTS]
+    if session.step == CONFIRM:  # "콜라 빼 주세요"처럼 담은 메뉴를 말할 수 있다
+        words += [cart_svc.item_label(i).split("(")[0].strip() for i in order.items]
+    return list(dict.fromkeys(w for w in words if w))
+
+
 def handle(db: Session, session: KioskSession, text: str, transcript: str | None = None) -> dict:
     started = time.monotonic()
     state = _state(session)
@@ -642,6 +691,10 @@ def handle(db: Session, session: KioskSession, text: str, transcript: str | None
     if p.intent == "CANCEL_ORDER":
         state["awaiting"] = "CANCEL_CONFIRM"
         return reply(override=("주문을 취소할까요? 담은 메뉴가 모두 지워져요.", ["네, 취소할게요", "아니요"], "CANCEL_CONFIRM"))
+
+    # 화면 조작: 말로 쪽 넘기기·메뉴판 보기·다시 듣기. 화면이 actions 의 UI 명령을 따른다 (단계는 그대로)
+    if p.intent in SCREEN_INTENTS:
+        return reply(override=_screen_command(db, session, order, state, p, actions))
 
     if p.dine_type and session.step in EDITABLE_STEPS:
         order.dine_type = p.dine_type

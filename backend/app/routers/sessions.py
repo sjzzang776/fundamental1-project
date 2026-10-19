@@ -96,13 +96,16 @@ def chat(session_id: int, req: ChatRequest, db: Session = Depends(get_db)):
 async def voice(session_id: int, audio: UploadFile = File(...), db: Session = Depends(get_db)):
     """녹음 파일 → 모델 서버 STT → chat 과 같은 처리."""
     session = load_session(db, session_id)
+    hints = dialog.stt_hints(db, session)  # 지금 화면에 맞는 힌트 (None 이면 모델 서버가 메뉴 이름 전체)
     data = await audio.read()
     if not data or len(data) > MAX_AUDIO_BYTES:
         raise ApiError(400, "INVALID_AUDIO", "녹음 파일이 비었거나 너무 큽니다 (최대 5MB)")
     try:
         async with httpx.AsyncClient(timeout=STT_TIMEOUT_SEC) as client:
             r = await client.post(
-                f"{MODEL_URL}/stt", files={"audio": (audio.filename or "audio.webm", data, audio.content_type or "audio/webm")}
+                f"{MODEL_URL}/stt",
+                files={"audio": (audio.filename or "audio.webm", data, audio.content_type or "audio/webm")},
+                data={"hints": ",".join(hints)} if hints is not None else None,
             )
             r.raise_for_status()
             transcript = r.json()["transcript"]

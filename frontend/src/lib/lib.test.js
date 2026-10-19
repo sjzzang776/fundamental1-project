@@ -1,4 +1,5 @@
 import { describe, expect, it, vi } from 'vitest'
+import { nextPage } from '../components/ChoiceList.jsx'
 import { createBarcodeReader } from './barcode.js'
 import { paginate } from './paginate.js'
 import {
@@ -187,5 +188,19 @@ describe('createBarcodeReader: 스캐너 입력', () => {
     ;[...'TEST0001'].forEach((k, i) => read(k, 1000 + i * 500))
     read('Enter', 1000 + 8 * 500)
     expect(onScan).not.toHaveBeenCalled()
+  })
+})
+
+describe('말로 쪽 넘기기 (nextPage)', () => {
+  it('다음 쪽, 마지막 쪽 다음은 첫 쪽 (버튼과 같음)', () => {
+    expect(nextPage(0, 2, 'next_page')).toBe(1)
+    expect(nextPage(1, 2, 'next_page')).toBe(0)
+  })
+  it('앞 쪽, 첫 쪽에서는 그대로', () => {
+    expect(nextPage(1, 2, 'prev_page')).toBe(0)
+    expect(nextPage(0, 2, 'prev_page')).toBe(0)
+  })
+  it('다른 명령은 쪽을 바꾸지 않는다', () => {
+    expect(nextPage(1, 3, 'show_menu')).toBe(1)
   })
 })
