@@ -8,8 +8,10 @@ const CACHE_MAX = 100
 const cache = new Map() // 문장 → Blob
 let downUntil = 0
 
-export async function fetchSpeech(text, { fetchImpl = fetch, now = Date.now } = {}) {
-  if (cache.has(text)) return cache.get(text)
+// speed: 'normal' | 'slower' | 'faster' | 'louder' (손님이 "천천히 말해 줘" 등으로 고름)
+export async function fetchSpeech(text, { fetchImpl = fetch, now = Date.now, speed = 'normal' } = {}) {
+  const key = `${speed}|${text}`
+  if (cache.has(key)) return cache.get(key)
   if (now() < downUntil) throw new Error('TTS_DOWN')
   const ctrl = new AbortController()
   const timer = setTimeout(() => ctrl.abort(), TIMEOUT_MS)
@@ -17,12 +19,12 @@ export async function fetchSpeech(text, { fetchImpl = fetch, now = Date.now } = 
     const res = await fetchImpl('/api/tts', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ text }),
+      body: JSON.stringify({ text, speed }),
       signal: ctrl.signal,
     })
     if (!res.ok) throw new Error(`TTS ${res.status}`)
     const blob = await res.blob()
-    cache.set(text, blob)
+    cache.set(key, blob)
     if (cache.size > CACHE_MAX) cache.delete(cache.keys().next().value)
     return blob
   } catch (e) {
@@ -49,3 +51,6 @@ export function pickBrowserVoice(voices) {
   return ko[0] || null
 }
 
+
+// 브라우저 목소리로 읽을 때 빠르기 (서버 목소리와 같은 비율)
+export const BROWSER_RATE = { normal: 0.9, slower: 0.77, faster: 1.04, louder: 0.83 }

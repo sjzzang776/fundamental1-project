@@ -6,7 +6,7 @@
 // - 결제·응답 대기·안내 창에서는 멈춤(paused). 마이크 버튼으로도 직접 시작·끝낼 수 있다.
 // - 끄려면 빌드할 때 VITE_HANDS_FREE=0 (버튼을 눌러 말하고 다시 눌러 끝내기만)
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { fetchSpeech, pickBrowserVoice } from '../lib/tts.js'
+import { BROWSER_RATE, fetchSpeech, pickBrowserVoice } from '../lib/tts.js'
 import { createSpeechDetector, rmsOf } from '../lib/vad.js'
 import { encodeWav } from '../lib/wav.js'
 
@@ -34,6 +34,7 @@ export function useVoice({ onRecorded }) {
   const speakTimerRef = useRef(null)
   const playerRef = useRef(null) // 지금 재생 중인 서버 음성 (Audio)
   const speakSeqRef = useRef(0) // 새 안내가 오면 이전 안내(받는 중인 음성 포함)는 버린다
+  const speedRef = useRef('normal') // 안내 빠르기 ("천천히 말해 줘" → slower). 이번 주문 동안 유지
 
   const setSpeakingBoth = useCallback((value) => {
     speakingRef.current = value
@@ -80,7 +81,7 @@ export function useVoice({ onRecorded }) {
         synth.cancel()
         const utter = new SpeechSynthesisUtterance(text)
         utter.lang = 'ko-KR'
-        utter.rate = 0.9 // 어르신이 듣기 편하게 조금 천천히
+        utter.rate = BROWSER_RATE[speedRef.current] ?? 0.9 // 어르신이 듣기 편하게 조금 천천히
         const voice = pickBrowserVoice(synth.getVoices())
         if (voice) utter.voice = voice
         utter.onend = done
@@ -90,7 +91,7 @@ export function useVoice({ onRecorded }) {
       }
 
       // 서버가 문장별 음성을 이어 붙인 MP3 하나를 준다 (고정 문장은 미리 만든 음성이라 빠름)
-      fetchSpeech(text)
+      fetchSpeech(text, { speed: speedRef.current })
         .then((blob) => {
           if (seq !== speakSeqRef.current) return
           const player = new Audio(URL.createObjectURL(blob))
@@ -232,5 +233,9 @@ export function useVoice({ onRecorded }) {
     [close, stopPlayback],
   )
 
-  return { micState, speaking, speak, stopSpeaking, open, close, setPaused, toggleListening }
+  const setSpeed = useCallback((speed) => {
+    speedRef.current = speed || 'normal'
+  }, [])
+
+  return { micState, speaking, speak, stopSpeaking, open, close, setPaused, toggleListening, setSpeed }
 }

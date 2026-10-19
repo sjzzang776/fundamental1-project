@@ -28,6 +28,9 @@ INTENTS = {
     "CHECKOUT", "CONFIRM", "DENY", "RESTART", "CANCEL_ORDER", "CALL_STAFF", "UNKNOWN",
     # 화면 조작 (말로 쪽 넘기기·메뉴판 보기·다시 듣기)
     "PAGE_NEXT", "PAGE_PREV", "SHOW_MENU", "CLOSE_MENU", "REPEAT",
+    "UNDO",  # "잘못 말했어", "전으로 돌아가 줘": 방금 한 것 되돌리기
+    # 어르신 손님이 자주 하는 말
+    "SPEAK_SLOWER", "SPEAK_FASTER", "SPEAK_LOUDER", "TOTAL_PRICE", "CLEAR_CART", "WAIT", "SMALLTALK",
 }
 
 _STRIP = re.compile(r"[\s.,!?~·'\"()\[\]+\-]")
@@ -160,8 +163,16 @@ TAKEOUT_WORDS = (
 
 
 # 화면 조작 말 (띄어쓰기는 norm 에서 지워짐). 메뉴·옵션 이름이 함께 나오면 주문으로 본다
-REPEAT_WORDS = ("다시말해", "다시한번말해", "다시얘기", "다시읽어", "한번더말해", "뭐라고", "뭐라구", "뭐라는", "못들었", "안들려", "잘안들", "못알아들")
-PREV_WORDS = ("이전", "앞쪽", "앞페이지", "앞장", "앞으로가", "뒤로", "처음음료", "아까거", "아까그")
+REPEAT_WORDS = ("다시말해", "다시한번말해", "다시얘기", "다시읽어", "한번더말해", "뭐라고", "뭐라구", "뭐라는", "못들었", "못알아들")
+SLOWER_WORDS = ("천천히말", "천천히얘기", "천천히읽", "천천히좀", "너무빨라", "빨라요", "빠르다", "빨라서")
+FASTER_WORDS = ("빨리말", "빠르게말", "빨리읽", "말이느려", "너무느려", "느려요")
+LOUDER_WORDS = ("크게말", "크게얘기", "크게읽", "소리크게", "소리좀크게", "안들려", "잘안들", "소리가작")
+CLEAR_WORDS = ("다빼", "전부빼", "모두빼", "다지워", "전부지워", "싹지워", "모두지워", "비워", "다없애", "전부없애")
+WAIT_WORDS = ("잠깐만", "잠시만", "기다려", "생각좀", "생각해볼", "고민좀", "고민해볼", "천천히고를", "천천히볼")
+SMALLTALK_WORDS = ("안녕", "고마워", "고맙", "감사", "수고")
+PREV_WORDS = ("이전페이지", "이전쪽", "이전장", "앞쪽", "앞페이지", "앞장", "처음음료")  # 쪽을 분명히 말할 때만 (그냥 "뒤로" 는 되돌리기)
+UNDO_WORDS = ("잘못말", "잘못했", "잘못눌", "잘못들어", "잘못시켰", "잘못골랐", "전으로", "전단계", "뒤로", "되돌려", "되돌리",
+              "돌아가", "돌아갈", "방금거취소", "방금거빼", "방금취소", "아까로", "무르", "물러")
 NEXT_WORDS = ("다음", "넘겨", "넘어가", "다른거", "다른것", "더보여", "더있", "다른음료", "다른메뉴", "다른햄버거", "다른버거",
               "다른디저트", "다른사이드", "딴거")
 SHOW_WORDS = ("메뉴판", "메뉴보여", "메뉴좀보여", "뭐있", "뭐가있", "종류", "보여줘", "보여주", "보여달", "볼래", "보고싶")
@@ -201,6 +212,18 @@ def _rule_intent(t: str, p: Parsed) -> str:
         return "CHANGE_OPTION"
     if has_m and _has(t, ("빼", "삭제", "없애", "지워")):
         return "REMOVE_ITEM"
+    # 안내 빠르기·크기는 옵션 이름이 섞여도("크게 말해" 의 "크게" = 라지 별명) 먼저 본다
+    for intent, words in (("SPEAK_SLOWER", SLOWER_WORDS), ("SPEAK_FASTER", FASTER_WORDS), ("SPEAK_LOUDER", LOUDER_WORDS)):
+        if _has(t, words) and not p.menus:
+            return intent
+    if not has_m:
+        for intent, words in (("CLEAR_CART", CLEAR_WORDS), ("UNDO", UNDO_WORDS)):
+            if _has(t, words):
+                return intent  # "방금 거 취소" 는 주문 전체 취소가 아니라 되돌리기(UNDO)
+        if "얼마" in t:
+            return "TOTAL_PRICE"  # 메뉴 이름 없이 "다 해서 얼마예요?" → 장바구니 합계
+        if _has(t, WAIT_WORDS):
+            return "WAIT"
     if "취소" in t and not has_m:
         return "CANCEL_ORDER"
     if not has_m and (screen := _screen_intent(t, p)):
@@ -233,6 +256,8 @@ def _rule_intent(t: str, p: Parsed) -> str:
         return "ANSWER"  # "세트", "단품", "매장에서", "포장" 같은 짧은 대답
     if _has(t, ("주세요", "줘", "주문", "시킬", "먹을래", "먹고싶")):
         return "UNKNOWN_MENU"
+    if _has(t, SMALLTALK_WORDS):
+        return "SMALLTALK"  # 인사·고맙다는 말 → "다시 말씀해 주세요" 대신 인사로 받고 안내를 이어 감
     return "UNKNOWN"
 
 
