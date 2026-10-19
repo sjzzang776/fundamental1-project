@@ -31,7 +31,8 @@
   - 파트: `pm`, `plan`, `frontend`, `backend`, `model`, `infra`
 - 커밋 메시지: `[파트] 한 일` (예: `[모델] 감성 분류 모델 v1 추가`)
 - 작업 시작 전 `git switch main && git pull` 로 최신화합니다.
-- PR은 wrap-up 절차의 실행 확인을 통과하면 AI가 자동으로 Merge합니다. 리뷰 의견은 Merge 후에도 PR에 남길 수 있습니다.
+- PR은 wrap-up 절차의 실행 확인(내 컴퓨터 + GitHub CI "Docker 실행 확인")을 통과하면 AI가 자동으로 Merge합니다. CI가 실패한 PR은 Merge하지 않습니다. 리뷰 의견은 Merge 후에도 PR에 남길 수 있습니다.
+- PR 본문은 노션 작업 로그로 자동 옮겨지므로 `.github/pull_request_template.md` 의 섹션을 모두 채웁니다. PR 제목은 `[파트] 한 일` 형식입니다.
 - `.env`, 데이터셋, 모델 가중치 파일(*.pt 등)은 커밋하지 않습니다. 큰 파일은 Google Drive 등에 올리고 노션 "자료실"에 링크를 남깁니다.
 
 ## AI 작업 루틴 (Claude Code · Codex 공통)

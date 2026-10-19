@@ -1,0 +1,26 @@
+# PR이 열리면 "PR 대기", Merge되면 "Merge 완료"로 노션 작업 로그를 자동 작성합니다.
+# 팀원 각자가 노션을 연결하지 않아도 됩니다. (저장소 시크릿 NOTION_TOKEN 필요)
+name: Notion 작업 로그
+
+on:
+  pull_request:
+    types: [opened, reopened, closed]
+
+jobs:
+  worklog:
+    name: 노션 작업 로그 기록
+    if: github.event.action != 'closed' || github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: 노션에 기록
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          NOTION_DATABASE_ID: ab9d88dffd0a4537be3cce00b0d701d7
+        run: python .github/scripts/notion_worklog.py
