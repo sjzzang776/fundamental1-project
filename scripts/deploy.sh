@@ -22,7 +22,9 @@ for svc in frontend backend model; do
 done
 
 # 3. 쿠버네티스에 적용하고 새 이미지로 바꾸기
-gcloud container clusters get-credentials "$CLUSTER" --region="$REGION" --project="$PROJECT_ID"
+# Windows Git Bash 에서는 gcloud(셸 스크립트)가 경로를 잘못 읽으므로 gcloud.cmd 를 먼저 쓴다
+GCLOUD=$(command -v gcloud.cmd || command -v gcloud)
+"$GCLOUD" container clusters get-credentials "$CLUSTER" --region="$REGION" --project="$PROJECT_ID"
 kubectl apply -k k8s
 for svc in frontend backend model; do
   kubectl -n "$NS" set image "deployment/$svc" "$svc=$REGISTRY/$svc:$TAG"
