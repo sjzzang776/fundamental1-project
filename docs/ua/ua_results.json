@@ -1,0 +1,1265 @@
+{
+ "freshness": {
+  "graphCommit": "a8cf518ffbcc552d4ea54f7c24c69ad54e3b5d5c",
+  "head": "e5fe090da6b592fe8db1f74de891563e5aa5090e",
+  "workingTreeChanges": [
+   "backend/app/main.py",
+   "backend/app/services/dialog.py",
+   "backend/app/services/nlu.py",
+   "backend/app/services/tts.py",
+   "backend/tests/test_screen_voice.py",
+   "frontend/src/hooks/useVoice.js",
+   "frontend/src/lib/tts.js",
+   "frontend/src/screens/Kiosk.jsx",
+   "backend/tests/test_undo_and_more.py"
+  ]
+ },
+ "diff": {
+  "hunks": {
+   "backend/app/main.py": [
+    [
+     60,
+     60
+    ],
+    [
+     95,
+     95
+    ]
+   ],
+   "backend/app/services/dialog.py": [
+    [
+     590,
+     628
+    ],
+    [
+     734,
+     762
+    ]
+   ],
+   "backend/app/services/nlu.py": [
+    [
+     31,
+     33
+    ],
+    [
+     166,
+     175
+    ],
+    [
+     215,
+     226
+    ],
+    [
+     259,
+     260
+    ]
+   ],
+   "backend/app/services/tts.py": [
+    [
+     12,
+     13
+    ],
+    [
+     29,
+     30
+    ],
+    [
+     71,
+     71
+    ],
+    [
+     75,
+     76
+    ],
+    [
+     79,
+     79
+    ],
+    [
+     82,
+     83
+    ],
+    [
+     85,
+     87
+    ],
+    [
+     93,
+     93
+    ],
+    [
+     103,
+     103
+    ]
+   ],
+   "backend/tests/test_screen_voice.py": [
+    [
+     33,
+     33
+    ]
+   ],
+   "frontend/src/hooks/useVoice.js": [
+    [
+     9,
+     9
+    ],
+    [
+     37,
+     37
+    ],
+    [
+     84,
+     84
+    ],
+    [
+     94,
+     94
+    ],
+    [
+     236,
+     240
+    ]
+   ],
+   "frontend/src/lib/tts.js": [
+    [
+     11,
+     14
+    ],
+    [
+     22,
+     22
+    ],
+    [
+     27,
+     27
+    ],
+    [
+     54,
+     56
+    ]
+   ],
+   "frontend/src/screens/Kiosk.jsx": [
+    [
+     44,
+     44
+    ],
+    [
+     46,
+     48
+    ]
+   ]
+  },
+  "risk": "높음",
+  "maxComplexity": 8,
+  "layersTouched": 9,
+  "changed": [
+   [
+    "file:backend/app/main.py",
+    "FastAPI 백엔드 앱의 진입점으로, 시작 시 DB 생성·시드와 TTS 예열을 수행하고 메뉴·세션·주문·주방 라우터와 health·predict·tts 엔드포인트를 등록합니다."
+   ],
+   [
+    "file:backend/app/services/nlu.py",
+    "손님 말에서 의도와 메뉴·옵션을 찾는 자연어 이해 모듈로, 규칙 기반으로 먼저 판단하고 실패할 때만 모델 서버 LLM(/nlu)에 표준 문장 재작성을 요청합니다."
+   ],
+   [
+    "file:backend/app/services/tts.py",
+    "Google Cloud TTS(Chirp 3 HD)로 안내 문장을 문장 단위로 동시 합성해 하나의 MP3로 잇고, 메모리 캐시와 서버 시작 시 예열을 제공하는 음성 합성 서비스입니다."
+   ],
+   [
+    "file:backend/tests/test_screen_voice.py",
+    "\"다음 쪽\", \"메뉴판 닫기\", \"다시 듣기\" 같은 화면 조작 음성 명령이 UI 명령으로 변환되고 주문 의도로 오인되지 않는지 검증하는 테스트."
+   ],
+   [
+    "file:frontend/src/hooks/useVoice.js",
+    "핸즈프리 음성 주문을 담당하는 hook으로, 마이크를 열어 VAD로 말 시작·끝을 감지해 16kHz WAV로 녹음하고, 서버 TTS(실패 시 브라우저 음성)로 안내를 읽으며 끼어들기를 지원한다."
+   ],
+   [
+    "file:frontend/src/lib/tts.js",
+    "서버 /api/tts의 사람 목소리(Google Chirp 3 HD)를 문장별 캐시와 함께 가져오고, 실패 시 1분간 브라우저 음성으로 대체하는 안내 음성 모듈."
+   ],
+   [
+    "function:backend/app/main.py:tts",
+    "안내 문장을 MP3 음성으로 돌려주며, 실패 시 503으로 브라우저 음성 대체를 유도하는 /api/tts 엔드포인트입니다."
+   ],
+   [
+    "function:backend/app/services/dialog.py:_undo",
+    "직전 대화 턴을 되돌려 장바구니와 상태를 복원합니다."
+   ],
+   [
+    "function:backend/app/services/dialog.py:handle",
+    "손님 발화를 NLU로 해석하고 단계별로 장바구니·쿠폰·확정·직원 호출을 처리한 뒤 대화 로그를 남기는 대화 에이전트의 중심 함수입니다."
+   ],
+   [
+    "function:backend/app/services/nlu.py:_rule_intent",
+    "키워드 규칙으로 주문·수정·취소·질문·인사 등 의도를 판별합니다."
+   ],
+   [
+    "function:backend/app/services/tts.py:synthesize",
+    "안내 문장을 문장 단위로 나눠 병렬 합성한 뒤 하나의 MP3로 이어 붙입니다."
+   ],
+   [
+    "function:backend/app/services/tts.py:synthesize_sentence",
+    "한 문장을 Google Cloud TTS API로 합성하고 결과를 캐시에 저장합니다."
+   ],
+   [
+    "function:frontend/src/hooks/useVoice.js:useVoice",
+    "마이크·VAD·녹음·TTS 재생·끼어들기를 관리하고 micState, speak, toggleListening 등을 반환하는 hook."
+   ],
+   [
+    "function:frontend/src/lib/tts.js:fetchSpeech",
+    "서버 TTS에서 문장 음성 Blob을 가져오며 캐시·타임아웃·장애 시 대체 판단을 처리한다."
+   ],
+   [
+    "function:frontend/src/screens/Kiosk.jsx:Kiosk",
+    "세션·음성·타이머·스캐너 hook을 연결하고 현재 화면을 공통 틀에 그리는 최상위 손님 화면 컴포넌트."
+   ]
+  ],
+  "affected": [
+   [
+    "class:backend/app/services/nlu.py:Catalog",
+    "DB 메뉴·옵션과 별명을 읽어 이름 검색용 키 사전을 만드는 카탈로그입니다."
+   ],
+   [
+    "class:backend/app/services/nlu.py:Mention",
+    "문장에서 찾은 메뉴·옵션 언급(이름, 위치, 세트 여부, 수량) 데이터 클래스입니다."
+   ],
+   [
+    "class:backend/app/services/nlu.py:Parsed",
+    "NLU 파싱 결과(의도, 메뉴·옵션 언급, 식사 장소 등)를 담는 데이터 클래스입니다."
+   ],
+   [
+    "document:backend/requirements.txt",
+    "FastAPI, uvicorn, httpx, SQLAlchemy, psycopg, python-multipart 버전을 고정한 백엔드 런타임 의존성 목록입니다."
+   ],
+   [
+    "document:frontend/docs/frontend-plan.md",
+    "상세 프론트엔드 작업 계획서로, 화면 흐름과 API 연결표, 하단 버튼·예외 처리, 매장 화면, 결제·바코드·음성 기술 메모와 폴더 구조 제안, 백엔드 요청 사항을 정리한다."
+   ],
+   [
+    "file:backend/app/db.py",
+    "DATABASE_URL로 SQLAlchemy 엔진·세션 팩토리를 만들고, FastAPI 의존성 get_db와 UTC/한국 시간 헬퍼를 제공하는 DB 기반 모듈입니다."
+   ],
+   [
+    "file:backend/app/errors.py",
+    "노션 API 명세의 {error: {code, message, detail}} 형식을 따르는 ApiError 예외와 FastAPI 예외 핸들러 등록 함수를 정의합니다."
+   ],
+   [
+    "file:backend/app/models.py",
+    "노션 ERD를 그대로 옮긴 SQLAlchemy ORM 모델 모음으로, 메뉴·옵션·키오스크 세션·쿠폰·주문·결제·직원 호출·대화 로그 테이블을 정의합니다."
+   ],
+   [
+    "file:backend/app/routers/__init__.py",
+    "routers 디렉터리를 Python 패키지로 만드는 빈 초기화 파일입니다."
+   ],
+   [
+    "file:backend/app/routers/kitchen.py",
+    "매장(주방) 화면용 API 라우터로, 토큰 인증 후 주문 목록 조회·상태 변경, 직원 호출 조회·처리, 테스트 쿠폰 초기화를 제공합니다."
+   ],
+   [
+    "file:backend/app/routers/menus.py",
+    "메뉴 카테고리·메뉴 목록·메뉴 상세(옵션 그룹 포함)를 조회하는 읽기 전용 API 라우터입니다."
+   ],
+   [
+    "file:backend/app/routers/orders.py",
+    "주문 조회·취소, 결제 요청·승인, 픽업 대기 화면 보드를 제공하는 주문 API 라우터입니다."
+   ],
+   [
+    "file:backend/app/routers/sessions.py",
+    "키오스크 주문 세션 API 라우터로, 세션 시작·종료, 텍스트/음성 대화, 장바구니 조작, 주문 확정, 쿠폰 스캔, 직원 호출을 처리합니다."
+   ],
+   [
+    "file:backend/app/seed.py",
+    "노션 ERD 6~7번의 MVP 메뉴 데이터·메뉴 별명·옵션·테스트 쿠폰을 처음 실행 시 DB에 넣는 시드 모듈입니다."
+   ],
+   [
+    "file:backend/app/services/__init__.py",
+    "services 디렉터리를 Python 패키지로 만드는 빈 초기화 파일입니다."
+   ],
+   [
+    "file:backend/app/services/dialog.py",
+    "기획서 사용자 흐름(식사 장소→메뉴→옵션→확인→쿠폰→결제)을 따라 손님 말과 버튼 입력을 처리하는 대화형 주문 에이전트의 핵심 상태 머신입니다."
+   ],
+   [
+    "file:backend/tests/conftest.py",
+    "pytest 공용 fixture 모음으로, 메모리 SQLite DB와 꺼진 모델 서버 주소를 환경 변수로 설정한 뒤 시드 데이터를 넣은 FastAPI TestClient와 메뉴·옵션 ID 맵을 제공한다."
+   ],
+   [
+    "file:backend/tests/test_dine_phrases.py",
+    "식사 장소 질문에서 \"매장에서\"·\"포장이요\" 등 다양한 표현을 매장/포장으로 올바르게 알아듣는지 parametrize로 검증하는 테스트."
+   ],
+   [
+    "file:backend/tests/test_nlu_llm.py",
+    "규칙 기반 NLU가 못 알아들은 말만 LLM 모델 서버로 다시 써서 처리하고, 결과를 메뉴 DB로 검증하며 실패 시 규칙 결과로 되돌아가는지 가짜 모델로 테스트한다."
+   ],
+   [
+    "file:backend/tests/test_tts.py",
+    "Google TTS 연동 테스트로, 키가 없거나 실패하면 503, 성공하면 MP3를 캐시해 재사용하고 여러 문장을 문장별로 만들어 이어 붙이는지 확인한다."
+   ],
+   [
+    "file:frontend/nginx.conf",
+    "프론트 컨테이너의 nginx 설정으로, /api/ 요청을 backend:8000으로 프록시하고 나머지는 SPA 정적 파일로 index.html fallback 처리한다."
+   ],
+   [
+    "file:frontend/src/components/MicIndicator.jsx",
+    "마이크 상태(듣는 중·녹음 중·대기)를 시각적으로 보여 주는 손님 화면 표시 컴포넌트로, 핸즈프리 모드 여부에 따라 안내 문구를 바꾼다."
+   ],
+   [
+    "file:frontend/src/lib/vad.js",
+    "마이크 RMS 값을 받아 주변 소음 대비 말 시작·끝을 판정하는 음성 활동 감지기(VAD)와 RMS 계산 함수."
+   ],
+   [
+    "file:frontend/src/lib/voice.test.js",
+    "VAD 말 감지·소음 거르기·말 시작 감지, WAV 인코딩, TTS 캐시·폴백 동작을 검증하는 Vitest 테스트."
+   ],
+   [
+    "file:frontend/src/lib/wav.js",
+    "녹음된 Float32 오디오를 16kHz로 다운샘플링·연결하고 WAV 파일로 인코딩해 서버로 보낼 수 있게 만드는 유틸리티."
+   ],
+   [
+    "file:frontend/src/screens/Kiosk.jsx",
+    "손님 화면 전체를 조립하는 최상위 컴포넌트로, 서버 응답을 screenOf로 화면에 매핑하고 진행 표시·안내 말풍선·마이크·본문·하단 바 공통 틀 안에 각 화면을 그리며 음성·무응답·스캐너 hook을 연결한다."
+   ],
+   [
+    "function:backend/app/main.py:health",
+    "서버와 DB 연결 상태를 확인하는 /api/health 엔드포인트입니다."
+   ],
+   [
+    "function:backend/app/main.py:init_db",
+    "DB 연결을 재시도하며 테이블을 만들고 시드 데이터를 넣습니다."
+   ],
+   [
+    "function:backend/app/main.py:lifespan",
+    "앱 시작 시 DB 초기화와 TTS 예열을 실행하는 FastAPI lifespan 컨텍스트입니다."
+   ],
+   [
+    "function:backend/app/main.py:predict",
+    "모델 서버 /predict 연결 확인용 임시 프록시 엔드포인트입니다."
+   ],
+   [
+    "function:backend/app/routers/sessions.py:chat",
+    "손님 말 또는 누른 버튼 글자를 대화 에이전트로 처리하는 엔드포인트입니다."
+   ],
+   [
+    "function:backend/app/routers/sessions.py:voice",
+    "녹음 파일을 모델 서버 STT로 텍스트로 바꾼 뒤 chat과 같은 대화 처리를 수행합니다."
+   ],
+   [
+    "function:backend/app/services/cart.py:open_order",
+    "세션의 열린(cart/pending_payment) 주문을 찾거나 새 장바구니 주문을 만듭니다."
+   ],
+   [
+    "function:backend/app/services/dialog.py:_apply_edit",
+    "'콜라 빼 줘', '사이즈 크게' 같은 장바구니 수정 발화를 해석해 항목 수량·옵션을 바꾸는 큰 처리 함수입니다."
+   ],
+   [
+    "function:backend/app/services/dialog.py:_screen_command",
+    "'크게 보여 줘', '천천히 말해 줘' 같은 화면·음성 조작 명령을 처리합니다."
+   ],
+   [
+    "function:backend/app/services/dialog.py:apply_coupon",
+    "쿠폰을 검증해 주문에 적용하고, 쓸 수 없으면 이유를 쉬운 말로 안내합니다."
+   ],
+   [
+    "function:backend/app/services/dialog.py:confirm_order",
+    "주문을 확정하고 쿠폰 확인·결제 단계로 넘깁니다."
+   ],
+   [
+    "function:backend/app/services/dialog.py:response",
+    "안내 문장·선택지·장바구니·단계를 묶어 화면 응답을 구성합니다."
+   ],
+   [
+    "function:backend/app/services/nlu.py:parse",
+    "손님 말을 정규화해 메뉴·옵션·수량·식사 장소·의도를 담은 Parsed 결과를 만들고, 필요하면 LLM 재작성 후 다시 파싱합니다."
+   ],
+   [
+    "function:backend/app/services/nlu.py:similar_menu",
+    "못 찾은 메뉴 이름과 비슷한 메뉴를 추천합니다."
+   ],
+   [
+    "function:backend/app/services/tts.py:prewarm_in_background",
+    "서버 시작 시 자주 쓰는 안내 문장 음성을 백그라운드 스레드로 미리 만들어 둡니다."
+   ],
+   [
+    "function:frontend/src/lib/screen.js:choiceInfo",
+    "버튼 글자에 해당하는 아이콘 등 표시 정보를 돌려준다."
+   ],
+   [
+    "function:frontend/src/lib/screen.js:idleTimerRunning",
+    "화면·결제·응답 대기 상태를 종합해 무응답 타이머가 지금 세는지 판정한다."
+   ],
+   [
+    "function:frontend/src/lib/screen.js:scannerAllowed",
+    "해당 화면에서 바코드 스캐너 입력을 받을지 판정한다."
+   ],
+   [
+    "function:frontend/src/lib/screen.js:screenOf",
+    "서버 응답의 question 값을 우선 써서 보여 줄 화면 키를 정한다."
+   ],
+   [
+    "function:frontend/src/lib/tts.js:pickBrowserVoice",
+    "브라우저 음성 중 가장 자연스러운 한국어 목소리를 고른다."
+   ],
+   [
+    "function:frontend/src/lib/tts.js:resetSpeechCache",
+    "TTS 캐시와 장애 상태를 초기화한다(테스트용)."
+   ],
+   [
+    "function:frontend/src/lib/vad.js:createSpeechDetector",
+    "RMS 입력을 받아 주변 소음 추정·말 시작/끝·끼어들기를 판정하는 상태 기계를 만든다."
+   ],
+   [
+    "function:frontend/src/lib/vad.js:rmsOf",
+    "오디오 샘플 배열의 RMS(소리 크기)를 계산한다."
+   ],
+   [
+    "function:frontend/src/lib/wav.js:encodeWav",
+    "PCM 샘플을 16비트 WAV Blob으로 인코딩한다."
+   ],
+   [
+    "pipeline:.github/workflows/ci.yml",
+    "PR과 main 푸시 때 .env.example로 docker compose 4개 컨테이너를 띄우고 백엔드→DB, 프론트(Nginx)→백엔드, 백엔드→모델 연결을 curl로 확인하는 GitHub Actions CI입니다. 실패하면 로그를 출력하고 항상 정리합니다."
+   ],
+   [
+    "service:backend/Dockerfile",
+    "python:3.12-slim 위에 requirements.txt를 설치하고 app 폴더를 복사해 FastAPI 백엔드를 uvicorn으로 8000 포트에서 실행하는 이미지를 만듭니다."
+   ],
+   [
+    "service:docker-compose.dev.yml",
+    "개발 모드 오버라이드 Compose 파일로, backend·model을 uvicorn --reload와 볼륨 마운트로 실행하고 Vite 개발 서버(frontend-dev, 5173)를 추가한다."
+   ],
+   [
+    "service:docker-compose.yml",
+    "전체 통합 실행용 Compose 파일로, frontend(Nginx 3000)·backend(8000)·model(8001)·PostgreSQL 16 db 서비스를 정의하고 헬스체크 기반 의존 순서와 환경변수를 연결한다."
+   ],
+   [
+    "service:k8s/backend.yaml",
+    "FastAPI 백엔드 Deployment와 Service로, db-secret·tts-secret에서 DB 계정과 TTS 키를 주입하고 MODEL_URL을 모델 서비스로 잡으며 /api/health 준비 확인을 둔다."
+   ]
+  ]
+ },
+ "explain": {
+  "target": "file:backend/app/services/dialog.py",
+  "summary": "기획서 사용자 흐름(식사 장소→메뉴→옵션→확인→쿠폰→결제)을 따라 손님 말과 버튼 입력을 처리하는 대화형 주문 에이전트의 핵심 상태 머신입니다.",
+  "layer": "백엔드 대화·주문 서비스",
+  "contains": [
+   [
+    "function:backend/app/services/dialog.py:ro",
+    "받침 유무에 따라 '으로/로' 조사를 붙입니다."
+   ],
+   [
+    "function:backend/app/services/dialog.py:_draft_need",
+    "작성 중인 주문 초안에 아직 필요한 선택(세트 여부·음료·사이즈 등)을 판별합니다."
+   ],
+   [
+    "function:backend/app/services/dialog.py:_question",
+    "부족한 선택 항목에 맞는 질문 문장을 만듭니다."
+   ],
+   [
+    "function:backend/app/services/dialog.py:_take_options",
+    "손님 말에서 찾은 옵션을 초안의 옵션 그룹에 채워 넣습니다."
+   ],
+   [
+    "function:backend/app/services/dialog.py:_flush_drafts",
+    "선택이 모두 끝난 초안들을 장바구니에 실제로 담습니다."
+   ],
+   [
+    "function:backend/app/services/dialog.py:prompt",
+    "현재 단계에 맞는 기본 안내 문장을 만듭니다."
+   ],
+   [
+    "function:backend/app/services/dialog.py:choice_items",
+    "현재 단계에서 화면에 보여 줄 선택 버튼 목록을 만듭니다."
+   ],
+   [
+    "function:backend/app/services/dialog.py:response",
+    "안내 문장·선택지·장바구니·단계를 묶어 화면 응답을 구성합니다."
+   ],
+   [
+    "function:backend/app/services/dialog.py:apply_coupon",
+    "쿠폰을 검증해 주문에 적용하고, 쓸 수 없으면 이유를 쉬운 말로 안내합니다."
+   ],
+   [
+    "function:backend/app/services/dialog.py:confirm_order",
+    "주문을 확정하고 쿠폰 확인·결제 단계로 넘깁니다."
+   ],
+   [
+    "function:backend/app/services/dialog.py:is_stale",
+    "단계별 제한 시간(결제 3분, 그 밖 5분)을 넘겨 방치된 세션인지 판별합니다."
+   ],
+   [
+    "function:backend/app/services/dialog.py:expire_session",
+    "세션을 종료 사유와 함께 끝내고 열린 주문·쿠폰을 정리합니다."
+   ],
+   [
+    "function:backend/app/services/dialog.py:_coupon_holder",
+    "쿠폰을 점유 중인 다른 열린 주문을 찾습니다."
+   ],
+   [
+    "function:backend/app/services/dialog.py:end_session",
+    "손님 요청으로 세션을 정상 종료합니다."
+   ],
+   [
+    "function:backend/app/services/dialog.py:cancel_order",
+    "주문을 취소하고 세션을 처음 단계로 되돌립니다."
+   ],
+   [
+    "function:backend/app/services/dialog.py:_apply_edit",
+    "'콜라 빼 줘', '사이즈 크게' 같은 장바구니 수정 발화를 해석해 항목 수량·옵션을 바꾸는 큰 처리 함수입니다."
+   ],
+   [
+    "function:backend/app/services/dialog.py:_answer_option",
+    "옵션 질문 단계에서 손님 답변을 해석해 초안 옵션을 채웁니다."
+   ],
+   [
+    "function:backend/app/services/dialog.py:_menu_info",
+    "메뉴 가격·구성 등 정보 질문에 답하는 문장을 만듭니다."
+   ],
+   [
+    "function:backend/app/services/dialog.py:_undo",
+    "직전 대화 턴을 되돌려 장바구니와 상태를 복원합니다."
+   ],
+   [
+    "function:backend/app/services/dialog.py:_screen_command",
+    "'크게 보여 줘', '천천히 말해 줘' 같은 화면·음성 조작 명령을 처리합니다."
+   ],
+   [
+    "function:backend/app/services/dialog.py:stt_hints",
+    "현재 단계에 맞는 STT 힌트 단어 목록을 만들어 음성 인식 정확도를 높입니다."
+   ],
+   [
+    "function:backend/app/services/dialog.py:handle",
+    "손님 발화를 NLU로 해석하고 단계별로 장바구니·쿠폰·확정·직원 호출을 처리한 뒤 대화 로그를 남기는 대화 에이전트의 중심 함수입니다."
+   ],
+   [
+    "function:backend/app/services/dialog.py:start",
+    "새 세션의 대화 상태를 초기화하고 첫 안내 응답을 돌려줍니다."
+   ],
+   [
+    "function:backend/app/services/dialog.py:current",
+    "세션의 현재 단계 응답을 다시 만들어 돌려줍니다."
+   ],
+   [
+    "function:backend/app/services/dialog.py:after_cart_change",
+    "버튼으로 장바구니가 바뀐 뒤 대화 단계와 안내를 맞춥니다."
+   ],
+   [
+    "function:backend/app/services/dialog.py:confirm_by_button",
+    "주문 확정 버튼 입력을 대화 흐름에 맞게 처리합니다."
+   ],
+   [
+    "function:backend/app/services/dialog.py:scan_coupon",
+    "바코드 스캔된 쿠폰을 찾아 적용하고 안내 응답을 만듭니다."
+   ],
+   [
+    "function:backend/app/services/dialog.py:remove_coupon",
+    "주문에서 쿠폰을 빼고 금액과 안내를 갱신합니다."
+   ]
+  ],
+  "outgoing": [
+   [
+    "calls",
+    "function:backend/app/services/cart.py:add_item"
+   ],
+   [
+    "calls",
+    "function:backend/app/services/cart.py:cart_view"
+   ],
+   [
+    "calls",
+    "function:backend/app/services/cart.py:open_order"
+   ],
+   [
+    "calls",
+    "function:backend/app/services/nlu.py:parse"
+   ],
+   [
+    "calls",
+    "function:backend/app/services/pricing.py:coupon_discount"
+   ],
+   [
+    "imports",
+    "file:backend/app/db.py"
+   ],
+   [
+    "imports",
+    "file:backend/app/errors.py"
+   ],
+   [
+    "imports",
+    "file:backend/app/models.py"
+   ],
+   [
+    "imports",
+    "file:backend/app/services/cart.py"
+   ],
+   [
+    "imports",
+    "file:backend/app/services/nlu.py"
+   ],
+   [
+    "imports",
+    "file:backend/app/services/pricing.py"
+   ],
+   [
+    "tested_by",
+    "file:backend/tests/test_dine_phrases.py"
+   ],
+   [
+    "tested_by",
+    "file:backend/tests/test_kiosk_flow.py"
+   ],
+   [
+    "tested_by",
+    "file:backend/tests/test_screen_voice.py"
+   ],
+   [
+    "tested_by",
+    "file:backend/tests/test_undo_and_more.py"
+   ]
+  ],
+  "incoming": [
+   [
+    "calls",
+    "function:backend/app/routers/common.py:load_session"
+   ],
+   [
+    "calls",
+    "function:backend/app/routers/orders.py:cancel_order"
+   ],
+   [
+    "calls",
+    "function:backend/app/routers/sessions.py:add_cart_item"
+   ],
+   [
+    "calls",
+    "function:backend/app/routers/sessions.py:chat"
+   ],
+   [
+    "calls",
+    "function:backend/app/routers/sessions.py:confirm_order"
+   ],
+   [
+    "calls",
+    "function:backend/app/routers/sessions.py:end_session"
+   ],
+   [
+    "calls",
+    "function:backend/app/routers/sessions.py:remove_coupon"
+   ],
+   [
+    "calls",
+    "function:backend/app/routers/sessions.py:scan_coupon"
+   ],
+   [
+    "calls",
+    "function:backend/app/routers/sessions.py:start_session"
+   ],
+   [
+    "calls",
+    "function:backend/app/routers/sessions.py:voice"
+   ],
+   [
+    "imports",
+    "file:backend/app/routers/common.py"
+   ],
+   [
+    "imports",
+    "file:backend/app/routers/orders.py"
+   ],
+   [
+    "imports",
+    "file:backend/app/routers/sessions.py"
+   ],
+   [
+    "imports",
+    "file:backend/app/services/payments.py"
+   ]
+  ]
+ },
+ "chat": {
+  "query": "손님이 '잘못 말했어'라고 하면 어떤 파일을 거쳐 무엇이 되돌려지나?",
+  "keywords": [
+   "되돌리기",
+   "UNDO",
+   "잘못",
+   "돌아가",
+   "undo"
+  ],
+  "hits": [
+   [
+    "document:k8s/DEPLOY_LOG.md",
+    "GKE 배포 이력표로, 차수별 날짜·배포자·이미지 태그(커밋)·변경 내용·확인 결과·되돌리기 명령과 배포 전 백업 위치, DB 복원 절차를 기록한다."
+   ],
+   [
+    "file:scripts/rollback.sh",
+    "GKE 배포를 되돌리는 스크립트로, 커밋 태그를 주면 그 이미지로 세 서비스를 교체하고 없으면 kubectl rollout undo로 직전 버전으로 돌립니다. DB는 건드리지 않습니다."
+   ],
+   [
+    "function:backend/app/services/dialog.py:_undo",
+    "직전 대화 턴을 되돌려 장바구니와 상태를 복원합니다."
+   ],
+   [
+    "file:backend/tests/test_nlu_llm.py",
+    "규칙 기반 NLU가 못 알아들은 말만 LLM 모델 서버로 다시 써서 처리하고, 결과를 메뉴 DB로 검증하며 실패 시 규칙 결과로 되돌아가는지 가짜 모델로 테스트한다."
+   ],
+   [
+    "file:backend/tests/test_undo_and_more.py",
+    "\"되돌려 줘\" 단계별 되돌리기, 합계 묻기, 장바구니 비우기, 안내 속도·크기 조절, 인사·대기 표현 처리, TTS 속도 등 대화 부가 기능을 검증하는 테스트."
+   ],
+   [
+    "function:frontend/src/components/ChoiceList.jsx:nextPage",
+    "next_page/prev_page 명령에 따라 다음 쪽 번호를 계산하며 마지막 쪽 다음은 첫 쪽으로 돌아가는 순수 함수."
+   ]
+  ],
+  "oneHop": [
+   [
+    "document:k8s/DEPLOY_LOG.md",
+    "documents",
+    "file:scripts/rollback.sh"
+   ],
+   [
+    "document:k8s/DEPLOY_LOG.md",
+    "documents",
+    "service:k8s/model.yaml"
+   ],
+   [
+    "document:k8s/README.md",
+    "related",
+    "document:k8s/DEPLOY_LOG.md"
+   ],
+   [
+    "file:backend/app/services/dialog.py",
+    "tested_by",
+    "file:backend/tests/test_undo_and_more.py"
+   ],
+   [
+    "file:backend/app/services/nlu.py",
+    "tested_by",
+    "file:backend/tests/test_nlu_llm.py"
+   ],
+   [
+    "file:backend/tests/test_nlu_llm.py",
+    "imports",
+    "file:backend/app/services/__init__.py"
+   ],
+   [
+    "file:backend/tests/test_nlu_llm.py",
+    "imports",
+    "file:backend/app/services/nlu.py"
+   ],
+   [
+    "file:frontend/src/components/ChoiceList.jsx",
+    "exports",
+    "function:frontend/src/components/ChoiceList.jsx:nextPage"
+   ],
+   [
+    "file:scripts/rollback.sh",
+    "related",
+    "file:scripts/deploy.sh"
+   ],
+   [
+    "file:scripts/rollback.sh",
+    "related",
+    "service:k8s/kustomization.yaml"
+   ],
+   [
+    "function:backend/app/services/dialog.py:handle",
+    "calls",
+    "function:backend/app/services/dialog.py:_undo"
+   ]
+  ]
+ },
+ "onboard": {
+  "project": {
+   "name": "fundamental1-project",
+   "languages": [
+    "python",
+    "javascript",
+    "css",
+    "html",
+    "yaml",
+    "dockerfile",
+    "shell",
+    "markdown"
+   ],
+   "frameworks": [
+    "React",
+    "Vite",
+    "FastAPI",
+    "SQLAlchemy",
+    "Docker Compose",
+    "Kubernetes"
+   ],
+   "description": "어르신을 위한 음성 주문 키오스크: React 손님·매장 화면, FastAPI 주문·대화 백엔드, Whisper 음성 인식·의도 파악 모델 서버, PostgreSQL, GKE 배포",
+   "analyzedAt": "2026-10-19T18:18:25.856136+00:00",
+   "gitCommitHash": "a8cf518ffbcc552d4ea54f7c24c69ad54e3b5d5c"
+  },
+  "layers": [
+   [
+    "프론트엔드 화면·UI 컴포넌트",
+    "React로 만든 어르신 손님용 키오스크 화면 흐름(대기→메뉴→옵션→확인→결제→완료), 주방·픽업 매장 화면, 공용 UI 컴포넌트와 CSS 디자인 토큰",
+    [
+     "frontend/index.html",
+     "frontend/src/App.jsx",
+     "frontend/src/components/AgentBubble.jsx",
+     "frontend/src/components/BottomBar.jsx",
+     "frontend/src/components/Button.jsx",
+     "frontend/src/components/CartItem.jsx",
+     "frontend/src/components/ChoiceList.jsx",
+     "frontend/src/components/GuideAnimation.jsx",
+     "frontend/src/components/MenuCard.jsx",
+     "frontend/src/components/MicIndicator.jsx",
+     "frontend/src/components/Modal.jsx",
+     "frontend/src/components/ProgressBar.jsx",
+     "frontend/src/main.jsx",
+     "frontend/src/screens/CompleteScreen.jsx",
+     "frontend/src/screens/ConfirmScreen.jsx",
+     "frontend/src/screens/CouponScreen.jsx",
+     "frontend/src/screens/IdleScreen.jsx",
+     "frontend/src/screens/Kiosk.jsx",
+     "frontend/src/screens/KioskStage.jsx",
+     "frontend/src/screens/MenuBrowser.jsx",
+     "frontend/src/screens/MenuScreen.jsx",
+     "frontend/src/screens/OptionScreen.jsx",
+     "frontend/src/screens/PaymentScreen.jsx",
+     "frontend/src/store-screens/KitchenOrders.jsx",
+     "frontend/src/store-screens/PickupBoard.jsx",
+     "frontend/src/store-screens/usePolling.js",
+     "frontend/src/styles/kiosk.css",
+     "frontend/src/styles/tokens.css"
+    ]
+   ],
+   [
+    "프론트엔드 훅·유틸·API 클라이언트",
+    "음성 녹음(VAD·WAV)·TTS·바코드·세션·메뉴 카탈로그를 다루는 React 훅과 lib 유틸, 백엔드 REST 호출을 감싼 API 클라이언트",
+    [
+     "frontend/src/api/client.js",
+     "frontend/src/api/kiosk.js",
+     "frontend/src/api/store.js",
+     "frontend/src/hooks/useBarcodeScanner.js",
+     "frontend/src/hooks/useIdleTimer.js",
+     "frontend/src/hooks/useKioskSession.js",
+     "frontend/src/hooks/useMenuCatalog.js",
+     "frontend/src/hooks/useVoice.js",
+     "frontend/src/lib/barcode.js",
+     "frontend/src/lib/format.js",
+     "frontend/src/lib/paginate.js",
+     "frontend/src/lib/screen.js",
+     "frontend/src/lib/tts.js",
+     "frontend/src/lib/vad.js",
+     "frontend/src/lib/wav.js"
+    ]
+   ],
+   [
+    "백엔드 API 라우터",
+    "FastAPI 앱 진입점과 세션·메뉴·주문·주방 라우터, 공통 에러 처리로 키오스크 화면 요청을 받는 HTTP 계층",
+    [
+     "backend/app/__init__.py",
+     "backend/app/errors.py",
+     "backend/app/main.py",
+     "backend/app/routers/__init__.py",
+     "backend/app/routers/common.py",
+     "backend/app/routers/kitchen.py",
+     "backend/app/routers/menus.py",
+     "backend/app/routers/orders.py",
+     "backend/app/routers/sessions.py"
+    ]
+   ],
+   [
+    "백엔드 대화·주문 서비스",
+    "장바구니·가격 계산·결제·TTS와 모델 서버 NLU 호출을 묶어 음성 대화 흐름을 진행하는 비즈니스 로직",
+    [
+     "backend/app/services/__init__.py",
+     "backend/app/services/cart.py",
+     "backend/app/services/dialog.py",
+     "backend/app/services/nlu.py",
+     "backend/app/services/payments.py",
+     "backend/app/services/pricing.py",
+     "backend/app/services/tts.py"
+    ]
+   ],
+   [
+    "백엔드 데이터 계층",
+    "SQLAlchemy DB 연결, PostgreSQL 테이블 모델, 메뉴 시드 데이터",
+    [
+     "backend/app/db.py",
+     "backend/app/models.py",
+     "backend/app/seed.py"
+    ]
+   ],
+   [
+    "음성 인식·의도 파악 모델 서버",
+    "Whisper STT와 NLU 의도 분류·LLM 서버(FastAPI), 학습용 Colab 노트북, AIHub 데이터 준비·모델 다운로드 스크립트와 테스트셋",
+    [
+     "model/scripts/fetch_model.sh",
+     "model/scripts/fetch_nlu_model.sh",
+     "model/scripts/nlu_gen_testset.csv",
+     "model/scripts/nlu_testset.csv",
+     "model/app/__init__.py",
+     "model/app/main.py",
+     "model/app/nlu_gen.py",
+     "model/requirements.txt",
+     "model/app/nlu_intent.py",
+     "model/app/nlu_llm.py",
+     "model/app/stt.py",
+     "model/data/.gitkeep",
+     "model/notebooks/.gitkeep",
+     "model/weights/.gitkeep",
+     "model/notebooks/nlu_gen_colab.ipynb",
+     "model/notebooks/nlu_intent_colab.ipynb",
+     "model/notebooks/whisper_finetune_colab.ipynb",
+     "model/scripts/make_nlu_data.py",
+     "model/scripts/prepare_aihub.py"
+    ]
+   ],
+   [
+    "테스트",
+    "백엔드 pytest 키오스크 흐름·NLU·TTS 테스트, 프론트 lib 단위 테스트와 e2e 시나리오",
+    [
+     "backend/tests/conftest.py",
+     "backend/tests/test_dine_phrases.py",
+     "backend/tests/test_kiosk_flow.py",
+     "backend/tests/test_nlu_llm.py",
+     "backend/tests/test_screen_voice.py",
+     "backend/tests/test_stt_hints.py",
+     "backend/tests/test_tts.py",
+     "backend/tests/test_undo_and_more.py",
+     "frontend/e2e/kiosk-flow.mjs",
+     "frontend/src/lib/lib.test.js",
+     "frontend/src/lib/voice.test.js"
+    ]
+   ],
+   [
+    "배포 인프라",
+    "frontend·backend·model Dockerfile, Docker Compose, GKE용 k8s 매니페스트(Ingress·인증서·Postgres), nginx 설정과 배포·롤백 스크립트",
+    [
+     "backend/.dockerignore",
+     "backend/Dockerfile",
+     "frontend/.dockerignore",
+     "frontend/Dockerfile",
+     "frontend/Dockerfile",
+     "frontend/Dockerfile",
+     "model/.dockerignore",
+     "model/Dockerfile",
+     "docker-compose.dev.yml",
+     "docker-compose.yml",
+     "k8s/backend.yaml",
+     "k8s/frontend.yaml",
+     "k8s/ingress.yaml",
+     "k8s/kustomization.yaml",
+     "k8s/managed-cert.yaml",
+     "k8s/model.yaml",
+     "k8s/namespace.yaml",
+     "k8s/postgres.yaml",
+     "model/scripts/Dockerfile.prep",
+     "scripts/deploy.ps1",
+     "scripts/deploy.sh",
+     "scripts/rollback.sh",
+     "frontend/nginx.conf"
+    ]
+   ],
+   [
+    "프로젝트 설정·CI",
+    "환경 변수 예시, 패키지·빌드 설정, 의존성 목록, GitHub Actions CI와 Notion 작업 로그 자동화",
+    [
+     ".github/workflows/ci.yml",
+     ".github/workflows/notion-worklog.yml",
+     ".env.example",
+     ".gitattributes",
+     ".github/notion-team.json",
+     ".github/scripts/notion_worklog.py",
+     "backend/requirements-dev.txt",
+     "backend/requirements.txt",
+     "frontend/package.json",
+     "frontend/vite.config.js"
+    ]
+   ],
+   [
+    "문서·AI 작업 루틴",
+    "README·AGENTS.md·CLAUDE.md, 팀 결정 기록, AI 작업 루틴(catch-up·wrap-up·notion), 프론트 계획·보고서, k8s 배포 문서와 PR 템플릿",
+    [
+     "AGENTS.md",
+     "CLAUDE.md",
+     "README.md",
+     "docs/ai/catch-up.md",
+     "docs/ai/notion.md",
+     "docs/ai/wrap-up.md",
+     "frontend/docs/figma-ui-prompt.md",
+     "frontend/docs/frontend-plan-easy.md",
+     "frontend/docs/frontend-plan.md",
+     "frontend/docs/frontend-work-report.md",
+     "k8s/DEPLOY_LOG.md",
+     "k8s/README.md",
+     ".github/pull_request_template.md",
+     "docs/.gitkeep",
+     "docs/plan/decisions.md",
+     "model/README.md"
+    ]
+   ]
+  ],
+  "tour": [
+   {
+    "order": 1,
+    "title": "프로젝트 개요와 팀 규칙",
+    "description": "이 프로젝트는 어르신이 말로 주문하는 음성 키오스크로, frontend·backend·model·DB 네 부분으로 나뉩니다. 루트 README.md는 아직 자리표시 수준이라, 실제 안내서 역할은 AGENTS.md가 맡습니다. AGENTS.md는 폴더별 담당 파트, Docker Compose 실행법, Git 규칙을 정합니다. docs/plan/decisions.md에는 '선택 버튼은 한 화면 최대 4개' 같은 기획 결정과 그 이유가 날짜순으로 남아 있어, 이후 코드에서 보게 될 규칙들의 출처가 됩니다.",
+    "nodeIds": [
+     "document:AGENTS.md",
+     "document:README.md",
+     "document:docs/plan/decisions.md"
+    ]
+   },
+   {
+    "order": 2,
+    "title": "네 개의 컨테이너 구성",
+    "description": "docker-compose.yml은 frontend(Nginx 3000)·backend(8000)·model(8001)·PostgreSQL 16 db 네 서비스를 정의하고, 헬스체크를 기준으로 시작 순서를 맞춥니다. 프론트 Nginx는 /api/ 요청을 backend:8000으로 프록시하고 나머지는 SPA 정적 파일로 서빙하므로, 브라우저는 한 주소만 보면 됩니다. .env.example에는 DB 계정과 선택 사항인 Anthropic·Google TTS 키가 들어 있어, 어떤 기능이 외부 키에 기대는지 미리 알 수 있습니다.",
+    "nodeIds": [
+     "service:docker-compose.yml",
+     "file:frontend/nginx.conf",
+     "config:.env.example"
+    ],
+    "languageLesson": "docker-compose의 depends_on에 condition: service_healthy를 함께 쓰면, 앞 서비스의 헬스체크가 통과한 뒤에야 다음 컨테이너가 시작됩니다. DB가 준비되기 전에 백엔드가 연결을 시도하다 실패하는 일을 막아 줍니다."
+   },
+   {
+    "order": 3,
+    "title": "손님 화면의 뼈대",
+    "description": "main.jsx가 React 앱을 마운트하면, App.jsx는 URL 경로에 따라 손님 키오스크(/)·픽업 호출(/pickup)·주방(/kitchen) 화면 중 하나를 고릅니다. Kiosk.jsx는 진행 막대·안내 말풍선·마이크·본문·하단 바로 된 공통 틀을 조립하는 최상위 컴포넌트입니다. 화면 전환은 프론트가 정하지 않고, screen.js의 screenOf가 서버 응답(question·step)을 보고 어떤 화면을 그릴지 결정합니다. 선택지는 ChoiceList가 한 화면 최대 4개씩 쪽을 나눠 보여 주는데, 1단계에서 본 접근성 결정을 그대로 구현한 것입니다.",
+    "nodeIds": [
+     "file:frontend/src/main.jsx",
+     "file:frontend/src/App.jsx",
+     "file:frontend/src/screens/Kiosk.jsx",
+     "file:frontend/src/lib/screen.js",
+     "file:frontend/src/components/ChoiceList.jsx"
+    ],
+    "languageLesson": "React Context는 props를 여러 단계 내려보내지 않고도 하위 컴포넌트에 값을 전달합니다. ChoiceList는 ScreenCommand context로 '다음 쪽' 같은 음성 명령을 받아, 버튼을 누르지 않아도 화면을 넘길 수 있습니다."
+   },
+   {
+    "order": 4,
+    "title": "핸즈프리 음성 입출력",
+    "description": "useVoice.js는 손이 불편한 어르신도 쓸 수 있도록 버튼 없이 말로 주문하게 해 주는 hook입니다. vad.js가 주변 소음과 비교해 마이크 RMS 값으로 말의 시작과 끝을 판정하고, wav.js는 녹음한 소리를 16kHz WAV로 바꿔 서버에 보냅니다. 서버가 돌려준 안내 문장은 tts.js가 /api/tts의 사람 목소리로 읽어 주며, TTS가 실패하면 1분 동안 브라우저 음성으로 대신합니다. 안내가 나오는 도중 손님이 말을 꺼내면 끼어들기도 처리합니다.",
+    "nodeIds": [
+     "file:frontend/src/hooks/useVoice.js",
+     "file:frontend/src/lib/vad.js",
+     "file:frontend/src/lib/wav.js",
+     "file:frontend/src/lib/tts.js"
+    ],
+    "languageLesson": "React custom hook(use로 시작하는 함수)은 상태와 부수 효과(마이크 열기, 타이머)를 컴포넌트 밖으로 꺼내 재사용할 수 있게 해 줍니다. useEffect의 cleanup 함수에서 마이크 스트림을 닫아야 자원이 새지 않습니다."
+   },
+   {
+    "order": 5,
+    "title": "세션 상태와 API 클라이언트",
+    "description": "useKioskSession.js는 키오스크 주문 상태를 한곳에서 관리하는 핵심 hook입니다. 대화·음성·장바구니·쿠폰·결제 API를 호출하고, 마지막 서버 응답을 상태로 보관합니다. 실제 HTTP 호출은 api/kiosk.js의 kioskApi가 감싸며, api/client.js는 백엔드의 {error:{code,message,detail}} 형식을 ApiError로 바꿔 줍니다. 3단계의 화면 결정과 4단계의 음성은 모두 이 '마지막 서버 응답' 하나를 기준으로 움직입니다.",
+    "nodeIds": [
+     "file:frontend/src/hooks/useKioskSession.js",
+     "file:frontend/src/api/kiosk.js",
+     "file:frontend/src/api/client.js"
+    ]
+   },
+   {
+    "order": 6,
+    "title": "백엔드 진입점과 세션 라우터",
+    "description": "backend/app/main.py는 FastAPI 앱의 진입점입니다. 시작할 때 DB 테이블을 만들어 시드 데이터를 넣고 TTS를 예열한 뒤, 메뉴·세션·주문·주방 라우터를 등록합니다. 그중 routers/sessions.py가 손님 화면의 중심 API로, 세션 시작·종료, 텍스트·음성 대화, 장바구니, 주문 확정을 처리합니다. common.py는 오래 방치된 세션을 자동으로 만료시켜 410을 돌려주고, errors.py는 5단계에서 본 공통 에러 형식을 정의합니다.",
+    "nodeIds": [
+     "file:backend/app/main.py",
+     "file:backend/app/routers/sessions.py",
+     "file:backend/app/routers/common.py",
+     "file:backend/app/errors.py"
+    ],
+    "languageLesson": "FastAPI의 APIRouter는 엔드포인트를 파일별로 나눠 정의하게 해 주고, app.include_router로 하나의 앱에 합칩니다. Depends(get_db) 같은 의존성 주입은 요청마다 DB 세션을 열고 닫는 일을 자동으로 처리합니다."
+   },
+   {
+    "order": 7,
+    "title": "대화 상태 머신과 NLU",
+    "description": "services/dialog.py는 식사 장소→메뉴→옵션→확인→쿠폰→결제 순서를 따라 손님의 말과 버튼 입력을 처리하는 상태 머신입니다. 백엔드에서 가장 많은 모듈을 불러오는 파일이기도 합니다. 말의 뜻은 services/nlu.py가 먼저 규칙으로 판단하고, 규칙이 실패할 때만 모델 서버 /nlu에 표준 문장으로 다시 써 달라고 요청합니다. 이렇게 하면 대부분의 말은 빠르고 예측 가능하게 처리되고, 느린 모델은 필요할 때만 씁니다. 장바구니(cart.py)와 쿠폰·총액 계산(pricing.py)은 서버에서 맡아 금액을 클라이언트가 바꿀 수 없게 했고, payments.py는 PG사가 정해지기 전까지 모의 결제로 동작합니다.",
+    "nodeIds": [
+     "file:backend/app/services/dialog.py",
+     "file:backend/app/services/nlu.py",
+     "file:backend/app/services/cart.py",
+     "file:backend/app/services/pricing.py",
+     "file:backend/app/services/payments.py"
+    ]
+   },
+   {
+    "order": 8,
+    "title": "데이터 계층: DB와 시드",
+    "description": "db.py와 models.py는 그래프에서 가장 많이 참조되는(fan-in 11) 파일로, 백엔드 거의 모든 곳이 이 둘에 기댑니다. db.py는 DATABASE_URL로 SQLAlchemy 엔진과 get_db 의존성을 만들고, models.py는 노션 ERD를 옮겨 메뉴·옵션·세션·쿠폰·주문·결제·대화 로그 테이블을 정의합니다. 장바구니는 따로 테이블을 두지 않고 status='cart'인 주문 행으로 다룹니다. seed.py는 첫 실행 때 MVP 메뉴와 메뉴 별명, 테스트 쿠폰을 넣는데, 이 별명들이 7단계 NLU의 메뉴 인식에 쓰입니다.",
+    "nodeIds": [
+     "file:backend/app/db.py",
+     "file:backend/app/models.py",
+     "file:backend/app/seed.py"
+    ],
+    "languageLesson": "SQLAlchemy ORM은 Python 클래스 하나를 테이블 하나에 대응시킵니다. relationship으로 메뉴와 옵션 그룹처럼 연결된 행을 객체 속성처럼 다룰 수 있고, 테스트에서는 같은 모델로 메모리 SQLite를 써서 PostgreSQL 없이도 실행할 수 있습니다."
+   },
+   {
+    "order": 9,
+    "title": "모델 서버: STT와 의도 파악",
+    "description": "model/app/main.py는 /stt·/nlu·/health·/ready 엔드포인트를 제공하는 별도 FastAPI 서버로, 시작할 때 무거운 모델을 백그라운드에서 미리 불러옵니다. stt.py는 어르신 음성으로 파인튜닝한 Whisper small을 faster-whisper로 돌리며, 백엔드가 넘겨준 메뉴 이름 힌트를 활용합니다. 의도 파악은 단계가 나뉩니다. nlu_intent.py의 ONNX 분류 모델이 18개 표준 문장 중 하나를 고르되 확신이 낮으면 빈 값을 돌려주고, 그다음 nlu_gen.py의 Qwen2.5-1.5B LoRA(GGUF) 생성 모델이 CPU에서 문장을 다시 씁니다. nlu_llm.py는 API 키가 있을 때만 쓰는 Claude 경로입니다.",
+    "nodeIds": [
+     "file:model/app/main.py",
+     "file:model/app/stt.py",
+     "file:model/app/nlu_intent.py",
+     "file:model/app/nlu_gen.py",
+     "file:model/app/nlu_llm.py"
+    ]
+   },
+   {
+    "order": 10,
+    "title": "모델 학습과 평가 데이터",
+    "description": "model/README.md는 모델 서버 API, 사용하는 모델, 이미지 빌드 순서와 재학습 절차를 정리한 문서입니다. 9단계의 Whisper 모델은 whisper_finetune_colab.ipynb에서 AI Hub 노인 음성으로 파인튜닝한 뒤 CTranslate2로 변환해 만듭니다. 의도 분류 모델은 make_nlu_data.py가 앞말·끝말·사투리·인식 오류 조각을 섞어 만든 학습 데이터로 nlu_intent_colab.ipynb에서 학습합니다. nlu_testset.csv는 주문 단계별 발화와 정답 라벨 약 120건을 담은 평가용 데이터입니다.",
+    "nodeIds": [
+     "document:model/README.md",
+     "file:model/notebooks/whisper_finetune_colab.ipynb",
+     "file:model/notebooks/nlu_intent_colab.ipynb",
+     "file:model/scripts/make_nlu_data.py",
+     "table:model/scripts/nlu_testset.csv"
+    ]
+   },
+   {
+    "order": 11,
+    "title": "테스트와 CI",
+    "description": "test_kiosk_flow.py는 음성 주문, 세트 옵션, 쿠폰, 결제 멱등성, 주방·픽업 화면까지 40여 개 시나리오로 6~8단계의 백엔드 흐름 전체를 검증합니다. conftest.py는 메모리 SQLite와 꺼진 모델 서버 주소를 설정해, 모델이 없어도 규칙 기반 경로만으로 테스트가 돌게 합니다. test_nlu_llm.py는 가짜 모델로 규칙이 실패할 때만 LLM을 거치는 7단계의 설계를 확인합니다. GitHub Actions ci.yml은 PR마다 Compose로 네 컨테이너를 띄우고, 컨테이너 사이 연결이 되는지 curl로 확인합니다.",
+    "nodeIds": [
+     "file:backend/tests/test_kiosk_flow.py",
+     "file:backend/tests/conftest.py",
+     "file:backend/tests/test_nlu_llm.py",
+     "pipeline:.github/workflows/ci.yml"
+    ],
+    "languageLesson": "pytest fixture는 테스트에 필요한 준비물(DB, TestClient)을 함수로 정의하고, 테스트 함수의 인자 이름으로 주입받는 방식입니다. conftest.py에 둔 fixture는 같은 폴더의 모든 테스트가 따로 import하지 않아도 함께 씁니다."
+   },
+   {
+    "order": 12,
+    "title": "GKE 배포",
+    "description": "마지막으로, 2단계의 Compose 구성은 GKE Autopilot에서 쿠버네티스 매니페스트로 그대로 옮겨집니다. k8s/README.md가 매니페스트별 역할과 운영 명령을 안내하고, kustomization.yaml은 모든 매니페스트를 fundamental1 네임스페이스로 묶은 뒤 이미지 태그를 바꿔 넣습니다. ingress.yaml은 관리형 인증서로 http를 https로 돌리는데, 브라우저가 https에서만 마이크 권한을 주기 때문입니다. model.yaml은 CPU 할당량 때문에 maxSurge 0 롤링 업데이트를 쓰고, deploy.sh는 모델 받기→이미지 빌드·푸시→적용→롤아웃 확인 순서로 배포합니다.",
+    "nodeIds": [
+     "document:k8s/README.md",
+     "service:k8s/kustomization.yaml",
+     "service:k8s/ingress.yaml",
+     "service:k8s/model.yaml",
+     "file:scripts/deploy.sh"
+    ],
+    "languageLesson": "Kustomize는 원본 YAML을 고치지 않고 네임스페이스·이미지 태그 같은 공통 값을 덮어씌웁니다. kubectl apply -k 한 번으로 묶인 매니페스트 전체를 적용할 수 있어, 커밋별 이미지 태그로 배포하고 되돌리기가 쉬워집니다."
+   }
+  ],
+  "hotspots": [
+   [
+    8,
+    "model/scripts/prepare_aihub.py",
+    null
+   ],
+   [
+    8,
+    "model/scripts/make_nlu_data.py",
+    null
+   ],
+   [
+    8,
+    "model/notebooks/whisper_finetune_colab.ipynb",
+    null
+   ],
+   [
+    8,
+    "model/notebooks/nlu_intent_colab.ipynb",
+    null
+   ],
+   [
+    8,
+    "model/notebooks/nlu_gen_colab.ipynb",
+    null
+   ],
+   [
+    8,
+    "frontend/src/screens/Kiosk.jsx",
+    null
+   ],
+   [
+    8,
+    "frontend/src/hooks/useVoice.js",
+    null
+   ],
+   [
+    8,
+    "backend/tests/test_kiosk_flow.py",
+    null
+   ]
+  ]
+ },
+ "knowledge": {
+  "docs": [
+   "AGENTS.md",
+   "CLAUDE.md",
+   "README.md",
+   "docs/ai/catch-up.md",
+   "docs/ai/notion.md",
+   "docs/ai/wrap-up.md",
+   "frontend/docs/figma-ui-prompt.md",
+   "frontend/docs/frontend-plan-easy.md",
+   "frontend/docs/frontend-plan.md",
+   "frontend/docs/frontend-work-report.md",
+   "k8s/DEPLOY_LOG.md",
+   "k8s/README.md",
+   ".github/pull_request_template.md",
+   "backend/requirements-dev.txt",
+   "backend/requirements.txt",
+   "docs/plan/decisions.md",
+   "model/README.md",
+   "model/requirements.txt"
+  ],
+  "sharedConcepts": {
+   ".env": [
+    "AGENTS.md",
+    "README.md",
+    "docs/ai/wrap-up.md",
+    "frontend/docs/frontend-plan.md",
+    "model/README.md"
+   ],
+   "main": [
+    "AGENTS.md",
+    "docs/ai/wrap-up.md",
+    "k8s/README.md"
+   ],
+   "/kitchen": [
+    "frontend/docs/frontend-plan.md",
+    "frontend/docs/frontend-work-report.md",
+    "k8s/README.md"
+   ],
+   "/api/tts": [
+    "frontend/docs/frontend-plan.md",
+    "frontend/docs/frontend-work-report.md",
+    "k8s/DEPLOY_LOG.md"
+   ],
+   "/pickup": [
+    "frontend/docs/frontend-plan.md",
+    "frontend/docs/frontend-work-report.md",
+    "k8s/README.md"
+   ],
+   "feat/<파트>-<내용>": [
+    "AGENTS.md",
+    "docs/ai/catch-up.md"
+   ],
+   ".env.example": [
+    "AGENTS.md",
+    "README.md"
+   ],
+   "package.json": [
+    "AGENTS.md",
+    "docs/ai/wrap-up.md"
+   ],
+   "requirements.txt": [
+    "AGENTS.md",
+    "docs/ai/wrap-up.md"
+   ],
+   "frontend/": [
+    "README.md",
+    "frontend/docs/figma-ui-prompt.md"
+   ],
+   "[파트]": [
+    "docs/ai/notion.md",
+    "docs/ai/wrap-up.md"
+   ],
+   "e09-payment-fail": [
+    "frontend/docs/figma-ui-prompt.md",
+    "frontend/docs/frontend-plan.md"
+   ]
+  },
+  "isolatedDocs": []
+ }
+}

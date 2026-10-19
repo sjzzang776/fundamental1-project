@@ -1,0 +1,7374 @@
+{
+  "version": "1.0.0",
+  "gitCommitHash": "a8cf518ffbcc552d4ea54f7c24c69ad54e3b5d5c",
+  "generatedAt": "2026-10-19T18:18:35.368Z",
+  "files": {
+    ".env.example": {
+      "filePath": ".env.example",
+      "contentHash": "40ccf9242f3fb1a46380c07ea197ae9df2de13dc4065513becfadc4efbdc5f51",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 12,
+      "hasStructuralAnalysis": false
+    },
+    ".gitattributes": {
+      "filePath": ".gitattributes",
+      "contentHash": "2ba9c33f5d144928dec8c5ac4809235015cd9f32585c971dd966146c64cc04e9",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 5,
+      "hasStructuralAnalysis": false
+    },
+    ".github/notion-team.json": {
+      "filePath": ".github/notion-team.json",
+      "contentHash": "befb77182a97614658a1887df204145ea4f183bb6d70f323729ab842314eef39",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 8,
+      "hasStructuralAnalysis": false
+    },
+    ".github/pull_request_template.md": {
+      "filePath": ".github/pull_request_template.md",
+      "contentHash": "b40154f0c0562bf58df56928978c6d648889366799631abb6080c52a4b25f997",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 28,
+      "hasStructuralAnalysis": false
+    },
+    ".github/scripts/notion_worklog.py": {
+      "filePath": ".github/scripts/notion_worklog.py",
+      "contentHash": "ac64afcb6b7e86f419039bbe78f752a17775c690cdac3cf485462fd5e940bae0",
+      "functions": [
+        {
+          "name": "notion",
+          "params": [
+            "method",
+            "path",
+            "body"
+          ],
+          "exported": true,
+          "lineCount": 20
+        },
+        {
+          "name": "rich",
+          "params": [
+            "text"
+          ],
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "sections",
+          "params": [
+            "body"
+          ],
+          "exported": true,
+          "lineCount": 10
+        },
+        {
+          "name": "find_section",
+          "params": [
+            "secs",
+            "*keywords"
+          ],
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "clean",
+          "params": [
+            "line"
+          ],
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "flat",
+          "params": [
+            "text"
+          ],
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "to_blocks",
+          "params": [
+            "body"
+          ],
+          "exported": true,
+          "lineCount": 19
+        },
+        {
+          "name": "main",
+          "params": [],
+          "exported": true,
+          "lineCount": 64
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "json",
+          "specifiers": [
+            "json"
+          ]
+        },
+        {
+          "source": "os",
+          "specifiers": [
+            "os"
+          ]
+        },
+        {
+          "source": "re",
+          "specifiers": [
+            "re"
+          ]
+        },
+        {
+          "source": "sys",
+          "specifiers": [
+            "sys"
+          ]
+        },
+        {
+          "source": "urllib.error",
+          "specifiers": [
+            "urllib.error"
+          ]
+        },
+        {
+          "source": "urllib.request",
+          "specifiers": [
+            "urllib.request"
+          ]
+        },
+        {
+          "source": "datetime",
+          "specifiers": [
+            "datetime",
+            "timedelta",
+            "timezone"
+          ]
+        }
+      ],
+      "exports": [
+        "notion",
+        "rich",
+        "sections",
+        "find_section",
+        "clean",
+        "flat",
+        "to_blocks",
+        "main"
+      ],
+      "totalLines": 180,
+      "hasStructuralAnalysis": true
+    },
+    ".github/workflows/ci.yml": {
+      "filePath": ".github/workflows/ci.yml",
+      "contentHash": "ae3d41ce4035417a376547446de8b72dc2130fc3ceba9505a51c96ba2f7cef19",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 45,
+      "hasStructuralAnalysis": false
+    },
+    ".github/workflows/notion-worklog.yml": {
+      "filePath": ".github/workflows/notion-worklog.yml",
+      "contentHash": "486e0a2a0cf8bc712ef202118f921161caa690ca4f0b9ec80f89e6fbddf127c5",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 27,
+      "hasStructuralAnalysis": false
+    },
+    "AGENTS.md": {
+      "filePath": "AGENTS.md",
+      "contentHash": "8d68d08f0848e697177d035d46352e782d78f88cad3e86ce6f4454a46cc5fc92",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 53,
+      "hasStructuralAnalysis": false
+    },
+    "CLAUDE.md": {
+      "filePath": "CLAUDE.md",
+      "contentHash": "336cc4fbf19beaada7ccf9986414fa91851a8d7a07dfb3ccbe800a69eed0ab49",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 2,
+      "hasStructuralAnalysis": false
+    },
+    "README.md": {
+      "filePath": "README.md",
+      "contentHash": "dbfdc6344240cd17fcc8dcd85a2c003dc1d4383f025484347308ca0ddbb563dc",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 44,
+      "hasStructuralAnalysis": false
+    },
+    "backend/.dockerignore": {
+      "filePath": "backend/.dockerignore",
+      "contentHash": "ecd1654f991e14faf712b7b12bc53eb15c9e3b5cdb8713e59d1628b66f47a74f",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 3,
+      "hasStructuralAnalysis": false
+    },
+    "backend/Dockerfile": {
+      "filePath": "backend/Dockerfile",
+      "contentHash": "691fa56601ad18c98e96595aee2d738c5b52fe6445e75dee6269843a3bf106f4",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 8,
+      "hasStructuralAnalysis": false
+    },
+    "backend/app/__init__.py": {
+      "filePath": "backend/app/__init__.py",
+      "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 1,
+      "hasStructuralAnalysis": true
+    },
+    "backend/app/db.py": {
+      "filePath": "backend/app/db.py",
+      "contentHash": "a56bd89f5fc7d3030b99144a1095d0eac622df18cd38cabf93e4d257c9f8f1f5",
+      "functions": [
+        {
+          "name": "_make_engine",
+          "params": [
+            "url"
+          ],
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "get_db",
+          "params": [],
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "now_utc",
+          "params": [],
+          "returnType": "datetime",
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "today_kst",
+          "params": [],
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "aware",
+          "params": [
+            "dt"
+          ],
+          "returnType": "datetime | None",
+          "exported": true,
+          "lineCount": 5
+        }
+      ],
+      "classes": [
+        {
+          "name": "Base",
+          "methods": [],
+          "properties": [],
+          "exported": true,
+          "lineCount": 2
+        }
+      ],
+      "imports": [
+        {
+          "source": "os",
+          "specifiers": [
+            "os"
+          ]
+        },
+        {
+          "source": "datetime",
+          "specifiers": [
+            "datetime",
+            "timedelta",
+            "timezone"
+          ]
+        },
+        {
+          "source": "sqlalchemy",
+          "specifiers": [
+            "create_engine"
+          ]
+        },
+        {
+          "source": "sqlalchemy.orm",
+          "specifiers": [
+            "DeclarativeBase",
+            "sessionmaker"
+          ]
+        },
+        {
+          "source": "sqlalchemy.pool",
+          "specifiers": [
+            "StaticPool"
+          ]
+        }
+      ],
+      "exports": [
+        "Base",
+        "_make_engine",
+        "get_db",
+        "now_utc",
+        "today_kst",
+        "aware"
+      ],
+      "totalLines": 52,
+      "hasStructuralAnalysis": true
+    },
+    "backend/app/errors.py": {
+      "filePath": "backend/app/errors.py",
+      "contentHash": "477ad5d4e7434d5425f9e9086b725317c521a585bf5d9ea55a712593e6a4df4c",
+      "functions": [
+        {
+          "name": "_body",
+          "params": [
+            "code",
+            "message",
+            "detail"
+          ],
+          "returnType": "dict",
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "register_error_handlers",
+          "params": [
+            "app"
+          ],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 12
+        }
+      ],
+      "classes": [
+        {
+          "name": "ApiError",
+          "methods": [
+            "__init__"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 6
+        }
+      ],
+      "imports": [
+        {
+          "source": "fastapi",
+          "specifiers": [
+            "FastAPI",
+            "Request"
+          ]
+        },
+        {
+          "source": "fastapi.exceptions",
+          "specifiers": [
+            "RequestValidationError"
+          ]
+        },
+        {
+          "source": "fastapi.responses",
+          "specifiers": [
+            "JSONResponse"
+          ]
+        }
+      ],
+      "exports": [
+        "ApiError",
+        "_body",
+        "register_error_handlers"
+      ],
+      "totalLines": 31,
+      "hasStructuralAnalysis": true
+    },
+    "backend/app/main.py": {
+      "filePath": "backend/app/main.py",
+      "contentHash": "82ab68a8aab0b36ab6152d138e1cda1dffbbf53118b6cb222e92d58c69e46187",
+      "functions": [
+        {
+          "name": "init_db",
+          "params": [
+            "retries"
+          ],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 14
+        },
+        {
+          "name": "lifespan",
+          "params": [
+            "_"
+          ],
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "health",
+          "params": [],
+          "exported": true,
+          "lineCount": 10
+        },
+        {
+          "name": "predict",
+          "params": [
+            "req"
+          ],
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "tts",
+          "params": [
+            "req"
+          ],
+          "exported": true,
+          "lineCount": 10
+        }
+      ],
+      "classes": [
+        {
+          "name": "PredictRequest",
+          "methods": [],
+          "properties": [
+            "text"
+          ],
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "TtsRequest",
+          "methods": [],
+          "properties": [
+            "text",
+            "speed"
+          ],
+          "exported": true,
+          "lineCount": 3
+        }
+      ],
+      "imports": [
+        {
+          "source": "logging",
+          "specifiers": [
+            "logging"
+          ]
+        },
+        {
+          "source": "os",
+          "specifiers": [
+            "os"
+          ]
+        },
+        {
+          "source": "time",
+          "specifiers": [
+            "time"
+          ]
+        },
+        {
+          "source": "contextlib",
+          "specifiers": [
+            "asynccontextmanager"
+          ]
+        },
+        {
+          "source": "httpx",
+          "specifiers": [
+            "httpx"
+          ]
+        },
+        {
+          "source": "fastapi",
+          "specifiers": [
+            "FastAPI",
+            "HTTPException",
+            "Response"
+          ]
+        },
+        {
+          "source": "fastapi.concurrency",
+          "specifiers": [
+            "run_in_threadpool"
+          ]
+        },
+        {
+          "source": "pydantic",
+          "specifiers": [
+            "BaseModel",
+            "Field"
+          ]
+        },
+        {
+          "source": "sqlalchemy",
+          "specifiers": [
+            "text"
+          ]
+        },
+        {
+          "source": "sqlalchemy.exc",
+          "specifiers": [
+            "OperationalError"
+          ]
+        },
+        {
+          "source": ".db",
+          "specifiers": [
+            "Base",
+            "SessionLocal",
+            "engine"
+          ]
+        },
+        {
+          "source": ".errors",
+          "specifiers": [
+            "ApiError",
+            "register_error_handlers"
+          ]
+        },
+        {
+          "source": ".routers",
+          "specifiers": [
+            "kitchen",
+            "menus",
+            "orders",
+            "sessions"
+          ]
+        },
+        {
+          "source": ".seed",
+          "specifiers": [
+            "seed"
+          ]
+        },
+        {
+          "source": ".services",
+          "specifiers": [
+            "tts_svc"
+          ]
+        }
+      ],
+      "exports": [
+        "init_db",
+        "lifespan",
+        "PredictRequest",
+        "TtsRequest",
+        "health",
+        "predict",
+        "tts"
+      ],
+      "totalLines": 99,
+      "hasStructuralAnalysis": true
+    },
+    "backend/app/models.py": {
+      "filePath": "backend/app/models.py",
+      "contentHash": "b1286bb7ef8d8d64379a0b12bd0a721775b0bb17eb7c01a2ec3152247c5e2ec0",
+      "functions": [],
+      "classes": [
+        {
+          "name": "MenuCategory",
+          "methods": [],
+          "properties": [
+            "id",
+            "name",
+            "sort_order",
+            "items"
+          ],
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "MenuItem",
+          "methods": [],
+          "properties": [
+            "id",
+            "category_id",
+            "name",
+            "description",
+            "price",
+            "set_price",
+            "image_url",
+            "calories_kcal",
+            "allergens",
+            "is_recommended",
+            "is_available",
+            "category",
+            "aliases",
+            "option_links"
+          ],
+          "exported": true,
+          "lineCount": 18
+        },
+        {
+          "name": "MenuAlias",
+          "methods": [],
+          "properties": [
+            "id",
+            "menu_item_id",
+            "alias",
+            "menu_item"
+          ],
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "OptionGroup",
+          "methods": [],
+          "properties": [
+            "id",
+            "name",
+            "is_required",
+            "max_select",
+            "items"
+          ],
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "MenuOptionGroup",
+          "methods": [],
+          "properties": [
+            "menu_item_id",
+            "option_group_id",
+            "applies_to",
+            "menu_item",
+            "group"
+          ],
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "OptionItem",
+          "methods": [],
+          "properties": [
+            "id",
+            "option_group_id",
+            "name",
+            "extra_price",
+            "group"
+          ],
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "Kiosk",
+          "methods": [],
+          "properties": [
+            "id",
+            "name",
+            "store_name"
+          ],
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "KioskSession",
+          "methods": [],
+          "properties": [
+            "id",
+            "kiosk_id",
+            "started_at",
+            "ended_at",
+            "end_reason",
+            "step",
+            "dialog_state",
+            "last_active_at",
+            "kiosk",
+            "orders"
+          ],
+          "exported": true,
+          "lineCount": 17
+        },
+        {
+          "name": "Coupon",
+          "methods": [],
+          "properties": [
+            "id",
+            "barcode",
+            "name",
+            "discount_type",
+            "discount_value",
+            "target_menu_item_id",
+            "target_set_only",
+            "min_order_amount",
+            "valid_from",
+            "valid_until",
+            "used_at",
+            "target_menu"
+          ],
+          "exported": true,
+          "lineCount": 17
+        },
+        {
+          "name": "Order",
+          "methods": [],
+          "properties": [
+            "id",
+            "session_id",
+            "coupon_id",
+            "order_number",
+            "order_date",
+            "dine_type",
+            "status",
+            "subtotal",
+            "discount_amount",
+            "total_amount",
+            "created_at",
+            "paid_at",
+            "ready_at",
+            "session",
+            "coupon",
+            "items",
+            "payments"
+          ],
+          "exported": true,
+          "lineCount": 25
+        },
+        {
+          "name": "OrderItem",
+          "methods": [],
+          "properties": [
+            "id",
+            "order_id",
+            "menu_item_id",
+            "is_set",
+            "quantity",
+            "unit_price",
+            "line_total",
+            "order",
+            "menu",
+            "options"
+          ],
+          "exported": true,
+          "lineCount": 16
+        },
+        {
+          "name": "OrderItemOption",
+          "methods": [],
+          "properties": [
+            "id",
+            "order_item_id",
+            "option_item_id",
+            "extra_price",
+            "order_item",
+            "option"
+          ],
+          "exported": true,
+          "lineCount": 10
+        },
+        {
+          "name": "Payment",
+          "methods": [],
+          "properties": [
+            "id",
+            "order_id",
+            "method",
+            "amount",
+            "status",
+            "idempotency_key",
+            "pg_transaction_id",
+            "fail_reason",
+            "approved_at",
+            "order"
+          ],
+          "exported": true,
+          "lineCount": 14
+        },
+        {
+          "name": "StaffCall",
+          "methods": [],
+          "properties": [
+            "id",
+            "session_id",
+            "reason",
+            "created_at",
+            "resolved_at",
+            "session"
+          ],
+          "exported": true,
+          "lineCount": 10
+        },
+        {
+          "name": "ConversationLog",
+          "methods": [],
+          "properties": [
+            "id",
+            "session_id",
+            "turn_no",
+            "stt_text",
+            "intent",
+            "response_text",
+            "latency_ms",
+            "created_at"
+          ],
+          "exported": true,
+          "lineCount": 11
+        }
+      ],
+      "imports": [
+        {
+          "source": "datetime",
+          "specifiers": [
+            "date",
+            "datetime"
+          ]
+        },
+        {
+          "source": "sqlalchemy",
+          "specifiers": [
+            "JSON",
+            "Boolean",
+            "Date",
+            "DateTime",
+            "ForeignKey",
+            "Integer",
+            "String",
+            "Text",
+            "UniqueConstraint"
+          ]
+        },
+        {
+          "source": "sqlalchemy.orm",
+          "specifiers": [
+            "Mapped",
+            "mapped_column",
+            "relationship"
+          ]
+        },
+        {
+          "source": ".db",
+          "specifiers": [
+            "Base",
+            "now_utc",
+            "today_kst"
+          ]
+        }
+      ],
+      "exports": [
+        "MenuCategory",
+        "MenuItem",
+        "MenuAlias",
+        "OptionGroup",
+        "MenuOptionGroup",
+        "OptionItem",
+        "Kiosk",
+        "KioskSession",
+        "Coupon",
+        "Order",
+        "OrderItem",
+        "OrderItemOption",
+        "Payment",
+        "StaffCall",
+        "ConversationLog"
+      ],
+      "totalLines": 238,
+      "hasStructuralAnalysis": true
+    },
+    "backend/app/routers/__init__.py": {
+      "filePath": "backend/app/routers/__init__.py",
+      "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 1,
+      "hasStructuralAnalysis": true
+    },
+    "backend/app/routers/common.py": {
+      "filePath": "backend/app/routers/common.py",
+      "contentHash": "0ddfb66d42071e6073f7e66bb24af40d785109728bdf53450b41526c05a76d4c",
+      "functions": [
+        {
+          "name": "load_session",
+          "params": [
+            "db",
+            "session_id",
+            "allow_done"
+          ],
+          "returnType": "KioskSession",
+          "exported": true,
+          "lineCount": 11
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "sqlalchemy.orm",
+          "specifiers": [
+            "Session"
+          ]
+        },
+        {
+          "source": "..errors",
+          "specifiers": [
+            "ApiError"
+          ]
+        },
+        {
+          "source": "..models",
+          "specifiers": [
+            "KioskSession"
+          ]
+        },
+        {
+          "source": "..services",
+          "specifiers": [
+            "dialog"
+          ]
+        }
+      ],
+      "exports": [
+        "load_session"
+      ],
+      "totalLines": 19,
+      "hasStructuralAnalysis": true
+    },
+    "backend/app/routers/kitchen.py": {
+      "filePath": "backend/app/routers/kitchen.py",
+      "contentHash": "f3c26411a51d2a2e93479acd88b4610e870d26951b2f3440efc533380271f71b",
+      "functions": [
+        {
+          "name": "kitchen_auth",
+          "params": [
+            "x_kitchen_token"
+          ],
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "_kitchen_order",
+          "params": [
+            "o"
+          ],
+          "returnType": "dict",
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "kitchen_orders",
+          "params": [
+            "status",
+            "db"
+          ],
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "update_kitchen_order",
+          "params": [
+            "order_id",
+            "req",
+            "db"
+          ],
+          "exported": true,
+          "lineCount": 11
+        },
+        {
+          "name": "reset_test_coupons",
+          "params": [
+            "db"
+          ],
+          "exported": true,
+          "lineCount": 17
+        },
+        {
+          "name": "staff_calls",
+          "params": [
+            "resolved",
+            "db"
+          ],
+          "exported": true,
+          "lineCount": 15
+        },
+        {
+          "name": "resolve_staff_call",
+          "params": [
+            "call_id",
+            "req",
+            "db"
+          ],
+          "exported": true,
+          "lineCount": 7
+        }
+      ],
+      "classes": [
+        {
+          "name": "KitchenUpdate",
+          "methods": [],
+          "properties": [
+            "status"
+          ],
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "StaffCallUpdate",
+          "methods": [],
+          "properties": [
+            "resolved"
+          ],
+          "exported": true,
+          "lineCount": 2
+        }
+      ],
+      "imports": [
+        {
+          "source": "os",
+          "specifiers": [
+            "os"
+          ]
+        },
+        {
+          "source": "datetime",
+          "specifiers": [
+            "datetime",
+            "timezone"
+          ]
+        },
+        {
+          "source": "fastapi",
+          "specifiers": [
+            "APIRouter",
+            "Depends",
+            "Header"
+          ]
+        },
+        {
+          "source": "pydantic",
+          "specifiers": [
+            "BaseModel"
+          ]
+        },
+        {
+          "source": "sqlalchemy",
+          "specifiers": [
+            "select"
+          ]
+        },
+        {
+          "source": "sqlalchemy.orm",
+          "specifiers": [
+            "Session"
+          ]
+        },
+        {
+          "source": "..db",
+          "specifiers": [
+            "get_db",
+            "now_utc",
+            "today_kst"
+          ]
+        },
+        {
+          "source": "..errors",
+          "specifiers": [
+            "ApiError"
+          ]
+        },
+        {
+          "source": "..models",
+          "specifiers": [
+            "Coupon",
+            "Order",
+            "StaffCall"
+          ]
+        },
+        {
+          "source": "..seed",
+          "specifiers": [
+            "COUPONS"
+          ]
+        },
+        {
+          "source": "..services",
+          "specifiers": [
+            "cart_svc"
+          ]
+        },
+        {
+          "source": "..services.pricing",
+          "specifiers": [
+            "recalc"
+          ]
+        }
+      ],
+      "exports": [
+        "kitchen_auth",
+        "KitchenUpdate",
+        "StaffCallUpdate",
+        "_kitchen_order",
+        "kitchen_orders",
+        "update_kitchen_order",
+        "reset_test_coupons",
+        "staff_calls",
+        "resolve_staff_call"
+      ],
+      "totalLines": 119,
+      "hasStructuralAnalysis": true
+    },
+    "backend/app/routers/menus.py": {
+      "filePath": "backend/app/routers/menus.py",
+      "contentHash": "1be29c0a1e730bf832a841083cf3c5a5105b58f26826fbb2ccdf7c4be7369a8b",
+      "functions": [
+        {
+          "name": "_menu",
+          "params": [
+            "m"
+          ],
+          "returnType": "dict",
+          "exported": true,
+          "lineCount": 14
+        },
+        {
+          "name": "categories",
+          "params": [
+            "db"
+          ],
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "menus",
+          "params": [
+            "category_id",
+            "recommended",
+            "db"
+          ],
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "menu_detail",
+          "params": [
+            "menu_id",
+            "db"
+          ],
+          "exported": true,
+          "lineCount": 18
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "fastapi",
+          "specifiers": [
+            "APIRouter",
+            "Depends"
+          ]
+        },
+        {
+          "source": "sqlalchemy",
+          "specifiers": [
+            "select"
+          ]
+        },
+        {
+          "source": "sqlalchemy.orm",
+          "specifiers": [
+            "Session"
+          ]
+        },
+        {
+          "source": "..db",
+          "specifiers": [
+            "get_db"
+          ]
+        },
+        {
+          "source": "..errors",
+          "specifiers": [
+            "ApiError"
+          ]
+        },
+        {
+          "source": "..models",
+          "specifiers": [
+            "MenuCategory",
+            "MenuItem"
+          ]
+        }
+      ],
+      "exports": [
+        "_menu",
+        "categories",
+        "menus",
+        "menu_detail"
+      ],
+      "totalLines": 63,
+      "hasStructuralAnalysis": true
+    },
+    "backend/app/routers/orders.py": {
+      "filePath": "backend/app/routers/orders.py",
+      "contentHash": "8a9b0b2bcde79c9ed5a42f399f9f12471d8cd96dc9e3c5480b3658d38c90b4d8",
+      "functions": [
+        {
+          "name": "_order",
+          "params": [
+            "db",
+            "order_id"
+          ],
+          "returnType": "Order",
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "order_view",
+          "params": [
+            "order"
+          ],
+          "returnType": "dict",
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "get_order",
+          "params": [
+            "order_id",
+            "db"
+          ],
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "cancel_order",
+          "params": [
+            "order_id",
+            "db"
+          ],
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "request_payment",
+          "params": [
+            "order_id",
+            "req",
+            "idempotency_key",
+            "db"
+          ],
+          "exported": true,
+          "lineCount": 15
+        },
+        {
+          "name": "confirm_payment",
+          "params": [
+            "req",
+            "db"
+          ],
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "pickup_board",
+          "params": [
+            "db"
+          ],
+          "exported": true,
+          "lineCount": 9
+        }
+      ],
+      "classes": [
+        {
+          "name": "PaymentRequest",
+          "methods": [],
+          "properties": [
+            "method"
+          ],
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "PaymentConfirmRequest",
+          "methods": [],
+          "properties": [
+            "payment_id",
+            "amount",
+            "success",
+            "pg_transaction_id",
+            "fail_reason"
+          ],
+          "exported": true,
+          "lineCount": 7
+        }
+      ],
+      "imports": [
+        {
+          "source": "fastapi",
+          "specifiers": [
+            "APIRouter",
+            "Depends",
+            "Header"
+          ]
+        },
+        {
+          "source": "pydantic",
+          "specifiers": [
+            "BaseModel",
+            "Field"
+          ]
+        },
+        {
+          "source": "sqlalchemy",
+          "specifiers": [
+            "select"
+          ]
+        },
+        {
+          "source": "sqlalchemy.orm",
+          "specifiers": [
+            "Session"
+          ]
+        },
+        {
+          "source": "..db",
+          "specifiers": [
+            "get_db",
+            "today_kst"
+          ]
+        },
+        {
+          "source": "..errors",
+          "specifiers": [
+            "ApiError"
+          ]
+        },
+        {
+          "source": "..models",
+          "specifiers": [
+            "Order",
+            "Payment"
+          ]
+        },
+        {
+          "source": "..services",
+          "specifiers": [
+            "cart_svc"
+          ]
+        },
+        {
+          "source": "..services",
+          "specifiers": [
+            "dialog",
+            "payments"
+          ]
+        }
+      ],
+      "exports": [
+        "PaymentRequest",
+        "PaymentConfirmRequest",
+        "_order",
+        "order_view",
+        "get_order",
+        "cancel_order",
+        "request_payment",
+        "confirm_payment",
+        "pickup_board"
+      ],
+      "totalLines": 100,
+      "hasStructuralAnalysis": true
+    },
+    "backend/app/routers/sessions.py": {
+      "filePath": "backend/app/routers/sessions.py",
+      "contentHash": "171417c55fd201df112ab299957900f5ffb4b04abcf44baf779485b377b581d7",
+      "functions": [
+        {
+          "name": "start_session",
+          "params": [
+            "req",
+            "db"
+          ],
+          "exported": true,
+          "lineCount": 13
+        },
+        {
+          "name": "get_session",
+          "params": [
+            "session_id",
+            "db"
+          ],
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "end_session",
+          "params": [
+            "session_id",
+            "reason",
+            "db"
+          ],
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "chat",
+          "params": [
+            "session_id",
+            "req",
+            "db"
+          ],
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "voice",
+          "params": [
+            "session_id",
+            "audio",
+            "db"
+          ],
+          "exported": true,
+          "lineCount": 23
+        },
+        {
+          "name": "add_cart_item",
+          "params": [
+            "session_id",
+            "req",
+            "db"
+          ],
+          "exported": true,
+          "lineCount": 11
+        },
+        {
+          "name": "update_cart_item",
+          "params": [
+            "session_id",
+            "item_id",
+            "req",
+            "db"
+          ],
+          "exported": true,
+          "lineCount": 12
+        },
+        {
+          "name": "remove_cart_item",
+          "params": [
+            "session_id",
+            "item_id",
+            "db"
+          ],
+          "exported": true,
+          "lineCount": 13
+        },
+        {
+          "name": "confirm_order",
+          "params": [
+            "session_id",
+            "db"
+          ],
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "scan_coupon",
+          "params": [
+            "session_id",
+            "req",
+            "db"
+          ],
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "remove_coupon",
+          "params": [
+            "session_id",
+            "db"
+          ],
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "staff_call",
+          "params": [
+            "session_id",
+            "req",
+            "db"
+          ],
+          "exported": true,
+          "lineCount": 9
+        }
+      ],
+      "classes": [
+        {
+          "name": "StartRequest",
+          "methods": [],
+          "properties": [
+            "kiosk_id"
+          ],
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "ChatRequest",
+          "methods": [],
+          "properties": [
+            "text"
+          ],
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "CartAddRequest",
+          "methods": [],
+          "properties": [
+            "menu_id",
+            "quantity",
+            "is_set",
+            "option_item_ids"
+          ],
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "CartUpdateRequest",
+          "methods": [],
+          "properties": [
+            "quantity",
+            "option_item_ids"
+          ],
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "CouponRequest",
+          "methods": [],
+          "properties": [
+            "barcode"
+          ],
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "StaffCallRequest",
+          "methods": [],
+          "properties": [
+            "reason"
+          ],
+          "exported": true,
+          "lineCount": 2
+        }
+      ],
+      "imports": [
+        {
+          "source": "os",
+          "specifiers": [
+            "os"
+          ]
+        },
+        {
+          "source": "httpx",
+          "specifiers": [
+            "httpx"
+          ]
+        },
+        {
+          "source": "fastapi",
+          "specifiers": [
+            "APIRouter",
+            "Depends",
+            "File",
+            "Response",
+            "UploadFile"
+          ]
+        },
+        {
+          "source": "pydantic",
+          "specifiers": [
+            "BaseModel",
+            "Field"
+          ]
+        },
+        {
+          "source": "sqlalchemy",
+          "specifiers": [
+            "select"
+          ]
+        },
+        {
+          "source": "sqlalchemy.orm",
+          "specifiers": [
+            "Session"
+          ]
+        },
+        {
+          "source": "..db",
+          "specifiers": [
+            "get_db"
+          ]
+        },
+        {
+          "source": "..errors",
+          "specifiers": [
+            "ApiError"
+          ]
+        },
+        {
+          "source": "..models",
+          "specifiers": [
+            "Kiosk",
+            "KioskSession",
+            "StaffCall"
+          ]
+        },
+        {
+          "source": "..services",
+          "specifiers": [
+            "cart_svc"
+          ]
+        },
+        {
+          "source": "..services",
+          "specifiers": [
+            "dialog"
+          ]
+        },
+        {
+          "source": ".common",
+          "specifiers": [
+            "load_session"
+          ]
+        }
+      ],
+      "exports": [
+        "StartRequest",
+        "ChatRequest",
+        "CartAddRequest",
+        "CartUpdateRequest",
+        "CouponRequest",
+        "StaffCallRequest",
+        "start_session",
+        "get_session",
+        "end_session",
+        "chat",
+        "voice",
+        "add_cart_item",
+        "update_cart_item",
+        "remove_cart_item",
+        "confirm_order",
+        "scan_coupon",
+        "remove_coupon",
+        "staff_call"
+      ],
+      "totalLines": 206,
+      "hasStructuralAnalysis": true
+    },
+    "backend/app/seed.py": {
+      "filePath": "backend/app/seed.py",
+      "contentHash": "1f246c2188c4a791cff783de11a7c966137bedf217e59e11fcea10df90ce8fa0",
+      "functions": [
+        {
+          "name": "_dt",
+          "params": [
+            "text"
+          ],
+          "returnType": "datetime",
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "_sync_aliases",
+          "params": [
+            "db"
+          ],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 11
+        },
+        {
+          "name": "seed",
+          "params": [
+            "db"
+          ],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 57
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "datetime",
+          "specifiers": [
+            "datetime",
+            "timezone"
+          ]
+        },
+        {
+          "source": "sqlalchemy",
+          "specifiers": [
+            "select"
+          ]
+        },
+        {
+          "source": "sqlalchemy.orm",
+          "specifiers": [
+            "Session"
+          ]
+        },
+        {
+          "source": ".models",
+          "specifiers": [
+            "Coupon",
+            "Kiosk",
+            "MenuAlias",
+            "MenuCategory",
+            "MenuItem",
+            "MenuOptionGroup",
+            "OptionGroup",
+            "OptionItem"
+          ]
+        }
+      ],
+      "exports": [
+        "_dt",
+        "_sync_aliases",
+        "seed"
+      ],
+      "totalLines": 153,
+      "hasStructuralAnalysis": true
+    },
+    "backend/app/services/__init__.py": {
+      "filePath": "backend/app/services/__init__.py",
+      "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 1,
+      "hasStructuralAnalysis": true
+    },
+    "backend/app/services/cart.py": {
+      "filePath": "backend/app/services/cart.py",
+      "contentHash": "8d459d02d87008ad67ceba878a15482bb39d7c7d09e5fdf461b4eab9e463d8f3",
+      "functions": [
+        {
+          "name": "open_order",
+          "params": [
+            "db",
+            "session"
+          ],
+          "returnType": "Order",
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "applicable_groups",
+          "params": [
+            "menu",
+            "is_set"
+          ],
+          "returnType": "list[OptionGroup]",
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "default_option",
+          "params": [
+            "group"
+          ],
+          "returnType": "OptionItem",
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "make_editable",
+          "params": [
+            "order"
+          ],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 11
+        },
+        {
+          "name": "_resolve_options",
+          "params": [
+            "db",
+            "menu",
+            "is_set",
+            "option_ids"
+          ],
+          "returnType": "list[OptionItem]",
+          "exported": true,
+          "lineCount": 15
+        },
+        {
+          "name": "add_item",
+          "params": [
+            "db",
+            "order",
+            "menu_id",
+            "quantity",
+            "is_set",
+            "option_ids"
+          ],
+          "returnType": "tuple[OrderItem, CouponProblem | None]",
+          "exported": true,
+          "lineCount": 29
+        },
+        {
+          "name": "find_item",
+          "params": [
+            "order",
+            "item_id"
+          ],
+          "returnType": "OrderItem",
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "update_item",
+          "params": [
+            "db",
+            "order",
+            "item",
+            "quantity",
+            "option_ids"
+          ],
+          "returnType": "CouponProblem | None",
+          "exported": true,
+          "lineCount": 20
+        },
+        {
+          "name": "remove_item",
+          "params": [
+            "order",
+            "item"
+          ],
+          "returnType": "CouponProblem | None",
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "clear",
+          "params": [
+            "order"
+          ],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "item_label",
+          "params": [
+            "item"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "count_word",
+          "params": [
+            "n"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "won",
+          "params": [
+            "amount"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "cart_view",
+          "params": [
+            "order"
+          ],
+          "returnType": "dict",
+          "exported": true,
+          "lineCount": 33
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "sqlalchemy.orm",
+          "specifiers": [
+            "Session"
+          ]
+        },
+        {
+          "source": "..db",
+          "specifiers": [
+            "now_utc"
+          ]
+        },
+        {
+          "source": "..errors",
+          "specifiers": [
+            "ApiError"
+          ]
+        },
+        {
+          "source": "..models",
+          "specifiers": [
+            "KioskSession",
+            "MenuItem",
+            "OptionGroup",
+            "OptionItem",
+            "Order",
+            "OrderItem",
+            "OrderItemOption"
+          ]
+        },
+        {
+          "source": ".pricing",
+          "specifiers": [
+            "CouponProblem",
+            "recalc",
+            "unit_price"
+          ]
+        }
+      ],
+      "exports": [
+        "open_order",
+        "applicable_groups",
+        "default_option",
+        "make_editable",
+        "_resolve_options",
+        "add_item",
+        "find_item",
+        "update_item",
+        "remove_item",
+        "clear",
+        "item_label",
+        "count_word",
+        "won",
+        "cart_view"
+      ],
+      "totalLines": 187,
+      "hasStructuralAnalysis": true
+    },
+    "backend/app/services/dialog.py": {
+      "filePath": "backend/app/services/dialog.py",
+      "contentHash": "450b186bbe2c49e61d72de0e51544a1e77d58713dcb20042dfa22835924d9976",
+      "functions": [
+        {
+          "name": "_has_batchim",
+          "params": [
+            "word"
+          ],
+          "returnType": "bool",
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "josa",
+          "params": [
+            "word",
+            "with_batchim",
+            "without"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "ro",
+          "params": [
+            "word"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "_state",
+          "params": [
+            "session"
+          ],
+          "returnType": "dict",
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "_save",
+          "params": [
+            "session",
+            "state"
+          ],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "_items_sentence",
+          "params": [
+            "order"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "_draft_need",
+          "params": [
+            "db",
+            "draft"
+          ],
+          "exported": true,
+          "lineCount": 15
+        },
+        {
+          "name": "_question",
+          "params": [
+            "db",
+            "draft"
+          ],
+          "returnType": "tuple[str, list[str], str]",
+          "exported": true,
+          "lineCount": 13
+        },
+        {
+          "name": "_new_draft",
+          "params": [
+            "menu",
+            "quantity",
+            "is_set"
+          ],
+          "returnType": "dict",
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "_set_groups",
+          "params": [
+            "db",
+            "draft"
+          ],
+          "returnType": "dict[int, object]",
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "_take_options",
+          "params": [
+            "db",
+            "draft",
+            "p",
+            "catalog",
+            "after"
+          ],
+          "returnType": "list[str]",
+          "exported": true,
+          "lineCount": 18
+        },
+        {
+          "name": "_fill_defaults",
+          "params": [
+            "db",
+            "draft"
+          ],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "_flush_drafts",
+          "params": [
+            "db",
+            "order",
+            "state",
+            "notes"
+          ],
+          "returnType": "bool",
+          "exported": true,
+          "lineCount": 18
+        },
+        {
+          "name": "_first_incomplete",
+          "params": [
+            "db",
+            "state"
+          ],
+          "returnType": "dict | None",
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "prompt",
+          "params": [
+            "db",
+            "session",
+            "order",
+            "state"
+          ],
+          "returnType": "tuple[str, list[str], str]",
+          "exported": true,
+          "lineCount": 29
+        },
+        {
+          "name": "choice_items",
+          "params": [
+            "db",
+            "choices",
+            "question"
+          ],
+          "returnType": "list[dict]",
+          "exported": true,
+          "lineCount": 20
+        },
+        {
+          "name": "response",
+          "params": [
+            "db",
+            "session",
+            "order",
+            "state",
+            "notes",
+            "intent",
+            "actions",
+            "transcript",
+            "override"
+          ],
+          "returnType": "dict",
+          "exported": true,
+          "lineCount": 21
+        },
+        {
+          "name": "coupon_dropped",
+          "params": [
+            "problem"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "apply_coupon",
+          "params": [
+            "db",
+            "session",
+            "order",
+            "state",
+            "barcode"
+          ],
+          "returnType": "tuple[list[str], tuple | None]",
+          "exported": true,
+          "lineCount": 35
+        },
+        {
+          "name": "confirm_order",
+          "params": [
+            "db",
+            "session",
+            "order",
+            "state"
+          ],
+          "returnType": "list[str]",
+          "exported": true,
+          "lineCount": 22
+        },
+        {
+          "name": "_staff_call",
+          "params": [
+            "db",
+            "session",
+            "state"
+          ],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "is_stale",
+          "params": [
+            "session"
+          ],
+          "returnType": "bool",
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "expire_session",
+          "params": [
+            "session",
+            "reason"
+          ],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "_coupon_holder",
+          "params": [
+            "db",
+            "coupon",
+            "order"
+          ],
+          "returnType": "Order | None",
+          "exported": true,
+          "lineCount": 10
+        },
+        {
+          "name": "end_session",
+          "params": [
+            "session",
+            "reason"
+          ],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "cancel_order",
+          "params": [
+            "session",
+            "order"
+          ],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "_cart_item_for",
+          "params": [
+            "order",
+            "menu_ids"
+          ],
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "_apply_edit",
+          "params": [
+            "db",
+            "session",
+            "order",
+            "state",
+            "p",
+            "catalog",
+            "notes",
+            "actions"
+          ],
+          "returnType": "bool",
+          "exported": true,
+          "lineCount": 128
+        },
+        {
+          "name": "_mentions_set_option",
+          "params": [
+            "db",
+            "draft",
+            "p",
+            "catalog",
+            "after"
+          ],
+          "returnType": "bool",
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "_answer_option",
+          "params": [
+            "db",
+            "draft",
+            "p",
+            "catalog"
+          ],
+          "returnType": "tuple[bool, list[str]]",
+          "exported": true,
+          "lineCount": 23
+        },
+        {
+          "name": "_menu_info",
+          "params": [
+            "menu"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 12
+        },
+        {
+          "name": "_undo",
+          "params": [
+            "db",
+            "session",
+            "order",
+            "state",
+            "notes"
+          ],
+          "exported": true,
+          "lineCount": 37
+        },
+        {
+          "name": "_screen_command",
+          "params": [
+            "db",
+            "session",
+            "order",
+            "state",
+            "p",
+            "actions"
+          ],
+          "returnType": "tuple",
+          "exported": true,
+          "lineCount": 20
+        },
+        {
+          "name": "stt_hints",
+          "params": [
+            "db",
+            "session"
+          ],
+          "returnType": "list[str] | None",
+          "exported": true,
+          "lineCount": 10
+        },
+        {
+          "name": "handle",
+          "params": [
+            "db",
+            "session",
+            "text",
+            "transcript"
+          ],
+          "returnType": "dict",
+          "exported": true,
+          "lineCount": 186
+        },
+        {
+          "name": "start",
+          "params": [
+            "db",
+            "session"
+          ],
+          "returnType": "dict",
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "current",
+          "params": [
+            "db",
+            "session"
+          ],
+          "returnType": "dict",
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "after_cart_change",
+          "params": [
+            "db",
+            "session",
+            "order",
+            "notes"
+          ],
+          "returnType": "dict",
+          "exported": true,
+          "lineCount": 10
+        },
+        {
+          "name": "confirm_by_button",
+          "params": [
+            "db",
+            "session"
+          ],
+          "returnType": "dict",
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "scan_coupon",
+          "params": [
+            "db",
+            "session",
+            "barcode"
+          ],
+          "returnType": "dict",
+          "exported": true,
+          "lineCount": 15
+        },
+        {
+          "name": "remove_coupon",
+          "params": [
+            "db",
+            "session"
+          ],
+          "returnType": "dict",
+          "exported": true,
+          "lineCount": 11
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "copy",
+          "specifiers": [
+            "copy"
+          ]
+        },
+        {
+          "source": "os",
+          "specifiers": [
+            "os"
+          ]
+        },
+        {
+          "source": "time",
+          "specifiers": [
+            "time"
+          ]
+        },
+        {
+          "source": "datetime",
+          "specifiers": [
+            "timedelta"
+          ]
+        },
+        {
+          "source": "sqlalchemy",
+          "specifiers": [
+            "select"
+          ]
+        },
+        {
+          "source": "sqlalchemy.orm",
+          "specifiers": [
+            "Session"
+          ]
+        },
+        {
+          "source": "..db",
+          "specifiers": [
+            "aware",
+            "now_utc"
+          ]
+        },
+        {
+          "source": "..errors",
+          "specifiers": [
+            "ApiError"
+          ]
+        },
+        {
+          "source": "..models",
+          "specifiers": [
+            "ConversationLog",
+            "Coupon",
+            "KioskSession",
+            "MenuItem",
+            "OptionGroup",
+            "Order",
+            "StaffCall"
+          ]
+        },
+        {
+          "source": ".",
+          "specifiers": [
+            "cart_svc"
+          ]
+        },
+        {
+          "source": ".",
+          "specifiers": [
+            "nlu"
+          ]
+        },
+        {
+          "source": ".pricing",
+          "specifiers": [
+            "CouponProblem",
+            "coupon_discount",
+            "recalc"
+          ]
+        }
+      ],
+      "exports": [
+        "_has_batchim",
+        "josa",
+        "ro",
+        "_state",
+        "_save",
+        "_items_sentence",
+        "_draft_need",
+        "_question",
+        "_new_draft",
+        "_set_groups",
+        "_take_options",
+        "_fill_defaults",
+        "_flush_drafts",
+        "_first_incomplete",
+        "prompt",
+        "choice_items",
+        "response",
+        "coupon_dropped",
+        "apply_coupon",
+        "confirm_order",
+        "_staff_call",
+        "is_stale",
+        "expire_session",
+        "_coupon_holder",
+        "end_session",
+        "cancel_order",
+        "_cart_item_for",
+        "_apply_edit",
+        "_mentions_set_option",
+        "_answer_option",
+        "_menu_info",
+        "_undo",
+        "_screen_command",
+        "stt_hints",
+        "handle",
+        "start",
+        "current",
+        "after_cart_change",
+        "confirm_by_button",
+        "scan_coupon",
+        "remove_coupon"
+      ],
+      "totalLines": 930,
+      "hasStructuralAnalysis": true
+    },
+    "backend/app/services/nlu.py": {
+      "filePath": "backend/app/services/nlu.py",
+      "contentHash": "407781c971dcc57b270c56b8e87cad4f66b710a7c80c584bace65b2236708a8a",
+      "functions": [
+        {
+          "name": "norm",
+          "params": [
+            "text"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "_base_name",
+          "params": [
+            "name"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "_find",
+          "params": [
+            "text",
+            "keys",
+            "kind"
+          ],
+          "returnType": "list[Mention]",
+          "exported": true,
+          "lineCount": 15
+        },
+        {
+          "name": "_number_at",
+          "params": [
+            "text"
+          ],
+          "returnType": "int | None",
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "_read_after",
+          "params": [
+            "text",
+            "end"
+          ],
+          "returnType": "tuple[bool | None, int | None]",
+          "exported": true,
+          "lineCount": 17
+        },
+        {
+          "name": "_has",
+          "params": [
+            "text",
+            "words"
+          ],
+          "returnType": "bool",
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "_screen_intent",
+          "params": [
+            "t",
+            "p"
+          ],
+          "returnType": "str | None",
+          "exported": true,
+          "lineCount": 15
+        },
+        {
+          "name": "_rule_intent",
+          "params": [
+            "t",
+            "p"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 61
+        },
+        {
+          "name": "_model_rewrite",
+          "params": [
+            "text",
+            "catalog",
+            "context"
+          ],
+          "returnType": "str | None",
+          "exported": true,
+          "lineCount": 22
+        },
+        {
+          "name": "parse",
+          "params": [
+            "text",
+            "catalog",
+            "context",
+            "_rewritten"
+          ],
+          "returnType": "Parsed",
+          "exported": true,
+          "lineCount": 29
+        },
+        {
+          "name": "_needs_help",
+          "params": [
+            "p"
+          ],
+          "returnType": "bool",
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "similar_menu",
+          "params": [
+            "text",
+            "catalog"
+          ],
+          "returnType": "MenuItem | None",
+          "exported": true,
+          "lineCount": 9
+        }
+      ],
+      "classes": [
+        {
+          "name": "Mention",
+          "methods": [],
+          "properties": [
+            "kind",
+            "ref_id",
+            "start",
+            "end",
+            "quantity",
+            "is_set"
+          ],
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "Parsed",
+          "methods": [],
+          "properties": [
+            "text",
+            "intent",
+            "menus",
+            "options",
+            "dine_type",
+            "set_choice",
+            "qty_delta",
+            "qty_absolute",
+            "category",
+            "source"
+          ],
+          "exported": true,
+          "lineCount": 11
+        },
+        {
+          "name": "Catalog",
+          "methods": [
+            "__init__",
+            "all_names"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 22
+        }
+      ],
+      "imports": [
+        {
+          "source": "os",
+          "specifiers": [
+            "os"
+          ]
+        },
+        {
+          "source": "re",
+          "specifiers": [
+            "re"
+          ]
+        },
+        {
+          "source": "time",
+          "specifiers": [
+            "time"
+          ]
+        },
+        {
+          "source": "dataclasses",
+          "specifiers": [
+            "dataclass",
+            "field"
+          ]
+        },
+        {
+          "source": "httpx",
+          "specifiers": [
+            "httpx"
+          ]
+        },
+        {
+          "source": "sqlalchemy",
+          "specifiers": [
+            "select"
+          ]
+        },
+        {
+          "source": "sqlalchemy.orm",
+          "specifiers": [
+            "Session",
+            "selectinload"
+          ]
+        },
+        {
+          "source": "..models",
+          "specifiers": [
+            "MenuItem",
+            "OptionItem"
+          ]
+        },
+        {
+          "source": "..seed",
+          "specifiers": [
+            "OPTION_ALIASES"
+          ]
+        }
+      ],
+      "exports": [
+        "norm",
+        "_base_name",
+        "Mention",
+        "Parsed",
+        "Catalog",
+        "_find",
+        "_number_at",
+        "_read_after",
+        "_has",
+        "_screen_intent",
+        "_rule_intent",
+        "_model_rewrite",
+        "parse",
+        "_needs_help",
+        "similar_menu"
+      ],
+      "totalLines": 340,
+      "hasStructuralAnalysis": true
+    },
+    "backend/app/services/payments.py": {
+      "filePath": "backend/app/services/payments.py",
+      "contentHash": "4e69a2764e4cf2bd5e50ee4d85b1b1684ac05a50977ea5ca578f9d0fa169537a",
+      "functions": [
+        {
+          "name": "request_payment",
+          "params": [
+            "db",
+            "order",
+            "idempotency_key",
+            "method"
+          ],
+          "returnType": "Payment",
+          "exported": true,
+          "lineCount": 19
+        },
+        {
+          "name": "payment_view",
+          "params": [
+            "payment"
+          ],
+          "returnType": "dict",
+          "exported": true,
+          "lineCount": 13
+        },
+        {
+          "name": "assign_order_number",
+          "params": [
+            "db",
+            "order"
+          ],
+          "returnType": "int",
+          "exported": true,
+          "lineCount": 14
+        },
+        {
+          "name": "_fail",
+          "params": [
+            "payment",
+            "reason"
+          ],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "confirm",
+          "params": [
+            "db",
+            "payment",
+            "amount",
+            "success",
+            "pg_transaction_id",
+            "fail_reason"
+          ],
+          "returnType": "dict",
+          "exported": true,
+          "lineCount": 39
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "sqlalchemy",
+          "specifiers": [
+            "func",
+            "select"
+          ]
+        },
+        {
+          "source": "sqlalchemy.exc",
+          "specifiers": [
+            "IntegrityError"
+          ]
+        },
+        {
+          "source": "sqlalchemy.orm",
+          "specifiers": [
+            "Session"
+          ]
+        },
+        {
+          "source": "..db",
+          "specifiers": [
+            "now_utc",
+            "today_kst"
+          ]
+        },
+        {
+          "source": "..errors",
+          "specifiers": [
+            "ApiError"
+          ]
+        },
+        {
+          "source": "..models",
+          "specifiers": [
+            "Order",
+            "Payment"
+          ]
+        },
+        {
+          "source": ".",
+          "specifiers": [
+            "cart_svc"
+          ]
+        },
+        {
+          "source": ".",
+          "specifiers": [
+            "dialog"
+          ]
+        }
+      ],
+      "exports": [
+        "request_payment",
+        "payment_view",
+        "assign_order_number",
+        "_fail",
+        "confirm"
+      ],
+      "totalLines": 121,
+      "hasStructuralAnalysis": true
+    },
+    "backend/app/services/pricing.py": {
+      "filePath": "backend/app/services/pricing.py",
+      "contentHash": "f5f268d579dcf726ae7b76040ef114e6ee95af36c5945a27ab685f13448eef9a",
+      "functions": [
+        {
+          "name": "unit_price",
+          "params": [
+            "menu",
+            "is_set",
+            "option_extra"
+          ],
+          "returnType": "int",
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "coupon_discount",
+          "params": [
+            "coupon",
+            "order",
+            "now"
+          ],
+          "returnType": "int",
+          "exported": true,
+          "lineCount": 32
+        },
+        {
+          "name": "recalc",
+          "params": [
+            "order",
+            "now"
+          ],
+          "returnType": "CouponProblem | None",
+          "exported": true,
+          "lineCount": 15
+        }
+      ],
+      "classes": [
+        {
+          "name": "CouponProblem",
+          "methods": [
+            "__init__"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 7
+        }
+      ],
+      "imports": [
+        {
+          "source": "datetime",
+          "specifiers": [
+            "datetime"
+          ]
+        },
+        {
+          "source": "..db",
+          "specifiers": [
+            "aware"
+          ]
+        },
+        {
+          "source": "..models",
+          "specifiers": [
+            "Coupon",
+            "MenuItem",
+            "Order"
+          ]
+        }
+      ],
+      "exports": [
+        "CouponProblem",
+        "unit_price",
+        "coupon_discount",
+        "recalc"
+      ],
+      "totalLines": 71,
+      "hasStructuralAnalysis": true
+    },
+    "backend/app/services/tts.py": {
+      "filePath": "backend/app/services/tts.py",
+      "contentHash": "98a8b7b3a21fb75394617eba060c910a31a07a1d3a2e8c6bb446acab9693ccf5",
+      "functions": [
+        {
+          "name": "available",
+          "params": [],
+          "returnType": "bool",
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "split_sentences",
+          "params": [
+            "text"
+          ],
+          "returnType": "list[str]",
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "speak_text",
+          "params": [
+            "sentence"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "synthesize",
+          "params": [
+            "text",
+            "speed"
+          ],
+          "returnType": "bytes",
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "synthesize_sentence",
+          "params": [
+            "text",
+            "speed"
+          ],
+          "returnType": "bytes",
+          "exported": true,
+          "lineCount": 28
+        },
+        {
+          "name": "prewarm_in_background",
+          "params": [],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 14
+        }
+      ],
+      "classes": [
+        {
+          "name": "TtsUnavailable",
+          "methods": [],
+          "properties": [],
+          "exported": true,
+          "lineCount": 2
+        }
+      ],
+      "imports": [
+        {
+          "source": "base64",
+          "specifiers": [
+            "base64"
+          ]
+        },
+        {
+          "source": "logging",
+          "specifiers": [
+            "logging"
+          ]
+        },
+        {
+          "source": "os",
+          "specifiers": [
+            "os"
+          ]
+        },
+        {
+          "source": "re",
+          "specifiers": [
+            "re"
+          ]
+        },
+        {
+          "source": "threading",
+          "specifiers": [
+            "threading"
+          ]
+        },
+        {
+          "source": "collections",
+          "specifiers": [
+            "OrderedDict"
+          ]
+        },
+        {
+          "source": "concurrent.futures",
+          "specifiers": [
+            "ThreadPoolExecutor"
+          ]
+        },
+        {
+          "source": "httpx",
+          "specifiers": [
+            "httpx"
+          ]
+        }
+      ],
+      "exports": [
+        "TtsUnavailable",
+        "available",
+        "split_sentences",
+        "speak_text",
+        "synthesize",
+        "synthesize_sentence",
+        "prewarm_in_background"
+      ],
+      "totalLines": 123,
+      "hasStructuralAnalysis": true
+    },
+    "backend/requirements-dev.txt": {
+      "filePath": "backend/requirements-dev.txt",
+      "contentHash": "446698dabb39bf58615845cdf1edf3c68dee2d81dac6a7797d9fa153a3fa0f7c",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 3,
+      "hasStructuralAnalysis": false
+    },
+    "backend/requirements.txt": {
+      "filePath": "backend/requirements.txt",
+      "contentHash": "26b3f7271ddecab16cce1730189aca3c4f689f855bee0abdc72d2bb490cf491e",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 7,
+      "hasStructuralAnalysis": false
+    },
+    "backend/tests/conftest.py": {
+      "filePath": "backend/tests/conftest.py",
+      "contentHash": "d4eda903fe3fad4badd56750da6ecf7440c594242c0c678de22c0e6617c26e72",
+      "functions": [
+        {
+          "name": "client",
+          "params": [],
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "menu_ids",
+          "params": [
+            "client"
+          ],
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "option_ids",
+          "params": [
+            "client",
+            "menu_ids"
+          ],
+          "exported": true,
+          "lineCount": 3
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "os",
+          "specifiers": [
+            "os"
+          ]
+        },
+        {
+          "source": "pytest",
+          "specifiers": [
+            "pytest"
+          ]
+        },
+        {
+          "source": "fastapi.testclient",
+          "specifiers": [
+            "TestClient"
+          ]
+        },
+        {
+          "source": "app.db",
+          "specifiers": [
+            "Base",
+            "SessionLocal",
+            "engine"
+          ]
+        },
+        {
+          "source": "app.main",
+          "specifiers": [
+            "app"
+          ]
+        },
+        {
+          "source": "app.seed",
+          "specifiers": [
+            "seed"
+          ]
+        }
+      ],
+      "exports": [
+        "client",
+        "menu_ids",
+        "option_ids"
+      ],
+      "totalLines": 34,
+      "hasStructuralAnalysis": true
+    },
+    "backend/tests/test_dine_phrases.py": {
+      "filePath": "backend/tests/test_dine_phrases.py",
+      "contentHash": "d7da54be46624bfbbe366b0d918c56a992b3efe529444ca4a0e7ab7904cf9ebe",
+      "functions": [
+        {
+          "name": "_answer",
+          "params": [
+            "client",
+            "text"
+          ],
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "test_dine_in_phrases",
+          "params": [
+            "client",
+            "text"
+          ],
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "test_takeout_phrases",
+          "params": [
+            "client",
+            "text"
+          ],
+          "exported": true,
+          "lineCount": 4
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "pytest",
+          "specifiers": [
+            "pytest"
+          ]
+        }
+      ],
+      "exports": [
+        "_answer",
+        "test_dine_in_phrases",
+        "test_takeout_phrases"
+      ],
+      "totalLines": 26,
+      "hasStructuralAnalysis": true
+    },
+    "backend/tests/test_kiosk_flow.py": {
+      "filePath": "backend/tests/test_kiosk_flow.py",
+      "contentHash": "f9938e5c0fb7f1db330fb0637e9cd7b382e6825b9fb4a46fefda7a6a9a7e61cb",
+      "functions": [
+        {
+          "name": "start",
+          "params": [
+            "client"
+          ],
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "say",
+          "params": [
+            "client",
+            "sid",
+            "text"
+          ],
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "pay",
+          "params": [
+            "client",
+            "order_id",
+            "key",
+            "success",
+            "amount"
+          ],
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "voice_order_until_payment",
+          "params": [
+            "client",
+            "sid"
+          ],
+          "exported": true,
+          "lineCount": 13
+        },
+        {
+          "name": "test_menus_match_erd",
+          "params": [
+            "client"
+          ],
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "test_menu_detail_has_set_options",
+          "params": [
+            "client",
+            "menu_ids"
+          ],
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "test_button_order_price_matches_erd_example",
+          "params": [
+            "client",
+            "menu_ids",
+            "option_ids"
+          ],
+          "exported": true,
+          "lineCount": 11
+        },
+        {
+          "name": "test_set_without_required_option_is_rejected",
+          "params": [
+            "client",
+            "menu_ids",
+            "option_ids"
+          ],
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "test_voice_order_full_flow",
+          "params": [
+            "client"
+          ],
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "test_change_option_at_confirm",
+          "params": [
+            "client"
+          ],
+          "exported": true,
+          "lineCount": 10
+        },
+        {
+          "name": "test_one_more_and_remove",
+          "params": [
+            "client"
+          ],
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "test_recommend_and_ask_menu",
+          "params": [
+            "client"
+          ],
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "test_unknown_speech_and_unknown_menu",
+          "params": [
+            "client"
+          ],
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "test_cancel_needs_confirmation",
+          "params": [
+            "client"
+          ],
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "test_staff_call",
+          "params": [
+            "client"
+          ],
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "test_option_said_before_its_question_is_remembered",
+          "params": [
+            "client"
+          ],
+          "exported": true,
+          "lineCount": 11
+        },
+        {
+          "name": "test_side_said_while_choosing_set_is_not_added_separately",
+          "params": [
+            "client"
+          ],
+          "exported": true,
+          "lineCount": 11
+        },
+        {
+          "name": "test_side_choice_overrides_default",
+          "params": [
+            "client"
+          ],
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "test_whole_set_in_one_sentence",
+          "params": [
+            "client"
+          ],
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "test_korean_number_words",
+          "params": [
+            "client"
+          ],
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "test_cola_zero_word_order",
+          "params": [
+            "client"
+          ],
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "test_cola_zero_during_set_is_set_drink",
+          "params": [
+            "client"
+          ],
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "test_question_codes_follow_screens",
+          "params": [
+            "client"
+          ],
+          "exported": true,
+          "lineCount": 28
+        },
+        {
+          "name": "test_payment_and_done_questions",
+          "params": [
+            "client"
+          ],
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "test_change_side_on_confirm_screen_by_button",
+          "params": [
+            "client",
+            "option_ids"
+          ],
+          "exported": true,
+          "lineCount": 15
+        },
+        {
+          "name": "test_change_side_on_confirm_screen_by_voice",
+          "params": [
+            "client"
+          ],
+          "exported": true,
+          "lineCount": 10
+        },
+        {
+          "name": "_order_with_coupon_at_payment",
+          "params": [
+            "client",
+            "barcode"
+          ],
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "test_new_customer_releases_abandoned_payment_coupon",
+          "params": [
+            "client"
+          ],
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "test_idle_payment_session_is_cleaned",
+          "params": [
+            "client",
+            "monkeypatch"
+          ],
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "test_demo_reset_lets_test_coupon_be_used_again",
+          "params": [
+            "client"
+          ],
+          "exported": true,
+          "lineCount": 10
+        },
+        {
+          "name": "test_percent_coupon",
+          "params": [
+            "client"
+          ],
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "test_expired_and_used_coupons",
+          "params": [
+            "client"
+          ],
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "test_unreadable_barcode_twice_offers_staff",
+          "params": [
+            "client"
+          ],
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "test_coupon_menu_missing_offers_to_add",
+          "params": [
+            "client"
+          ],
+          "exported": true,
+          "lineCount": 11
+        },
+        {
+          "name": "test_coupon_min_amount",
+          "params": [
+            "client"
+          ],
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "test_set_coupon_adds_set_and_asks_options",
+          "params": [
+            "client"
+          ],
+          "exported": true,
+          "lineCount": 11
+        },
+        {
+          "name": "test_coupon_is_used_only_once",
+          "params": [
+            "client"
+          ],
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "test_payment_is_idempotent_and_numbers_increase",
+          "params": [
+            "client"
+          ],
+          "exported": true,
+          "lineCount": 14
+        },
+        {
+          "name": "test_payment_failure_then_retry",
+          "params": [
+            "client"
+          ],
+          "exported": true,
+          "lineCount": 11
+        },
+        {
+          "name": "test_payment_requires_idempotency_key",
+          "params": [
+            "client"
+          ],
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "test_kitchen_done_shows_on_pickup_board",
+          "params": [
+            "client"
+          ],
+          "exported": true,
+          "lineCount": 11
+        }
+      ],
+      "classes": [],
+      "imports": [],
+      "exports": [
+        "start",
+        "say",
+        "pay",
+        "voice_order_until_payment",
+        "test_menus_match_erd",
+        "test_menu_detail_has_set_options",
+        "test_button_order_price_matches_erd_example",
+        "test_set_without_required_option_is_rejected",
+        "test_voice_order_full_flow",
+        "test_change_option_at_confirm",
+        "test_one_more_and_remove",
+        "test_recommend_and_ask_menu",
+        "test_unknown_speech_and_unknown_menu",
+        "test_cancel_needs_confirmation",
+        "test_staff_call",
+        "test_option_said_before_its_question_is_remembered",
+        "test_side_said_while_choosing_set_is_not_added_separately",
+        "test_side_choice_overrides_default",
+        "test_whole_set_in_one_sentence",
+        "test_korean_number_words",
+        "test_cola_zero_word_order",
+        "test_cola_zero_during_set_is_set_drink",
+        "test_question_codes_follow_screens",
+        "test_payment_and_done_questions",
+        "test_change_side_on_confirm_screen_by_button",
+        "test_change_side_on_confirm_screen_by_voice",
+        "_order_with_coupon_at_payment",
+        "test_new_customer_releases_abandoned_payment_coupon",
+        "test_idle_payment_session_is_cleaned",
+        "test_demo_reset_lets_test_coupon_be_used_again",
+        "test_percent_coupon",
+        "test_expired_and_used_coupons",
+        "test_unreadable_barcode_twice_offers_staff",
+        "test_coupon_menu_missing_offers_to_add",
+        "test_coupon_min_amount",
+        "test_set_coupon_adds_set_and_asks_options",
+        "test_coupon_is_used_only_once",
+        "test_payment_is_idempotent_and_numbers_increase",
+        "test_payment_failure_then_retry",
+        "test_payment_requires_idempotency_key",
+        "test_kitchen_done_shows_on_pickup_board"
+      ],
+      "totalLines": 471,
+      "hasStructuralAnalysis": true
+    },
+    "backend/tests/test_nlu_llm.py": {
+      "filePath": "backend/tests/test_nlu_llm.py",
+      "contentHash": "0374712ee6f85b9f75b7e2c5a9f05e0d39a95159d23cab14f1c70ac7a1a598fa",
+      "functions": [
+        {
+          "name": "fake_model",
+          "params": [
+            "monkeypatch"
+          ],
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "_session",
+          "params": [
+            "client"
+          ],
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "_say",
+          "params": [
+            "client",
+            "sid",
+            "text"
+          ],
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "test_규칙으로_알아들으면_LLM을_부르지_않는다",
+          "params": [
+            "client",
+            "fake_model"
+          ],
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "test_못_알아들은_말만_LLM이_다시_써서_진행한다",
+          "params": [
+            "client",
+            "fake_model"
+          ],
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "test_LLM이_다시_쓴_메뉴도_메뉴_DB로_확인한다",
+          "params": [
+            "client",
+            "fake_model"
+          ],
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "test_LLM이_없는_메뉴를_말해도_담지_않는다",
+          "params": [
+            "client",
+            "fake_model"
+          ],
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "test_모델_서버가_실패하면_규칙_결과대로_다시_묻는다",
+          "params": [
+            "client",
+            "fake_model"
+          ],
+          "exported": true,
+          "lineCount": 9
+        }
+      ],
+      "classes": [
+        {
+          "name": "FakeModel",
+          "methods": [
+            "__init__",
+            "post"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 15
+        }
+      ],
+      "imports": [
+        {
+          "source": "httpx",
+          "specifiers": [
+            "httpx"
+          ]
+        },
+        {
+          "source": "pytest",
+          "specifiers": [
+            "pytest"
+          ]
+        },
+        {
+          "source": "app.services",
+          "specifiers": [
+            "nlu"
+          ]
+        }
+      ],
+      "exports": [
+        "FakeModel",
+        "fake_model",
+        "_session",
+        "_say",
+        "test_규칙으로_알아들으면_LLM을_부르지_않는다",
+        "test_못_알아들은_말만_LLM이_다시_써서_진행한다",
+        "test_LLM이_다시_쓴_메뉴도_메뉴_DB로_확인한다",
+        "test_LLM이_없는_메뉴를_말해도_담지_않는다",
+        "test_모델_서버가_실패하면_규칙_결과대로_다시_묻는다"
+      ],
+      "totalLines": 88,
+      "hasStructuralAnalysis": true
+    },
+    "backend/tests/test_screen_voice.py": {
+      "filePath": "backend/tests/test_screen_voice.py",
+      "contentHash": "e3481a945233afb45e9062d92e65bb9786814ed8daa38b9954eff21b1917f7fb",
+      "functions": [
+        {
+          "name": "_session",
+          "params": [
+            "client"
+          ],
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "_say",
+          "params": [
+            "client",
+            "sid",
+            "text"
+          ],
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "_ui",
+          "params": [
+            "body"
+          ],
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "_to_drink",
+          "params": [
+            "client"
+          ],
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "test_세트_음료_화면에서_다음_쪽",
+          "params": [
+            "client",
+            "text"
+          ],
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "test_앞_쪽",
+          "params": [
+            "client",
+            "text"
+          ],
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "test_메뉴_화면에서_메뉴판을_그_종류로",
+          "params": [
+            "client",
+            "text",
+            "category"
+          ],
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "test_다시_듣기는_지금_안내를_다시",
+          "params": [
+            "client",
+            "text"
+          ],
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "test_메뉴판_닫기",
+          "params": [
+            "client"
+          ],
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "test_화면_조작으로_잘못_보지_않는다",
+          "params": [
+            "client",
+            "text",
+            "intent"
+          ],
+          "exported": true,
+          "lineCount": 8
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "pytest",
+          "specifiers": [
+            "pytest"
+          ]
+        }
+      ],
+      "exports": [
+        "_session",
+        "_say",
+        "_ui",
+        "_to_drink",
+        "test_세트_음료_화면에서_다음_쪽",
+        "test_앞_쪽",
+        "test_메뉴_화면에서_메뉴판을_그_종류로",
+        "test_다시_듣기는_지금_안내를_다시",
+        "test_메뉴판_닫기",
+        "test_화면_조작으로_잘못_보지_않는다"
+      ],
+      "totalLines": 79,
+      "hasStructuralAnalysis": true
+    },
+    "backend/tests/test_stt_hints.py": {
+      "filePath": "backend/tests/test_stt_hints.py",
+      "contentHash": "8a5ddf5ce10c69ed93d80e4ec9b18b4efad723d17a220afdfc705866e9a03370",
+      "functions": [
+        {
+          "name": "_voice",
+          "params": [
+            "client",
+            "monkeypatch",
+            "sid",
+            "transcript"
+          ],
+          "exported": true,
+          "lineCount": 16
+        },
+        {
+          "name": "test_식사_장소_화면은_포장_매장_힌트를_넘긴다",
+          "params": [
+            "client",
+            "monkeypatch"
+          ],
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "test_메뉴_화면은_힌트를_안_보내_모델_서버가_메뉴_이름_전체를_쓴다",
+          "params": [
+            "client",
+            "monkeypatch"
+          ],
+          "exported": true,
+          "lineCount": 5
+        }
+      ],
+      "classes": [
+        {
+          "name": "FakeStt",
+          "methods": [
+            "__init__",
+            "post"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 8
+        }
+      ],
+      "imports": [
+        {
+          "source": "httpx",
+          "specifiers": [
+            "httpx"
+          ]
+        },
+        {
+          "source": "app.routers",
+          "specifiers": [
+            "sessions_router"
+          ]
+        }
+      ],
+      "exports": [
+        "FakeStt",
+        "_voice",
+        "test_식사_장소_화면은_포장_매장_힌트를_넘긴다",
+        "test_메뉴_화면은_힌트를_안_보내_모델_서버가_메뉴_이름_전체를_쓴다"
+      ],
+      "totalLines": 49,
+      "hasStructuralAnalysis": true
+    },
+    "backend/tests/test_tts.py": {
+      "filePath": "backend/tests/test_tts.py",
+      "contentHash": "93f4b443812a42a5b90c6b3b476beb5026268000b3b0cbd072f8980fad400285",
+      "functions": [
+        {
+          "name": "fake_google",
+          "params": [
+            "monkeypatch"
+          ],
+          "exported": true,
+          "lineCount": 12
+        },
+        {
+          "name": "test_키가_없으면_503_화면은_브라우저_목소리로",
+          "params": [
+            "client",
+            "monkeypatch"
+          ],
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "test_사람_목소리_MP3를_돌려주고_같은_문장은_다시_만들지_않는다",
+          "params": [
+            "client",
+            "fake_google"
+          ],
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "test_여러_문장은_문장별로_만들어_하나로_이어_붙이고_문장은_다시_쓴다",
+          "params": [
+            "client",
+            "fake_google"
+          ],
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "test_Google이_실패하면_503",
+          "params": [
+            "client",
+            "monkeypatch"
+          ],
+          "exported": true,
+          "lineCount": 10
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "base64",
+          "specifiers": [
+            "base64"
+          ]
+        },
+        {
+          "source": "httpx",
+          "specifiers": [
+            "httpx"
+          ]
+        },
+        {
+          "source": "pytest",
+          "specifiers": [
+            "pytest"
+          ]
+        },
+        {
+          "source": "app.services",
+          "specifiers": [
+            "tts"
+          ]
+        }
+      ],
+      "exports": [
+        "fake_google",
+        "test_키가_없으면_503_화면은_브라우저_목소리로",
+        "test_사람_목소리_MP3를_돌려주고_같은_문장은_다시_만들지_않는다",
+        "test_여러_문장은_문장별로_만들어_하나로_이어_붙이고_문장은_다시_쓴다",
+        "test_Google이_실패하면_503"
+      ],
+      "totalLines": 60,
+      "hasStructuralAnalysis": true
+    },
+    "backend/tests/test_undo_and_more.py": {
+      "filePath": "backend/tests/test_undo_and_more.py",
+      "contentHash": "a242a405b9feea4f952482e29b54126fef93359f5bbeeebd7a43132c5c5dc631",
+      "functions": [
+        {
+          "name": "_session",
+          "params": [
+            "client"
+          ],
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "_say",
+          "params": [
+            "client",
+            "sid",
+            "text"
+          ],
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "_names",
+          "params": [
+            "body"
+          ],
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "test_세트를_고르는_중에_되돌리면_그_메뉴를_빼고_메뉴_고르기로",
+          "params": [
+            "client",
+            "text"
+          ],
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "test_메뉴_단계에서_되돌리면_방금_담은_메뉴만_뺀다",
+          "params": [
+            "client"
+          ],
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "test_아무것도_없으면_식사_장소로",
+          "params": [
+            "client"
+          ],
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "test_주문_확인에서_되돌리면_메뉴_고르기로_쿠폰에서는_주문_확인으로",
+          "params": [
+            "client"
+          ],
+          "exported": true,
+          "lineCount": 10
+        },
+        {
+          "name": "test_다_해서_얼마예요는_합계",
+          "params": [
+            "client"
+          ],
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "test_다_빼_줘는_장바구니만_비우고_주문은_계속",
+          "params": [
+            "client"
+          ],
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "test_안내_빠르기_크기",
+          "params": [
+            "client",
+            "text",
+            "speed"
+          ],
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "test_기다려_달라는_말과_인사는_다시_말해_달라고_하지_않는다",
+          "params": [
+            "client",
+            "text",
+            "reply"
+          ],
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "test_주문_전체_취소는_그대로",
+          "params": [
+            "client"
+          ],
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "test_tts_빠르기를_받는다",
+          "params": [
+            "client",
+            "monkeypatch"
+          ],
+          "exported": true,
+          "lineCount": 12
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "pytest",
+          "specifiers": [
+            "pytest"
+          ]
+        }
+      ],
+      "exports": [
+        "_session",
+        "_say",
+        "_names",
+        "test_세트를_고르는_중에_되돌리면_그_메뉴를_빼고_메뉴_고르기로",
+        "test_메뉴_단계에서_되돌리면_방금_담은_메뉴만_뺀다",
+        "test_아무것도_없으면_식사_장소로",
+        "test_주문_확인에서_되돌리면_메뉴_고르기로_쿠폰에서는_주문_확인으로",
+        "test_다_해서_얼마예요는_합계",
+        "test_다_빼_줘는_장바구니만_비우고_주문은_계속",
+        "test_안내_빠르기_크기",
+        "test_기다려_달라는_말과_인사는_다시_말해_달라고_하지_않는다",
+        "test_주문_전체_취소는_그대로",
+        "test_tts_빠르기를_받는다"
+      ],
+      "totalLines": 111,
+      "hasStructuralAnalysis": true
+    },
+    "docker-compose.dev.yml": {
+      "filePath": "docker-compose.dev.yml",
+      "contentHash": "6f0d3b8a8b4f6aa0ff665c5aeeeffda6f67de830fc9b2525932a81147e85952a",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 33,
+      "hasStructuralAnalysis": false
+    },
+    "docker-compose.yml": {
+      "filePath": "docker-compose.yml",
+      "contentHash": "cc5c2348b354e1f3da982917ad855c5c65c4d1e655f64212affa504be4171033",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 51,
+      "hasStructuralAnalysis": false
+    },
+    "docs/.gitkeep": {
+      "filePath": "docs/.gitkeep",
+      "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 1,
+      "hasStructuralAnalysis": false
+    },
+    "docs/ai/catch-up.md": {
+      "filePath": "docs/ai/catch-up.md",
+      "contentHash": "6a47742ef0ab975dcd6d7d81f8c23236eae69526badcd853620965b4c3714f7c",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 54,
+      "hasStructuralAnalysis": false
+    },
+    "docs/ai/notion.md": {
+      "filePath": "docs/ai/notion.md",
+      "contentHash": "128e252fddf290cac2d578f5d477b7a53723dd59fbb1a95998081d319ac6139e",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 45,
+      "hasStructuralAnalysis": false
+    },
+    "docs/ai/wrap-up.md": {
+      "filePath": "docs/ai/wrap-up.md",
+      "contentHash": "0a5115d8fbb3c38cb08758ce52e4dd2794956e36cb26f8ee691724380576ae0c",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 77,
+      "hasStructuralAnalysis": false
+    },
+    "docs/plan/decisions.md": {
+      "filePath": "docs/plan/decisions.md",
+      "contentHash": "8a605455ed8c606cdeb0af363d1cd15cd74b41391a33637db95fa6eb10522907",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 32,
+      "hasStructuralAnalysis": false
+    },
+    "frontend/.dockerignore": {
+      "filePath": "frontend/.dockerignore",
+      "contentHash": "c8015948b6eaefde5eaa3862f2fe5ce0245fcde4d6e66f7441dcdcbbed46e652",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 3,
+      "hasStructuralAnalysis": false
+    },
+    "frontend/Dockerfile": {
+      "filePath": "frontend/Dockerfile",
+      "contentHash": "2ed573b61310bc4aad43fc89539cbaacb45eacc47ddcf52329af9dc9c0de03dd",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 12,
+      "hasStructuralAnalysis": false
+    },
+    "frontend/docs/figma-ui-prompt.md": {
+      "filePath": "frontend/docs/figma-ui-prompt.md",
+      "contentHash": "557488f1ac87323237de4f2ed2f69a3254c70ca5e89cd1390d4ade02a500cf64",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 155,
+      "hasStructuralAnalysis": false
+    },
+    "frontend/docs/frontend-plan-easy.md": {
+      "filePath": "frontend/docs/frontend-plan-easy.md",
+      "contentHash": "09ff8f4ed12a2403c7f37fa2304111a9298207eeb2ee0a3c8eef5e787e66f06b",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 217,
+      "hasStructuralAnalysis": false
+    },
+    "frontend/docs/frontend-plan.md": {
+      "filePath": "frontend/docs/frontend-plan.md",
+      "contentHash": "987fa98f4c04d9a12f895fd5305f00272f0e55d3afe29f34e4f33f0a59d4e681",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 152,
+      "hasStructuralAnalysis": false
+    },
+    "frontend/docs/frontend-work-report.md": {
+      "filePath": "frontend/docs/frontend-work-report.md",
+      "contentHash": "0d79231a62808918c785154af3955a1e57669c22fdec368aaf9e67e79d9d3922",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 225,
+      "hasStructuralAnalysis": false
+    },
+    "frontend/e2e/kiosk-flow.mjs": {
+      "filePath": "frontend/e2e/kiosk-flow.mjs",
+      "contentHash": "9941965f8b9cf83c4e3caca4cbd8e357438d8794474d134e7dc18b4c2b6574be",
+      "functions": [
+        {
+          "name": "log",
+          "params": [
+            "...a"
+          ],
+          "exported": false,
+          "lineCount": 1
+        },
+        {
+          "name": "check",
+          "params": [
+            "name",
+            "ok"
+          ],
+          "exported": false,
+          "lineCount": 4
+        },
+        {
+          "name": "shot",
+          "params": [
+            "page",
+            "name"
+          ],
+          "exported": false,
+          "lineCount": 1
+        },
+        {
+          "name": "wait",
+          "params": [],
+          "exported": false,
+          "lineCount": 1
+        },
+        {
+          "name": "bubble",
+          "params": [],
+          "exported": false,
+          "lineCount": 1
+        },
+        {
+          "name": "choice",
+          "params": [
+            "label"
+          ],
+          "exported": false,
+          "lineCount": 1
+        },
+        {
+          "name": "tap",
+          "params": [
+            "label"
+          ],
+          "exported": false,
+          "lineCount": 4
+        },
+        {
+          "name": "scan",
+          "params": [
+            "code"
+          ],
+          "exported": false,
+          "lineCount": 7
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "playwright",
+          "specifiers": [
+            "chromium"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 203,
+      "hasStructuralAnalysis": true
+    },
+    "frontend/index.html": {
+      "filePath": "frontend/index.html",
+      "contentHash": "7078022f3fbae845e59220155f7693eb95951104aa28bfbc4bd85f4ddaf795e9",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 16,
+      "hasStructuralAnalysis": false
+    },
+    "frontend/nginx.conf": {
+      "filePath": "frontend/nginx.conf",
+      "contentHash": "6be80e04e5358cd0db77048660789a786f349f8050f8d217799d6a494d4bdead",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 16,
+      "hasStructuralAnalysis": false
+    },
+    "frontend/package.json": {
+      "filePath": "frontend/package.json",
+      "contentHash": "22ed844214dcd50fafabb3bb47f6cc2e81e87a998e394d7827cd3b0d9874bda3",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 22,
+      "hasStructuralAnalysis": false
+    },
+    "frontend/src/App.jsx": {
+      "filePath": "frontend/src/App.jsx",
+      "contentHash": "f6f647b213334b969852a21921d4615bb67a65e447b0b997a4781fa290e5199d",
+      "functions": [
+        {
+          "name": "App",
+          "params": [],
+          "exported": true,
+          "lineCount": 6
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "./screens/Kiosk.jsx",
+          "specifiers": [
+            "Kiosk"
+          ]
+        },
+        {
+          "source": "./store-screens/KitchenOrders.jsx",
+          "specifiers": [
+            "KitchenOrders"
+          ]
+        },
+        {
+          "source": "./store-screens/PickupBoard.jsx",
+          "specifiers": [
+            "PickupBoard"
+          ]
+        }
+      ],
+      "exports": [
+        "App"
+      ],
+      "totalLines": 12,
+      "hasStructuralAnalysis": true
+    },
+    "frontend/src/api/client.js": {
+      "filePath": "frontend/src/api/client.js",
+      "contentHash": "8601bc34ed8455a8e010731d2e85198a47f3204c840abd12177b701c439fcc31",
+      "functions": [
+        {
+          "name": "request",
+          "params": [
+            "path"
+          ],
+          "exported": true,
+          "lineCount": 23
+        }
+      ],
+      "classes": [
+        {
+          "name": "ApiError",
+          "methods": [
+            "constructor"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 8
+        }
+      ],
+      "imports": [],
+      "exports": [
+        "ApiError",
+        "request"
+      ],
+      "totalLines": 34,
+      "hasStructuralAnalysis": true
+    },
+    "frontend/src/api/kiosk.js": {
+      "filePath": "frontend/src/api/kiosk.js",
+      "contentHash": "8fc8ffa83766f353dfa34b15ca99a45e880586676c52224bd42c3b8bede2b12b",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "./client.js",
+          "specifiers": [
+            "request"
+          ]
+        }
+      ],
+      "exports": [
+        "KIOSK_ID",
+        "kioskApi"
+      ],
+      "totalLines": 51,
+      "hasStructuralAnalysis": true
+    },
+    "frontend/src/api/store.js": {
+      "filePath": "frontend/src/api/store.js",
+      "contentHash": "4f8b98d40a0f28d5855f0fa382b830e05e4770f149865a1b5a73469493b62161",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "./client.js",
+          "specifiers": [
+            "request"
+          ]
+        }
+      ],
+      "exports": [
+        "storeApi"
+      ],
+      "totalLines": 19,
+      "hasStructuralAnalysis": true
+    },
+    "frontend/src/components/AgentBubble.jsx": {
+      "filePath": "frontend/src/components/AgentBubble.jsx",
+      "contentHash": "0fb5460ed0327b2b55c0e8049dbe011d520c6fbf79e7a405c1fabe0684c8e02a",
+      "functions": [
+        {
+          "name": "AgentBubble",
+          "params": [],
+          "exported": true,
+          "lineCount": 11
+        }
+      ],
+      "classes": [],
+      "imports": [],
+      "exports": [
+        "AgentBubble"
+      ],
+      "totalLines": 16,
+      "hasStructuralAnalysis": true
+    },
+    "frontend/src/components/BottomBar.jsx": {
+      "filePath": "frontend/src/components/BottomBar.jsx",
+      "contentHash": "a0490a8cc3524aa52206e4fce8e8a79455733058dadceebbe58f50babd720a75",
+      "functions": [
+        {
+          "name": "BottomBar",
+          "params": [],
+          "exported": true,
+          "lineCount": 19
+        }
+      ],
+      "classes": [],
+      "imports": [],
+      "exports": [
+        "BottomBar"
+      ],
+      "totalLines": 21,
+      "hasStructuralAnalysis": true
+    },
+    "frontend/src/components/Button.jsx": {
+      "filePath": "frontend/src/components/Button.jsx",
+      "contentHash": "14e0da7dc30d59e8e900d288415221baa8c85ee8247b7beb7d283955d3cf9ae6",
+      "functions": [
+        {
+          "name": "Button",
+          "params": [],
+          "exported": true,
+          "lineCount": 8
+        }
+      ],
+      "classes": [],
+      "imports": [],
+      "exports": [
+        "Button"
+      ],
+      "totalLines": 10,
+      "hasStructuralAnalysis": true
+    },
+    "frontend/src/components/CartItem.jsx": {
+      "filePath": "frontend/src/components/CartItem.jsx",
+      "contentHash": "8f4cd01a65ca3dd3349ca5d2ac86b97e2563eda9783e7441e61db63dfc7d451c",
+      "functions": [
+        {
+          "name": "CartItem",
+          "params": [],
+          "exported": true,
+          "lineCount": 32
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "../lib/format.js",
+          "specifiers": [
+            "won"
+          ]
+        }
+      ],
+      "exports": [
+        "CartItem"
+      ],
+      "totalLines": 37,
+      "hasStructuralAnalysis": true
+    },
+    "frontend/src/components/ChoiceList.jsx": {
+      "filePath": "frontend/src/components/ChoiceList.jsx",
+      "contentHash": "3287b1f8f12e92127545e3dcec87ab3d748404c6f351733a417e36228f07511e",
+      "functions": [
+        {
+          "name": "nextPage",
+          "params": [
+            "page",
+            "count",
+            "command"
+          ],
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "ChoiceButton",
+          "params": [],
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "ChoiceList",
+          "params": [],
+          "exported": true,
+          "lineCount": 43
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react",
+          "specifiers": [
+            "createContext",
+            "useContext",
+            "useEffect",
+            "useRef",
+            "useState"
+          ]
+        },
+        {
+          "source": "../lib/paginate.js",
+          "specifiers": [
+            "paginate"
+          ]
+        }
+      ],
+      "exports": [
+        "ScreenCommand",
+        "nextPage",
+        "ChoiceButton",
+        "ChoiceList"
+      ],
+      "totalLines": 68,
+      "hasStructuralAnalysis": true
+    },
+    "frontend/src/components/GuideAnimation.jsx": {
+      "filePath": "frontend/src/components/GuideAnimation.jsx",
+      "contentHash": "68f78d373e5a46ab15fcc254bf9aee77e5e3954c4b44116f92c593291348f26a",
+      "functions": [
+        {
+          "name": "GuideAnimation",
+          "params": [],
+          "exported": true,
+          "lineCount": 11
+        }
+      ],
+      "classes": [],
+      "imports": [],
+      "exports": [
+        "GuideAnimation"
+      ],
+      "totalLines": 18,
+      "hasStructuralAnalysis": true
+    },
+    "frontend/src/components/MenuCard.jsx": {
+      "filePath": "frontend/src/components/MenuCard.jsx",
+      "contentHash": "7133cdc17374ed9ebc3b8211840a4400329e80c2bb65883cade827fd7899d2d1",
+      "functions": [
+        {
+          "name": "MenuCard",
+          "params": [],
+          "exported": true,
+          "lineCount": 19
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "../lib/format.js",
+          "specifiers": [
+            "menuEmoji",
+            "won"
+          ]
+        }
+      ],
+      "exports": [
+        "MenuCard"
+      ],
+      "totalLines": 23,
+      "hasStructuralAnalysis": true
+    },
+    "frontend/src/components/MicIndicator.jsx": {
+      "filePath": "frontend/src/components/MicIndicator.jsx",
+      "contentHash": "d718713366476d715b66cc4cc66eb1c92bdd65e0271e2947e76e2456b57f6ebb",
+      "functions": [
+        {
+          "name": "MicIndicator",
+          "params": [],
+          "exported": true,
+          "lineCount": 19
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "../hooks/useVoice.js",
+          "specifiers": [
+            "HANDS_FREE"
+          ]
+        }
+      ],
+      "exports": [
+        "MicIndicator"
+      ],
+      "totalLines": 33,
+      "hasStructuralAnalysis": true
+    },
+    "frontend/src/components/Modal.jsx": {
+      "filePath": "frontend/src/components/Modal.jsx",
+      "contentHash": "9312c463ca86c915e088a012cde24530fa4693332fa95bf5bd03c20313db2310",
+      "functions": [
+        {
+          "name": "Modal",
+          "params": [],
+          "exported": true,
+          "lineCount": 18
+        }
+      ],
+      "classes": [],
+      "imports": [],
+      "exports": [
+        "Modal"
+      ],
+      "totalLines": 20,
+      "hasStructuralAnalysis": true
+    },
+    "frontend/src/components/ProgressBar.jsx": {
+      "filePath": "frontend/src/components/ProgressBar.jsx",
+      "contentHash": "59b0930875b07e452653f2a21037c6e50f890e661d76c79535a4600691164cd7",
+      "functions": [
+        {
+          "name": "ProgressBar",
+          "params": [],
+          "exported": true,
+          "lineCount": 14
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "../lib/screen.js",
+          "specifiers": [
+            "PROGRESS",
+            "PROGRESS_TOTAL"
+          ]
+        }
+      ],
+      "exports": [
+        "ProgressBar"
+      ],
+      "totalLines": 18,
+      "hasStructuralAnalysis": true
+    },
+    "frontend/src/hooks/useBarcodeScanner.js": {
+      "filePath": "frontend/src/hooks/useBarcodeScanner.js",
+      "contentHash": "52dacaf245fb3bf3decce678e48a4b10b4bb75ba09e131aa3932e56960be3fa5",
+      "functions": [
+        {
+          "name": "useBarcodeScanner",
+          "params": [
+            "enabled",
+            "onScan"
+          ],
+          "exported": true,
+          "lineCount": 15
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react",
+          "specifiers": [
+            "useEffect",
+            "useRef"
+          ]
+        },
+        {
+          "source": "../lib/barcode.js",
+          "specifiers": [
+            "createBarcodeReader"
+          ]
+        }
+      ],
+      "exports": [
+        "useBarcodeScanner"
+      ],
+      "totalLines": 20,
+      "hasStructuralAnalysis": true
+    },
+    "frontend/src/hooks/useIdleTimer.js": {
+      "filePath": "frontend/src/hooks/useIdleTimer.js",
+      "contentHash": "1b5ea46cc3b090fac3d01203a898fb1960d4fcb6a5acf5c78c87a348c987a250",
+      "functions": [
+        {
+          "name": "useIdleTimer",
+          "params": [],
+          "exported": true,
+          "lineCount": 32
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react",
+          "specifiers": [
+            "useEffect",
+            "useRef",
+            "useState"
+          ]
+        }
+      ],
+      "exports": [
+        "WARN_MS",
+        "TIMEOUT_MS",
+        "useIdleTimer"
+      ],
+      "totalLines": 40,
+      "hasStructuralAnalysis": true
+    },
+    "frontend/src/hooks/useKioskSession.js": {
+      "filePath": "frontend/src/hooks/useKioskSession.js",
+      "contentHash": "a996e0beee76930866efdb5e0e02d8b87ef414d3f7c78eb4975eea116476a79d",
+      "functions": [
+        {
+          "name": "newKey",
+          "params": [],
+          "exported": false,
+          "lineCount": 2
+        },
+        {
+          "name": "useKioskSession",
+          "params": [],
+          "exported": true,
+          "lineCount": 179
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react",
+          "specifiers": [
+            "useCallback",
+            "useRef",
+            "useState"
+          ]
+        },
+        {
+          "source": "../api/kiosk.js",
+          "specifiers": [
+            "kioskApi"
+          ]
+        },
+        {
+          "source": "../lib/screen.js",
+          "specifiers": [
+            "isPaymentChoice"
+          ]
+        }
+      ],
+      "exports": [
+        "useKioskSession"
+      ],
+      "totalLines": 189,
+      "hasStructuralAnalysis": true
+    },
+    "frontend/src/hooks/useMenuCatalog.js": {
+      "filePath": "frontend/src/hooks/useMenuCatalog.js",
+      "contentHash": "de779d4e80d8403459c45ea581dcafc19da80cec73a13e3174c2d117123e806d",
+      "functions": [
+        {
+          "name": "useMenuCatalog",
+          "params": [],
+          "exported": true,
+          "lineCount": 30
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react",
+          "specifiers": [
+            "useEffect",
+            "useState"
+          ]
+        },
+        {
+          "source": "../api/kiosk.js",
+          "specifiers": [
+            "kioskApi"
+          ]
+        }
+      ],
+      "exports": [
+        "useMenuCatalog"
+      ],
+      "totalLines": 35,
+      "hasStructuralAnalysis": true
+    },
+    "frontend/src/hooks/useVoice.js": {
+      "filePath": "frontend/src/hooks/useVoice.js",
+      "contentHash": "e11378ee01701df2467d30ce757c14ddfb241b5bfb957944430137e77e4df867",
+      "functions": [
+        {
+          "name": "useVoice",
+          "params": [],
+          "exported": true,
+          "lineCount": 223
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react",
+          "specifiers": [
+            "useCallback",
+            "useEffect",
+            "useRef",
+            "useState"
+          ]
+        },
+        {
+          "source": "../lib/tts.js",
+          "specifiers": [
+            "BROWSER_RATE",
+            "fetchSpeech",
+            "pickBrowserVoice"
+          ]
+        },
+        {
+          "source": "../lib/vad.js",
+          "specifiers": [
+            "createSpeechDetector",
+            "rmsOf"
+          ]
+        },
+        {
+          "source": "../lib/wav.js",
+          "specifiers": [
+            "encodeWav"
+          ]
+        }
+      ],
+      "exports": [
+        "HANDS_FREE",
+        "useVoice"
+      ],
+      "totalLines": 242,
+      "hasStructuralAnalysis": true
+    },
+    "frontend/src/lib/barcode.js": {
+      "filePath": "frontend/src/lib/barcode.js",
+      "contentHash": "ac33a8e887ecbf550b80888a9088dfe8a77ea8e3eba80bd8402f87a8940e1563",
+      "functions": [
+        {
+          "name": "createBarcodeReader",
+          "params": [],
+          "exported": true,
+          "lineCount": 20
+        }
+      ],
+      "classes": [],
+      "imports": [],
+      "exports": [
+        "createBarcodeReader"
+      ],
+      "totalLines": 23,
+      "hasStructuralAnalysis": true
+    },
+    "frontend/src/lib/format.js": {
+      "filePath": "frontend/src/lib/format.js",
+      "contentHash": "b72e76505711c8b1b2621f7a01d516315182c85d7b7239a610b23c247932c637",
+      "functions": [
+        {
+          "name": "won",
+          "params": [
+            "amount"
+          ],
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "menuEmoji",
+          "params": [
+            "menu"
+          ],
+          "exported": true,
+          "lineCount": 3
+        }
+      ],
+      "classes": [],
+      "imports": [],
+      "exports": [
+        "won",
+        "menuEmoji"
+      ],
+      "totalLines": 11,
+      "hasStructuralAnalysis": true
+    },
+    "frontend/src/lib/lib.test.js": {
+      "filePath": "frontend/src/lib/lib.test.js",
+      "contentHash": "2d063aaa018b40977473c513446a744fd243f801cf3e4d85191184e70559246c",
+      "functions": [
+        {
+          "name": "res",
+          "params": [
+            "step",
+            "choices",
+            "cart"
+          ],
+          "exported": false,
+          "lineCount": 1
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "vitest",
+          "specifiers": [
+            "describe",
+            "expect",
+            "it",
+            "vi"
+          ]
+        },
+        {
+          "source": "../components/ChoiceList.jsx",
+          "specifiers": [
+            "nextPage"
+          ]
+        },
+        {
+          "source": "./barcode.js",
+          "specifiers": [
+            "createBarcodeReader"
+          ]
+        },
+        {
+          "source": "./paginate.js",
+          "specifiers": [
+            "paginate"
+          ]
+        },
+        {
+          "source": "./screen.js",
+          "specifiers": [
+            "choiceInfo",
+            "idleTimerAllowed",
+            "idleTimerRunning",
+            "isPaymentChoice",
+            "scannerAllowed",
+            "screenOf",
+            "sideOf"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 207,
+      "hasStructuralAnalysis": true
+    },
+    "frontend/src/lib/paginate.js": {
+      "filePath": "frontend/src/lib/paginate.js",
+      "contentHash": "a20928e3cfdf68c61527ffaf71c10edcd9f3d2b0cfe66d63ebbc43a45c75beb7",
+      "functions": [
+        {
+          "name": "paginate",
+          "params": [
+            "items"
+          ],
+          "exported": true,
+          "lineCount": 7
+        }
+      ],
+      "classes": [],
+      "imports": [],
+      "exports": [
+        "MAX_PER_PAGE",
+        "paginate"
+      ],
+      "totalLines": 12,
+      "hasStructuralAnalysis": true
+    },
+    "frontend/src/lib/screen.js": {
+      "filePath": "frontend/src/lib/screen.js",
+      "contentHash": "e333a84fa0fbfe4ad4568b0f0dbc692d26557397b66b8496cba8ec65c49fba6b",
+      "functions": [
+        {
+          "name": "screenOf",
+          "params": [
+            "res"
+          ],
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "guessScreen",
+          "params": [],
+          "exported": false,
+          "lineCount": 30
+        },
+        {
+          "name": "choiceInfo",
+          "params": [
+            "res",
+            "label"
+          ],
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "isPaymentChoice",
+          "params": [
+            "choice"
+          ],
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "idleTimerAllowed",
+          "params": [
+            "screen"
+          ],
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "idleTimerRunning",
+          "params": [],
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "scannerAllowed",
+          "params": [
+            "screen"
+          ],
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "sideOf",
+          "params": [
+            "item",
+            "sideNames"
+          ],
+          "exported": true,
+          "lineCount": 4
+        }
+      ],
+      "classes": [],
+      "imports": [],
+      "exports": [
+        "CHOICE",
+        "PROGRESS",
+        "PROGRESS_TOTAL",
+        "screenOf",
+        "choiceInfo",
+        "isPaymentChoice",
+        "idleTimerAllowed",
+        "idleTimerRunning",
+        "scannerAllowed",
+        "SIDE_GROUP",
+        "sideOf"
+      ],
+      "totalLines": 126,
+      "hasStructuralAnalysis": true
+    },
+    "frontend/src/lib/tts.js": {
+      "filePath": "frontend/src/lib/tts.js",
+      "contentHash": "98f19406f9c7fc78c180805c1fc732cfc89d3be64b88b4afcdf8b8b2475ad5c2",
+      "functions": [
+        {
+          "name": "fetchSpeech",
+          "params": [
+            "text"
+          ],
+          "exported": true,
+          "lineCount": 25
+        },
+        {
+          "name": "resetSpeechCache",
+          "params": [],
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "pickBrowserVoice",
+          "params": [
+            "voices"
+          ],
+          "exported": true,
+          "lineCount": 8
+        }
+      ],
+      "classes": [],
+      "imports": [],
+      "exports": [
+        "fetchSpeech",
+        "resetSpeechCache",
+        "pickBrowserVoice",
+        "BROWSER_RATE"
+      ],
+      "totalLines": 57,
+      "hasStructuralAnalysis": true
+    },
+    "frontend/src/lib/vad.js": {
+      "filePath": "frontend/src/lib/vad.js",
+      "contentHash": "496a173a8bee6dac45525c1b5c27f0bb90438de024a1655e0b7e07905894c86b",
+      "functions": [
+        {
+          "name": "createSpeechDetector",
+          "params": [],
+          "exported": true,
+          "lineCount": 69
+        },
+        {
+          "name": "rmsOf",
+          "params": [
+            "samples"
+          ],
+          "exported": true,
+          "lineCount": 5
+        }
+      ],
+      "classes": [],
+      "imports": [],
+      "exports": [
+        "VAD_DEFAULTS",
+        "createSpeechDetector",
+        "rmsOf"
+      ],
+      "totalLines": 90,
+      "hasStructuralAnalysis": true
+    },
+    "frontend/src/lib/voice.test.js": {
+      "filePath": "frontend/src/lib/voice.test.js",
+      "contentHash": "1d7b8aa0def7d1e455aaf0399c50e9269bf9c8fcf872b3733fd696dd9d91e90f",
+      "functions": [
+        {
+          "name": "run",
+          "params": [
+            "detector",
+            "levels"
+          ],
+          "exported": false,
+          "lineCount": 8
+        },
+        {
+          "name": "repeat",
+          "params": [
+            "rms",
+            "ms"
+          ],
+          "exported": false,
+          "lineCount": 1
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "vitest",
+          "specifiers": [
+            "describe",
+            "expect",
+            "it",
+            "vi"
+          ]
+        },
+        {
+          "source": "./tts.js",
+          "specifiers": [
+            "fetchSpeech",
+            "pickBrowserVoice",
+            "resetSpeechCache"
+          ]
+        },
+        {
+          "source": "./vad.js",
+          "specifiers": [
+            "createSpeechDetector",
+            "rmsOf"
+          ]
+        },
+        {
+          "source": "./wav.js",
+          "specifiers": [
+            "downsample",
+            "encodeWav"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 159,
+      "hasStructuralAnalysis": true
+    },
+    "frontend/src/lib/wav.js": {
+      "filePath": "frontend/src/lib/wav.js",
+      "contentHash": "8b92fcfa7941458299c9c7489fb51306338e2ac1c533c954528b476a897a8529",
+      "functions": [
+        {
+          "name": "downsample",
+          "params": [
+            "samples",
+            "inputRate"
+          ],
+          "exported": true,
+          "lineCount": 14
+        },
+        {
+          "name": "concat",
+          "params": [
+            "chunks"
+          ],
+          "exported": true,
+          "lineCount": 10
+        },
+        {
+          "name": "encodeWav",
+          "params": [
+            "chunks",
+            "inputRate"
+          ],
+          "exported": true,
+          "lineCount": 24
+        }
+      ],
+      "classes": [],
+      "imports": [],
+      "exports": [
+        "WAV_RATE",
+        "downsample",
+        "concat",
+        "encodeWav"
+      ],
+      "totalLines": 54,
+      "hasStructuralAnalysis": true
+    },
+    "frontend/src/main.jsx": {
+      "filePath": "frontend/src/main.jsx",
+      "contentHash": "0078e6d1199967b4906cd6abc13feb39fa2282186e4e200b73ae27929f0a357b",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react",
+          "specifiers": [
+            "React"
+          ]
+        },
+        {
+          "source": "react-dom/client",
+          "specifiers": [
+            "ReactDOM"
+          ]
+        },
+        {
+          "source": "./App.jsx",
+          "specifiers": [
+            "App"
+          ]
+        },
+        {
+          "source": "./styles/kiosk.css",
+          "specifiers": []
+        }
+      ],
+      "exports": [],
+      "totalLines": 11,
+      "hasStructuralAnalysis": true
+    },
+    "frontend/src/screens/CompleteScreen.jsx": {
+      "filePath": "frontend/src/screens/CompleteScreen.jsx",
+      "contentHash": "d3f28751bd856c7b451c8234089b9223e41859d9fc6f8a072bbadc537bc2c1b2",
+      "functions": [
+        {
+          "name": "CompleteScreen",
+          "params": [],
+          "exported": true,
+          "lineCount": 23
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react",
+          "specifiers": [
+            "useEffect",
+            "useState"
+          ]
+        },
+        {
+          "source": "../components/Button.jsx",
+          "specifiers": [
+            "Button"
+          ]
+        }
+      ],
+      "exports": [
+        "COMPLETE_RETURN_SEC",
+        "CompleteScreen"
+      ],
+      "totalLines": 30,
+      "hasStructuralAnalysis": true
+    },
+    "frontend/src/screens/ConfirmScreen.jsx": {
+      "filePath": "frontend/src/screens/ConfirmScreen.jsx",
+      "contentHash": "0d637c94384f2f9aa2dd493b0fa257174de453b111f0a57171e4d73c18f44e15",
+      "functions": [
+        {
+          "name": "ConfirmScreen",
+          "params": [],
+          "exported": true,
+          "lineCount": 50
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react",
+          "specifiers": [
+            "useState"
+          ]
+        },
+        {
+          "source": "../components/CartItem.jsx",
+          "specifiers": [
+            "CartItem"
+          ]
+        },
+        {
+          "source": "../components/ChoiceList.jsx",
+          "specifiers": [
+            "ChoiceList"
+          ]
+        },
+        {
+          "source": "../components/Modal.jsx",
+          "specifiers": [
+            "Modal"
+          ]
+        },
+        {
+          "source": "../lib/format.js",
+          "specifiers": [
+            "won"
+          ]
+        },
+        {
+          "source": "../lib/screen.js",
+          "specifiers": [
+            "sideOf"
+          ]
+        }
+      ],
+      "exports": [
+        "ConfirmScreen"
+      ],
+      "totalLines": 63,
+      "hasStructuralAnalysis": true
+    },
+    "frontend/src/screens/CouponScreen.jsx": {
+      "filePath": "frontend/src/screens/CouponScreen.jsx",
+      "contentHash": "f70615ba0ec791bd20c0ababd784dc602d27c134e4a6a1170184942dbe0f2a75",
+      "functions": [
+        {
+          "name": "CouponScreen",
+          "params": [],
+          "exported": true,
+          "lineCount": 15
+        },
+        {
+          "name": "PracticeBarcode",
+          "params": [],
+          "exported": false,
+          "lineCount": 18
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react",
+          "specifiers": [
+            "useState"
+          ]
+        },
+        {
+          "source": "../components/ChoiceList.jsx",
+          "specifiers": [
+            "ChoiceList"
+          ]
+        },
+        {
+          "source": "../components/GuideAnimation.jsx",
+          "specifiers": [
+            "GuideAnimation"
+          ]
+        },
+        {
+          "source": "../lib/screen.js",
+          "specifiers": [
+            "CHOICE"
+          ]
+        }
+      ],
+      "exports": [
+        "CouponScreen"
+      ],
+      "totalLines": 51,
+      "hasStructuralAnalysis": true
+    },
+    "frontend/src/screens/IdleScreen.jsx": {
+      "filePath": "frontend/src/screens/IdleScreen.jsx",
+      "contentHash": "42d8df02e1fa857e6da1e4e3c7d8c149f3ba4a732681c6d84101e3989b409e28",
+      "functions": [
+        {
+          "name": "IdleScreen",
+          "params": [],
+          "exported": true,
+          "lineCount": 17
+        }
+      ],
+      "classes": [],
+      "imports": [],
+      "exports": [
+        "IdleScreen"
+      ],
+      "totalLines": 19,
+      "hasStructuralAnalysis": true
+    },
+    "frontend/src/screens/Kiosk.jsx": {
+      "filePath": "frontend/src/screens/Kiosk.jsx",
+      "contentHash": "33d3a45158c5b13caee3dd45409ab447637763701ca8f3d4ff659b9197330c50",
+      "functions": [
+        {
+          "name": "Kiosk",
+          "params": [],
+          "exported": true,
+          "lineCount": 220
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react",
+          "specifiers": [
+            "useCallback",
+            "useEffect",
+            "useRef",
+            "useState"
+          ]
+        },
+        {
+          "source": "../components/AgentBubble.jsx",
+          "specifiers": [
+            "AgentBubble"
+          ]
+        },
+        {
+          "source": "../components/BottomBar.jsx",
+          "specifiers": [
+            "BottomBar"
+          ]
+        },
+        {
+          "source": "../components/ChoiceList.jsx",
+          "specifiers": [
+            "ChoiceList",
+            "ScreenCommand"
+          ]
+        },
+        {
+          "source": "../components/MicIndicator.jsx",
+          "specifiers": [
+            "MicIndicator"
+          ]
+        },
+        {
+          "source": "../components/Modal.jsx",
+          "specifiers": [
+            "Modal"
+          ]
+        },
+        {
+          "source": "../components/ProgressBar.jsx",
+          "specifiers": [
+            "ProgressBar"
+          ]
+        },
+        {
+          "source": "../hooks/useBarcodeScanner.js",
+          "specifiers": [
+            "useBarcodeScanner"
+          ]
+        },
+        {
+          "source": "../hooks/useIdleTimer.js",
+          "specifiers": [
+            "useIdleTimer"
+          ]
+        },
+        {
+          "source": "../hooks/useKioskSession.js",
+          "specifiers": [
+            "useKioskSession"
+          ]
+        },
+        {
+          "source": "../hooks/useMenuCatalog.js",
+          "specifiers": [
+            "useMenuCatalog"
+          ]
+        },
+        {
+          "source": "../hooks/useVoice.js",
+          "specifiers": [
+            "HANDS_FREE",
+            "useVoice"
+          ]
+        },
+        {
+          "source": "../lib/screen.js",
+          "specifiers": [
+            "SIDE_GROUP",
+            "choiceInfo",
+            "idleTimerRunning",
+            "scannerAllowed",
+            "screenOf"
+          ]
+        },
+        {
+          "source": "./CompleteScreen.jsx",
+          "specifiers": [
+            "CompleteScreen"
+          ]
+        },
+        {
+          "source": "./ConfirmScreen.jsx",
+          "specifiers": [
+            "ConfirmScreen"
+          ]
+        },
+        {
+          "source": "./CouponScreen.jsx",
+          "specifiers": [
+            "CouponScreen"
+          ]
+        },
+        {
+          "source": "./IdleScreen.jsx",
+          "specifiers": [
+            "IdleScreen"
+          ]
+        },
+        {
+          "source": "./KioskStage.jsx",
+          "specifiers": [
+            "KioskStage"
+          ]
+        },
+        {
+          "source": "./MenuBrowser.jsx",
+          "specifiers": [
+            "MenuBrowser"
+          ]
+        },
+        {
+          "source": "./MenuScreen.jsx",
+          "specifiers": [
+            "MenuScreen"
+          ]
+        },
+        {
+          "source": "./OptionScreen.jsx",
+          "specifiers": [
+            "OptionScreen"
+          ]
+        },
+        {
+          "source": "./PaymentScreen.jsx",
+          "specifiers": [
+            "PaymentScreen"
+          ]
+        }
+      ],
+      "exports": [
+        "Kiosk"
+      ],
+      "totalLines": 252,
+      "hasStructuralAnalysis": true
+    },
+    "frontend/src/screens/KioskStage.jsx": {
+      "filePath": "frontend/src/screens/KioskStage.jsx",
+      "contentHash": "2fe1af91da123ec456055e5fc16e47277b8a4e0de51e01c2f5ba2ed18659579c",
+      "functions": [
+        {
+          "name": "KioskStage",
+          "params": [],
+          "exported": true,
+          "lineCount": 18
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react",
+          "specifiers": [
+            "useEffect",
+            "useState"
+          ]
+        }
+      ],
+      "exports": [
+        "KioskStage"
+      ],
+      "totalLines": 23,
+      "hasStructuralAnalysis": true
+    },
+    "frontend/src/screens/MenuBrowser.jsx": {
+      "filePath": "frontend/src/screens/MenuBrowser.jsx",
+      "contentHash": "948131676ca401a3a56d6c40ee32ab305cce3cf20da6864d1e69dbdec37329a1",
+      "functions": [
+        {
+          "name": "categoryByName",
+          "params": [
+            "catalog",
+            "name"
+          ],
+          "exported": false,
+          "lineCount": 1
+        },
+        {
+          "name": "MenuBrowser",
+          "params": [],
+          "exported": true,
+          "lineCount": 129
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react",
+          "specifiers": [
+            "useContext",
+            "useEffect",
+            "useRef",
+            "useState"
+          ]
+        },
+        {
+          "source": "../api/kiosk.js",
+          "specifiers": [
+            "kioskApi"
+          ]
+        },
+        {
+          "source": "../components/ChoiceList.jsx",
+          "specifiers": [
+            "ChoiceList",
+            "ScreenCommand",
+            "nextPage"
+          ]
+        },
+        {
+          "source": "../components/MenuCard.jsx",
+          "specifiers": [
+            "MenuCard"
+          ]
+        }
+      ],
+      "exports": [
+        "MenuBrowser"
+      ],
+      "totalLines": 143,
+      "hasStructuralAnalysis": true
+    },
+    "frontend/src/screens/MenuScreen.jsx": {
+      "filePath": "frontend/src/screens/MenuScreen.jsx",
+      "contentHash": "cf4dc4ba46cb49403a494a217ac743f20462e9bf11f082e96561635ea7dd2a39",
+      "functions": [
+        {
+          "name": "MenuScreen",
+          "params": [],
+          "exported": true,
+          "lineCount": 33
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "../components/ChoiceList.jsx",
+          "specifiers": [
+            "ChoiceButton"
+          ]
+        },
+        {
+          "source": "../components/MenuCard.jsx",
+          "specifiers": [
+            "MenuCard"
+          ]
+        },
+        {
+          "source": "../lib/format.js",
+          "specifiers": [
+            "won"
+          ]
+        }
+      ],
+      "exports": [
+        "MenuScreen"
+      ],
+      "totalLines": 40,
+      "hasStructuralAnalysis": true
+    },
+    "frontend/src/screens/OptionScreen.jsx": {
+      "filePath": "frontend/src/screens/OptionScreen.jsx",
+      "contentHash": "37e6d9297c308932d7c2a5ba89cd8ddd399f39f51a79b6924b73d255756baa94",
+      "functions": [
+        {
+          "name": "OptionScreen",
+          "params": [],
+          "exported": true,
+          "lineCount": 20
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "../components/ChoiceList.jsx",
+          "specifiers": [
+            "ChoiceList"
+          ]
+        }
+      ],
+      "exports": [
+        "OptionScreen"
+      ],
+      "totalLines": 41,
+      "hasStructuralAnalysis": true
+    },
+    "frontend/src/screens/PaymentScreen.jsx": {
+      "filePath": "frontend/src/screens/PaymentScreen.jsx",
+      "contentHash": "2196644b9d4dd8625b661317abacda276b26440f216a07aa68789e3194964d99",
+      "functions": [
+        {
+          "name": "PaymentScreen",
+          "params": [],
+          "exported": true,
+          "lineCount": 58
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "../components/ChoiceList.jsx",
+          "specifiers": [
+            "ChoiceList"
+          ]
+        },
+        {
+          "source": "../components/GuideAnimation.jsx",
+          "specifiers": [
+            "GuideAnimation"
+          ]
+        },
+        {
+          "source": "../lib/format.js",
+          "specifiers": [
+            "won"
+          ]
+        },
+        {
+          "source": "../lib/screen.js",
+          "specifiers": [
+            "CHOICE"
+          ]
+        }
+      ],
+      "exports": [
+        "PaymentScreen"
+      ],
+      "totalLines": 66,
+      "hasStructuralAnalysis": true
+    },
+    "frontend/src/store-screens/KitchenOrders.jsx": {
+      "filePath": "frontend/src/store-screens/KitchenOrders.jsx",
+      "contentHash": "c765fa885ea9e8b678d56107e1f3e258d69f7f46e238dc92170d63aac7f87678",
+      "functions": [
+        {
+          "name": "KitchenOrders",
+          "params": [],
+          "exported": true,
+          "lineCount": 77
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react",
+          "specifiers": [
+            "useState"
+          ]
+        },
+        {
+          "source": "../api/store.js",
+          "specifiers": [
+            "storeApi"
+          ]
+        },
+        {
+          "source": "../screens/KioskStage.jsx",
+          "specifiers": [
+            "KioskStage"
+          ]
+        },
+        {
+          "source": "./usePolling.js",
+          "specifiers": [
+            "usePolling"
+          ]
+        }
+      ],
+      "exports": [
+        "KitchenOrders"
+      ],
+      "totalLines": 96,
+      "hasStructuralAnalysis": true
+    },
+    "frontend/src/store-screens/PickupBoard.jsx": {
+      "filePath": "frontend/src/store-screens/PickupBoard.jsx",
+      "contentHash": "a38a4a35f10e376e144f6e339d45bedebcfcfd7df7542c5cf2a51868da6c36f3",
+      "functions": [
+        {
+          "name": "PickupBoard",
+          "params": [],
+          "exported": true,
+          "lineCount": 58
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react",
+          "specifiers": [
+            "useEffect",
+            "useRef",
+            "useState"
+          ]
+        },
+        {
+          "source": "../api/store.js",
+          "specifiers": [
+            "storeApi"
+          ]
+        },
+        {
+          "source": "../screens/KioskStage.jsx",
+          "specifiers": [
+            "KioskStage"
+          ]
+        },
+        {
+          "source": "./usePolling.js",
+          "specifiers": [
+            "usePolling"
+          ]
+        }
+      ],
+      "exports": [
+        "PickupBoard"
+      ],
+      "totalLines": 66,
+      "hasStructuralAnalysis": true
+    },
+    "frontend/src/store-screens/usePolling.js": {
+      "filePath": "frontend/src/store-screens/usePolling.js",
+      "contentHash": "7fd48c52fbc6a21302d89ef5367ed86f92598e5450d1be842a0fa17edf86d429",
+      "functions": [
+        {
+          "name": "usePolling",
+          "params": [
+            "load"
+          ],
+          "exported": true,
+          "lineCount": 23
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "react",
+          "specifiers": [
+            "useCallback",
+            "useEffect",
+            "useRef",
+            "useState"
+          ]
+        }
+      ],
+      "exports": [
+        "POLL_MS",
+        "usePolling"
+      ],
+      "totalLines": 29,
+      "hasStructuralAnalysis": true
+    },
+    "frontend/src/styles/kiosk.css": {
+      "filePath": "frontend/src/styles/kiosk.css",
+      "contentHash": "e7f4d7e2169f24e3fa9dbe56c215b0d26c7ff94775a0cbdbb215ea0e0e53b608",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 193,
+      "hasStructuralAnalysis": false
+    },
+    "frontend/src/styles/tokens.css": {
+      "filePath": "frontend/src/styles/tokens.css",
+      "contentHash": "b87454358dc717460252661c3bfbbf01aef7c4ce269ee9cdf940b688fc5e63a8",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 33,
+      "hasStructuralAnalysis": false
+    },
+    "frontend/vite.config.js": {
+      "filePath": "frontend/vite.config.js",
+      "contentHash": "8e715cc6c695f23a9c6aefc48e45de4009b393433370576cbf91a6846414b024",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "vite",
+          "specifiers": [
+            "defineConfig"
+          ]
+        },
+        {
+          "source": "@vitejs/plugin-react",
+          "specifiers": [
+            "react"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 15,
+      "hasStructuralAnalysis": true
+    },
+    "k8s/DEPLOY_LOG.md": {
+      "filePath": "k8s/DEPLOY_LOG.md",
+      "contentHash": "dd4b292864be29d0d34e15e2ab363d9c016be213f1a8324acb9a86b97e286bb2",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 57,
+      "hasStructuralAnalysis": false
+    },
+    "k8s/README.md": {
+      "filePath": "k8s/README.md",
+      "contentHash": "c79b3ca5cf1d2cf43a1d461236f4cb692895051ca8531aa936ff460b15971a98",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 53,
+      "hasStructuralAnalysis": false
+    },
+    "k8s/backend.yaml": {
+      "filePath": "k8s/backend.yaml",
+      "contentHash": "d9de493f7371a9c64b7621c376f9214df5d076840cb03402989fd1c88c19d32e",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 59,
+      "hasStructuralAnalysis": false
+    },
+    "k8s/frontend.yaml": {
+      "filePath": "k8s/frontend.yaml",
+      "contentHash": "c73fdeeccbc1b99bd7f107d88e57d00deb3f3acef5c4b7208ce2b8c314d4ba23",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 53,
+      "hasStructuralAnalysis": false
+    },
+    "k8s/ingress.yaml": {
+      "filePath": "k8s/ingress.yaml",
+      "contentHash": "1a2352bb1b8e3ccf46187b948235655671ee104106851d672a5677049953ebeb",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 27,
+      "hasStructuralAnalysis": false
+    },
+    "k8s/kustomization.yaml": {
+      "filePath": "k8s/kustomization.yaml",
+      "contentHash": "c2904c4cbc5197cfa7c90f3962cd8d5883f952ae2e9fbe512306235610867391",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 22,
+      "hasStructuralAnalysis": false
+    },
+    "k8s/managed-cert.yaml": {
+      "filePath": "k8s/managed-cert.yaml",
+      "contentHash": "d51e46ae9c55955d64d0426d4cfec82b1609289156c28e5463f965975bc33b9d",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 10,
+      "hasStructuralAnalysis": false
+    },
+    "k8s/model.yaml": {
+      "filePath": "k8s/model.yaml",
+      "contentHash": "e98e5b45a8534cfb17947b347e1305d37c93337d45ef3ad42288f3352fd3d05d",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 54,
+      "hasStructuralAnalysis": false
+    },
+    "k8s/namespace.yaml": {
+      "filePath": "k8s/namespace.yaml",
+      "contentHash": "7f3be53758e1ec55e4ae0393e8c2965450e403dd6e3924cdd729c487d3e419cd",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 5,
+      "hasStructuralAnalysis": false
+    },
+    "k8s/postgres.yaml": {
+      "filePath": "k8s/postgres.yaml",
+      "contentHash": "fa86902fbeb25f51c57059f8422fbf4f71d3699defaa2a19e6218f4d54a30bda",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 58,
+      "hasStructuralAnalysis": false
+    },
+    "model/.dockerignore": {
+      "filePath": "model/.dockerignore",
+      "contentHash": "b8bdd21628038c75b6d297186791c10e3201b9e7e2761488bd8b5c91134bcbaf",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 6,
+      "hasStructuralAnalysis": false
+    },
+    "model/Dockerfile": {
+      "filePath": "model/Dockerfile",
+      "contentHash": "8bb3a8d1359c19a08a00fd6fafa84cd38c438d30a87aca1c447e4d6ddc9d0619",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 12,
+      "hasStructuralAnalysis": false
+    },
+    "model/README.md": {
+      "filePath": "model/README.md",
+      "contentHash": "296fee04a9d04360f9e11e146c27cfc0a641d5eab670c0c7e812a547905c585a",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 57,
+      "hasStructuralAnalysis": false
+    },
+    "model/app/__init__.py": {
+      "filePath": "model/app/__init__.py",
+      "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 1,
+      "hasStructuralAnalysis": true
+    },
+    "model/app/main.py": {
+      "filePath": "model/app/main.py",
+      "contentHash": "2ee514688a4e706891a5954391fbe118b7cd2dd4ba0375ffb61c2f18208f2244",
+      "functions": [
+        {
+          "name": "lifespan",
+          "params": [
+            "app"
+          ],
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "error",
+          "params": [
+            "status",
+            "code",
+            "message"
+          ],
+          "returnType": "JSONResponse",
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "health",
+          "params": [],
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "ready",
+          "params": [],
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "_understand",
+          "params": [
+            "req"
+          ],
+          "returnType": "dict",
+          "exported": true,
+          "lineCount": 29
+        },
+        {
+          "name": "nlu",
+          "params": [
+            "req"
+          ],
+          "exported": true,
+          "lineCount": 10
+        },
+        {
+          "name": "speech_to_text",
+          "params": [
+            "audio",
+            "hints"
+          ],
+          "exported": true,
+          "lineCount": 20
+        },
+        {
+          "name": "predict",
+          "params": [
+            "req"
+          ],
+          "exported": true,
+          "lineCount": 7
+        }
+      ],
+      "classes": [
+        {
+          "name": "PredictRequest",
+          "methods": [],
+          "properties": [
+            "text"
+          ],
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "NluRequest",
+          "methods": [],
+          "properties": [
+            "text",
+            "step",
+            "cart",
+            "history",
+            "menus",
+            "options"
+          ],
+          "exported": true,
+          "lineCount": 7
+        }
+      ],
+      "imports": [
+        {
+          "source": "io",
+          "specifiers": [
+            "io"
+          ]
+        },
+        {
+          "source": "logging",
+          "specifiers": [
+            "logging"
+          ]
+        },
+        {
+          "source": "contextlib",
+          "specifiers": [
+            "asynccontextmanager"
+          ]
+        },
+        {
+          "source": "fastapi",
+          "specifiers": [
+            "FastAPI",
+            "File",
+            "Form",
+            "UploadFile"
+          ]
+        },
+        {
+          "source": "fastapi.concurrency",
+          "specifiers": [
+            "run_in_threadpool"
+          ]
+        },
+        {
+          "source": "fastapi.responses",
+          "specifiers": [
+            "JSONResponse"
+          ]
+        },
+        {
+          "source": "pydantic",
+          "specifiers": [
+            "BaseModel"
+          ]
+        },
+        {
+          "source": "app",
+          "specifiers": [
+            "nlu_gen",
+            "nlu_intent",
+            "nlu_llm",
+            "stt"
+          ]
+        }
+      ],
+      "exports": [
+        "lifespan",
+        "error",
+        "PredictRequest",
+        "NluRequest",
+        "health",
+        "ready",
+        "_understand",
+        "nlu",
+        "speech_to_text",
+        "predict"
+      ],
+      "totalLines": 137,
+      "hasStructuralAnalysis": true
+    },
+    "model/app/nlu_gen.py": {
+      "filePath": "model/app/nlu_gen.py",
+      "contentHash": "9721fcb55eef52830f9afa80d0ebff11c059912329404c21bd81e9c95a3eb237",
+      "functions": [
+        {
+          "name": "available",
+          "params": [],
+          "returnType": "bool",
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "_load",
+          "params": [],
+          "exported": true,
+          "lineCount": 14
+        },
+        {
+          "name": "preload_in_background",
+          "params": [],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "_safe_load",
+          "params": [],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "is_ready",
+          "params": [],
+          "returnType": "bool",
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "model_version",
+          "params": [],
+          "returnType": "str | None",
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "_prompt",
+          "params": [
+            "meta",
+            "text",
+            "step"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "rewrite",
+          "params": [
+            "text",
+            "step"
+          ],
+          "returnType": "dict",
+          "exported": true,
+          "lineCount": 11
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "json",
+          "specifiers": [
+            "json"
+          ]
+        },
+        {
+          "source": "logging",
+          "specifiers": [
+            "logging"
+          ]
+        },
+        {
+          "source": "os",
+          "specifiers": [
+            "os"
+          ]
+        },
+        {
+          "source": "threading",
+          "specifiers": [
+            "threading"
+          ]
+        },
+        {
+          "source": "time",
+          "specifiers": [
+            "time"
+          ]
+        }
+      ],
+      "exports": [
+        "available",
+        "_load",
+        "preload_in_background",
+        "_safe_load",
+        "is_ready",
+        "model_version",
+        "_prompt",
+        "rewrite"
+      ],
+      "totalLines": 90,
+      "hasStructuralAnalysis": true
+    },
+    "model/app/nlu_intent.py": {
+      "filePath": "model/app/nlu_intent.py",
+      "contentHash": "6a2b81afcbf9b850c36bae5450ce7f6be29dfd1fdefe96688b8c533600517b68",
+      "functions": [
+        {
+          "name": "available",
+          "params": [],
+          "returnType": "bool",
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "_load",
+          "params": [],
+          "exported": true,
+          "lineCount": 18
+        },
+        {
+          "name": "model_version",
+          "params": [],
+          "returnType": "str | None",
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "classify",
+          "params": [
+            "text",
+            "step"
+          ],
+          "returnType": "dict",
+          "exported": true,
+          "lineCount": 17
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "json",
+          "specifiers": [
+            "json"
+          ]
+        },
+        {
+          "source": "logging",
+          "specifiers": [
+            "logging"
+          ]
+        },
+        {
+          "source": "os",
+          "specifiers": [
+            "os"
+          ]
+        },
+        {
+          "source": "threading",
+          "specifiers": [
+            "threading"
+          ]
+        },
+        {
+          "source": "numpy",
+          "specifiers": [
+            "np"
+          ]
+        }
+      ],
+      "exports": [
+        "available",
+        "_load",
+        "model_version",
+        "classify"
+      ],
+      "totalLines": 73,
+      "hasStructuralAnalysis": true
+    },
+    "model/app/nlu_llm.py": {
+      "filePath": "model/app/nlu_llm.py",
+      "contentHash": "cecc43a8a61c8f9bc76684acc953fa36bcc6ab758531cf25e7e16d0121c100fb",
+      "functions": [
+        {
+          "name": "available",
+          "params": [],
+          "returnType": "bool",
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "_get_client",
+          "params": [],
+          "returnType": "anthropic.Anthropic",
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "rewrite",
+          "params": [
+            "text",
+            "step",
+            "menus",
+            "options",
+            "cart",
+            "history"
+          ],
+          "returnType": "dict",
+          "exported": true,
+          "lineCount": 43
+        }
+      ],
+      "classes": [
+        {
+          "name": "NluUnavailable",
+          "methods": [],
+          "properties": [],
+          "exported": true,
+          "lineCount": 2
+        }
+      ],
+      "imports": [
+        {
+          "source": "json",
+          "specifiers": [
+            "json"
+          ]
+        },
+        {
+          "source": "os",
+          "specifiers": [
+            "os"
+          ]
+        },
+        {
+          "source": "anthropic",
+          "specifiers": [
+            "anthropic"
+          ]
+        }
+      ],
+      "exports": [
+        "NluUnavailable",
+        "available",
+        "_get_client",
+        "rewrite"
+      ],
+      "totalLines": 119,
+      "hasStructuralAnalysis": true
+    },
+    "model/app/stt.py": {
+      "filePath": "model/app/stt.py",
+      "contentHash": "438f698f60ccad48a53c7babf313f8b50add62d3eaed7015f81c764a936dee35",
+      "functions": [
+        {
+          "name": "get_model",
+          "params": [],
+          "returnType": "WhisperModel",
+          "exported": true,
+          "lineCount": 13
+        },
+        {
+          "name": "is_ready",
+          "params": [],
+          "returnType": "bool",
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "preload_in_background",
+          "params": [],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 10
+        },
+        {
+          "name": "compact_hints",
+          "params": [
+            "official",
+            "aliases"
+          ],
+          "returnType": "list[str]",
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "menu_hints",
+          "params": [],
+          "returnType": "list[str]",
+          "exported": true,
+          "lineCount": 20
+        },
+        {
+          "name": "save_debug",
+          "params": [
+            "audio",
+            "result",
+            "hints"
+          ],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 20
+        },
+        {
+          "name": "looks_like_hint_echo",
+          "params": [
+            "transcript",
+            "hints"
+          ],
+          "returnType": "bool",
+          "exported": true,
+          "lineCount": 12
+        },
+        {
+          "name": "transcribe",
+          "params": [
+            "audio",
+            "hints"
+          ],
+          "returnType": "dict",
+          "exported": true,
+          "lineCount": 32
+        }
+      ],
+      "classes": [
+        {
+          "name": "AudioTooLongError",
+          "methods": [],
+          "properties": [],
+          "exported": true,
+          "lineCount": 2
+        }
+      ],
+      "imports": [
+        {
+          "source": "json",
+          "specifiers": [
+            "json"
+          ]
+        },
+        {
+          "source": "logging",
+          "specifiers": [
+            "logging"
+          ]
+        },
+        {
+          "source": "math",
+          "specifiers": [
+            "math"
+          ]
+        },
+        {
+          "source": "os",
+          "specifiers": [
+            "os"
+          ]
+        },
+        {
+          "source": "re",
+          "specifiers": [
+            "re"
+          ]
+        },
+        {
+          "source": "threading",
+          "specifiers": [
+            "threading"
+          ]
+        },
+        {
+          "source": "time",
+          "specifiers": [
+            "time"
+          ]
+        },
+        {
+          "source": "typing",
+          "specifiers": [
+            "BinaryIO"
+          ]
+        },
+        {
+          "source": "httpx",
+          "specifiers": [
+            "httpx"
+          ]
+        },
+        {
+          "source": "faster_whisper",
+          "specifiers": [
+            "WhisperModel"
+          ]
+        }
+      ],
+      "exports": [
+        "AudioTooLongError",
+        "get_model",
+        "is_ready",
+        "preload_in_background",
+        "compact_hints",
+        "menu_hints",
+        "save_debug",
+        "looks_like_hint_echo",
+        "transcribe"
+      ],
+      "totalLines": 192,
+      "hasStructuralAnalysis": true
+    },
+    "model/data/.gitkeep": {
+      "filePath": "model/data/.gitkeep",
+      "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 1,
+      "hasStructuralAnalysis": false
+    },
+    "model/notebooks/.gitkeep": {
+      "filePath": "model/notebooks/.gitkeep",
+      "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 1,
+      "hasStructuralAnalysis": false
+    },
+    "model/notebooks/nlu_gen_colab.ipynb": {
+      "filePath": "model/notebooks/nlu_gen_colab.ipynb",
+      "contentHash": "31b734643072dc9967100538ce870c987fd62e2cff4d429a61406ffa581ed9da",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 388,
+      "hasStructuralAnalysis": false
+    },
+    "model/notebooks/nlu_intent_colab.ipynb": {
+      "filePath": "model/notebooks/nlu_intent_colab.ipynb",
+      "contentHash": "8586095f4033054c67e6ff17ec4e70e5de3e2c320486bd2465a26426be3522e7",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 383,
+      "hasStructuralAnalysis": false
+    },
+    "model/notebooks/whisper_finetune_colab.ipynb": {
+      "filePath": "model/notebooks/whisper_finetune_colab.ipynb",
+      "contentHash": "07a13b03957b7b51960ff153f105067fd3b9e7717ee4764b3ecd9cdc87ffa1cb",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 555,
+      "hasStructuralAnalysis": false
+    },
+    "model/requirements.txt": {
+      "filePath": "model/requirements.txt",
+      "contentHash": "8dda27f4690b288080f7960b0df84569294e26909596599147267e6c07a34583",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 11,
+      "hasStructuralAnalysis": false
+    },
+    "model/scripts/Dockerfile.prep": {
+      "filePath": "model/scripts/Dockerfile.prep",
+      "contentHash": "017ba7bbda798c1ded8334366602963ab5ca9bf6db3f0fabf151b91fe0fc191d",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 5,
+      "hasStructuralAnalysis": false
+    },
+    "model/scripts/fetch_model.sh": {
+      "filePath": "model/scripts/fetch_model.sh",
+      "contentHash": "4aaae23774f8c7978aa8a212e9cc1e1b082ffb8f895e2b8678f8e9cab8b89580",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 20,
+      "hasStructuralAnalysis": false
+    },
+    "model/scripts/fetch_nlu_model.sh": {
+      "filePath": "model/scripts/fetch_nlu_model.sh",
+      "contentHash": "4700418623f055bd1b89c93f38b83d62e14f4923ba035af41f0318f4f251a96b",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 28,
+      "hasStructuralAnalysis": false
+    },
+    "model/scripts/make_nlu_data.py": {
+      "filePath": "model/scripts/make_nlu_data.py",
+      "contentHash": "117e96eb936db5b5e55002e34d709525fd9bf4418c3e8da43ae7e00049dd672f",
+      "functions": [
+        {
+          "name": "vary",
+          "params": [
+            "text",
+            "rng"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 20
+        },
+        {
+          "name": "cls_rows",
+          "params": [
+            "rng",
+            "per_phrase"
+          ],
+          "returnType": "list[tuple[str, str, str]]",
+          "exported": true,
+          "lineCount": 22
+        },
+        {
+          "name": "gen_rows",
+          "params": [
+            "rng"
+          ],
+          "returnType": "list[tuple[str, str, str]]",
+          "exported": true,
+          "lineCount": 32
+        },
+        {
+          "name": "main",
+          "params": [],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 49
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "csv",
+          "specifiers": [
+            "csv"
+          ]
+        },
+        {
+          "source": "json",
+          "specifiers": [
+            "json"
+          ]
+        },
+        {
+          "source": "random",
+          "specifiers": [
+            "random"
+          ]
+        },
+        {
+          "source": "zipfile",
+          "specifiers": [
+            "zipfile"
+          ]
+        },
+        {
+          "source": "pathlib",
+          "specifiers": [
+            "Path"
+          ]
+        }
+      ],
+      "exports": [
+        "vary",
+        "cls_rows",
+        "gen_rows",
+        "main"
+      ],
+      "totalLines": 318,
+      "hasStructuralAnalysis": true
+    },
+    "model/scripts/nlu_gen_testset.csv": {
+      "filePath": "model/scripts/nlu_gen_testset.csv",
+      "contentHash": "c75a9c04e814b5d22bf51ba20dcededfe5f1f1542554da3d4375c5644ab68351",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 27,
+      "hasStructuralAnalysis": false
+    },
+    "model/scripts/nlu_testset.csv": {
+      "filePath": "model/scripts/nlu_testset.csv",
+      "contentHash": "5690c0b457ebad4d3c8f2092d55882e7ee74c23ad0546ccab1e3f3e7c9ba0fba",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 125,
+      "hasStructuralAnalysis": false
+    },
+    "model/scripts/prepare_aihub.py": {
+      "filePath": "model/scripts/prepare_aihub.py",
+      "contentHash": "7d2509a722787a957197f3b8d76ae9ae170f59848b519e504dde2928887aca48",
+      "functions": [
+        {
+          "name": "download",
+          "params": [
+            "name",
+            "datasetkey",
+            "filekeys"
+          ],
+          "exported": true,
+          "lineCount": 30
+        },
+        {
+          "name": "merge_parts",
+          "params": [
+            "root"
+          ],
+          "exported": true,
+          "lineCount": 16
+        },
+        {
+          "name": "zips",
+          "params": [
+            "name"
+          ],
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "fix_name",
+          "params": [
+            "info"
+          ],
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "stem",
+          "params": [
+            "path"
+          ],
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "walk",
+          "params": [
+            "obj",
+            "path"
+          ],
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "get_path",
+          "params": [
+            "obj",
+            "path"
+          ],
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "key_rank",
+          "params": [
+            "path"
+          ],
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "detect_text_path",
+          "params": [
+            "samples"
+          ],
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "audio_name_in_json",
+          "params": [
+            "obj"
+          ],
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "clean_text",
+          "params": [
+            "t"
+          ],
+          "exported": true,
+          "lineCount": 17
+        },
+        {
+          "name": "split_of",
+          "params": [
+            "path"
+          ],
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "read_labels",
+          "params": [
+            "name"
+          ],
+          "exported": true,
+          "lineCount": 13
+        },
+        {
+          "name": "index_audio",
+          "params": [
+            "name"
+          ],
+          "exported": true,
+          "lineCount": 10
+        },
+        {
+          "name": "matched_rows",
+          "params": [
+            "name",
+            "text_path",
+            "verbose"
+          ],
+          "exported": true,
+          "lineCount": 38
+        },
+        {
+          "name": "bytes_per_sec",
+          "params": [
+            "zp",
+            "member"
+          ],
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "inspect",
+          "params": [
+            "name"
+          ],
+          "exported": true,
+          "lineCount": 23
+        },
+        {
+          "name": "to_flac",
+          "params": [
+            "args"
+          ],
+          "exported": true,
+          "lineCount": 17
+        },
+        {
+          "name": "build",
+          "params": [
+            "name",
+            "train_hours",
+            "valid_n",
+            "seed",
+            "run",
+            "splits"
+          ],
+          "exported": true,
+          "lineCount": 47
+        },
+        {
+          "name": "main",
+          "params": [],
+          "exported": true,
+          "lineCount": 25
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "argparse",
+          "specifiers": [
+            "argparse"
+          ]
+        },
+        {
+          "source": "io",
+          "specifiers": [
+            "io"
+          ]
+        },
+        {
+          "source": "json",
+          "specifiers": [
+            "json"
+          ]
+        },
+        {
+          "source": "os",
+          "specifiers": [
+            "os"
+          ]
+        },
+        {
+          "source": "random",
+          "specifiers": [
+            "random"
+          ]
+        },
+        {
+          "source": "re",
+          "specifiers": [
+            "re"
+          ]
+        },
+        {
+          "source": "subprocess",
+          "specifiers": [
+            "subprocess"
+          ]
+        },
+        {
+          "source": "sys",
+          "specifiers": [
+            "sys"
+          ]
+        },
+        {
+          "source": "tarfile",
+          "specifiers": [
+            "tarfile"
+          ]
+        },
+        {
+          "source": "zipfile",
+          "specifiers": [
+            "zipfile"
+          ]
+        },
+        {
+          "source": "collections",
+          "specifiers": [
+            "Counter"
+          ]
+        },
+        {
+          "source": "concurrent.futures",
+          "specifiers": [
+            "ProcessPoolExecutor"
+          ]
+        },
+        {
+          "source": "numpy",
+          "specifiers": [
+            "np"
+          ]
+        },
+        {
+          "source": "pandas",
+          "specifiers": [
+            "pd"
+          ]
+        },
+        {
+          "source": "soundfile",
+          "specifiers": [
+            "sf"
+          ]
+        }
+      ],
+      "exports": [
+        "download",
+        "merge_parts",
+        "zips",
+        "fix_name",
+        "stem",
+        "walk",
+        "get_path",
+        "key_rank",
+        "detect_text_path",
+        "audio_name_in_json",
+        "clean_text",
+        "split_of",
+        "read_labels",
+        "index_audio",
+        "matched_rows",
+        "bytes_per_sec",
+        "inspect",
+        "to_flac",
+        "build",
+        "main"
+      ],
+      "totalLines": 382,
+      "hasStructuralAnalysis": true
+    },
+    "model/weights/.gitkeep": {
+      "filePath": "model/weights/.gitkeep",
+      "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 1,
+      "hasStructuralAnalysis": false
+    },
+    "scripts/deploy.ps1": {
+      "filePath": "scripts/deploy.ps1",
+      "contentHash": "061bf0da88e81655c21a714222c7d4fd9ad3c309f71d4f70a2d051382a2e58a3",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 47,
+      "hasStructuralAnalysis": false
+    },
+    "scripts/deploy.sh": {
+      "filePath": "scripts/deploy.sh",
+      "contentHash": "1a4ed5954d6a2cbf9ffd5c873a3f22af462a40748b7dd6248a52483a78e408f8",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 42,
+      "hasStructuralAnalysis": false
+    },
+    "scripts/rollback.sh": {
+      "filePath": "scripts/rollback.sh",
+      "contentHash": "94dcc0ffbc8396d339d78c9b2eec72afca8d0ad63e37a95678fadf7ba56a853e",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 40,
+      "hasStructuralAnalysis": false
+    }
+  }
+}

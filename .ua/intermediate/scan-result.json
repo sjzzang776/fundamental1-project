@@ -1,0 +1,1217 @@
+{
+ "scriptCompleted": true,
+ "contentDigest": "87adad1e2ece62f512f55e8a0ff159ca5bae6daa7cd136a02fa70b7389c7be89",
+ "files": [
+  {
+   "path": ".env.example",
+   "language": "config",
+   "sizeLines": 11,
+   "fileCategory": "config"
+  },
+  {
+   "path": ".gitattributes",
+   "language": "unknown",
+   "sizeLines": 4,
+   "fileCategory": "code"
+  },
+  {
+   "path": ".github/notion-team.json",
+   "language": "json",
+   "sizeLines": 7,
+   "fileCategory": "config"
+  },
+  {
+   "path": ".github/pull_request_template.md",
+   "language": "markdown",
+   "sizeLines": 27,
+   "fileCategory": "docs"
+  },
+  {
+   "path": ".github/scripts/notion_worklog.py",
+   "language": "python",
+   "sizeLines": 179,
+   "fileCategory": "code"
+  },
+  {
+   "path": ".github/workflows/ci.yml",
+   "language": "yaml",
+   "sizeLines": 44,
+   "fileCategory": "infra"
+  },
+  {
+   "path": ".github/workflows/notion-worklog.yml",
+   "language": "yaml",
+   "sizeLines": 26,
+   "fileCategory": "infra"
+  },
+  {
+   "path": "AGENTS.md",
+   "language": "markdown",
+   "sizeLines": 52,
+   "fileCategory": "docs"
+  },
+  {
+   "path": "CLAUDE.md",
+   "language": "markdown",
+   "sizeLines": 1,
+   "fileCategory": "docs"
+  },
+  {
+   "path": "README.md",
+   "language": "markdown",
+   "sizeLines": 43,
+   "fileCategory": "docs"
+  },
+  {
+   "path": "backend/.dockerignore",
+   "language": "unknown",
+   "sizeLines": 2,
+   "fileCategory": "infra"
+  },
+  {
+   "path": "backend/Dockerfile",
+   "language": "dockerfile",
+   "sizeLines": 7,
+   "fileCategory": "infra"
+  },
+  {
+   "path": "backend/app/__init__.py",
+   "language": "python",
+   "sizeLines": 0,
+   "fileCategory": "code"
+  },
+  {
+   "path": "backend/app/db.py",
+   "language": "python",
+   "sizeLines": 51,
+   "fileCategory": "code"
+  },
+  {
+   "path": "backend/app/errors.py",
+   "language": "python",
+   "sizeLines": 30,
+   "fileCategory": "code"
+  },
+  {
+   "path": "backend/app/main.py",
+   "language": "python",
+   "sizeLines": 98,
+   "fileCategory": "code"
+  },
+  {
+   "path": "backend/app/models.py",
+   "language": "python",
+   "sizeLines": 237,
+   "fileCategory": "code"
+  },
+  {
+   "path": "backend/app/routers/__init__.py",
+   "language": "python",
+   "sizeLines": 0,
+   "fileCategory": "code"
+  },
+  {
+   "path": "backend/app/routers/common.py",
+   "language": "python",
+   "sizeLines": 18,
+   "fileCategory": "code"
+  },
+  {
+   "path": "backend/app/routers/kitchen.py",
+   "language": "python",
+   "sizeLines": 118,
+   "fileCategory": "code"
+  },
+  {
+   "path": "backend/app/routers/menus.py",
+   "language": "python",
+   "sizeLines": 62,
+   "fileCategory": "code"
+  },
+  {
+   "path": "backend/app/routers/orders.py",
+   "language": "python",
+   "sizeLines": 99,
+   "fileCategory": "code"
+  },
+  {
+   "path": "backend/app/routers/sessions.py",
+   "language": "python",
+   "sizeLines": 205,
+   "fileCategory": "code"
+  },
+  {
+   "path": "backend/app/seed.py",
+   "language": "python",
+   "sizeLines": 152,
+   "fileCategory": "code"
+  },
+  {
+   "path": "backend/app/services/__init__.py",
+   "language": "python",
+   "sizeLines": 0,
+   "fileCategory": "code"
+  },
+  {
+   "path": "backend/app/services/cart.py",
+   "language": "python",
+   "sizeLines": 186,
+   "fileCategory": "code"
+  },
+  {
+   "path": "backend/app/services/dialog.py",
+   "language": "python",
+   "sizeLines": 929,
+   "fileCategory": "code"
+  },
+  {
+   "path": "backend/app/services/nlu.py",
+   "language": "python",
+   "sizeLines": 339,
+   "fileCategory": "code"
+  },
+  {
+   "path": "backend/app/services/payments.py",
+   "language": "python",
+   "sizeLines": 120,
+   "fileCategory": "code"
+  },
+  {
+   "path": "backend/app/services/pricing.py",
+   "language": "python",
+   "sizeLines": 70,
+   "fileCategory": "code"
+  },
+  {
+   "path": "backend/app/services/tts.py",
+   "language": "python",
+   "sizeLines": 122,
+   "fileCategory": "code"
+  },
+  {
+   "path": "backend/requirements-dev.txt",
+   "language": "txt",
+   "sizeLines": 2,
+   "fileCategory": "docs"
+  },
+  {
+   "path": "backend/requirements.txt",
+   "language": "txt",
+   "sizeLines": 6,
+   "fileCategory": "docs"
+  },
+  {
+   "path": "backend/tests/conftest.py",
+   "language": "python",
+   "sizeLines": 33,
+   "fileCategory": "code"
+  },
+  {
+   "path": "backend/tests/test_dine_phrases.py",
+   "language": "python",
+   "sizeLines": 25,
+   "fileCategory": "code"
+  },
+  {
+   "path": "backend/tests/test_kiosk_flow.py",
+   "language": "python",
+   "sizeLines": 470,
+   "fileCategory": "code"
+  },
+  {
+   "path": "backend/tests/test_nlu_llm.py",
+   "language": "python",
+   "sizeLines": 87,
+   "fileCategory": "code"
+  },
+  {
+   "path": "backend/tests/test_screen_voice.py",
+   "language": "python",
+   "sizeLines": 78,
+   "fileCategory": "code"
+  },
+  {
+   "path": "backend/tests/test_stt_hints.py",
+   "language": "python",
+   "sizeLines": 48,
+   "fileCategory": "code"
+  },
+  {
+   "path": "backend/tests/test_tts.py",
+   "language": "python",
+   "sizeLines": 59,
+   "fileCategory": "code"
+  },
+  {
+   "path": "backend/tests/test_undo_and_more.py",
+   "language": "python",
+   "sizeLines": 110,
+   "fileCategory": "code"
+  },
+  {
+   "path": "docker-compose.dev.yml",
+   "language": "yaml",
+   "sizeLines": 32,
+   "fileCategory": "infra"
+  },
+  {
+   "path": "docker-compose.yml",
+   "language": "yaml",
+   "sizeLines": 50,
+   "fileCategory": "infra"
+  },
+  {
+   "path": "docs/.gitkeep",
+   "language": "unknown",
+   "sizeLines": 0,
+   "fileCategory": "code"
+  },
+  {
+   "path": "docs/ai/catch-up.md",
+   "language": "markdown",
+   "sizeLines": 53,
+   "fileCategory": "docs"
+  },
+  {
+   "path": "docs/ai/notion.md",
+   "language": "markdown",
+   "sizeLines": 44,
+   "fileCategory": "docs"
+  },
+  {
+   "path": "docs/ai/wrap-up.md",
+   "language": "markdown",
+   "sizeLines": 76,
+   "fileCategory": "docs"
+  },
+  {
+   "path": "docs/plan/decisions.md",
+   "language": "markdown",
+   "sizeLines": 31,
+   "fileCategory": "docs"
+  },
+  {
+   "path": "frontend/.dockerignore",
+   "language": "unknown",
+   "sizeLines": 2,
+   "fileCategory": "infra"
+  },
+  {
+   "path": "frontend/Dockerfile",
+   "language": "dockerfile",
+   "sizeLines": 11,
+   "fileCategory": "infra"
+  },
+  {
+   "path": "frontend/docs/figma-ui-prompt.md",
+   "language": "markdown",
+   "sizeLines": 154,
+   "fileCategory": "docs"
+  },
+  {
+   "path": "frontend/docs/frontend-plan-easy.md",
+   "language": "markdown",
+   "sizeLines": 216,
+   "fileCategory": "docs"
+  },
+  {
+   "path": "frontend/docs/frontend-plan.md",
+   "language": "markdown",
+   "sizeLines": 151,
+   "fileCategory": "docs"
+  },
+  {
+   "path": "frontend/docs/frontend-work-report.md",
+   "language": "markdown",
+   "sizeLines": 224,
+   "fileCategory": "docs"
+  },
+  {
+   "path": "frontend/e2e/kiosk-flow.mjs",
+   "language": "javascript",
+   "sizeLines": 202,
+   "fileCategory": "code"
+  },
+  {
+   "path": "frontend/index.html",
+   "language": "html",
+   "sizeLines": 15,
+   "fileCategory": "markup"
+  },
+  {
+   "path": "frontend/nginx.conf",
+   "language": "conf",
+   "sizeLines": 15,
+   "fileCategory": "code"
+  },
+  {
+   "path": "frontend/package.json",
+   "language": "json",
+   "sizeLines": 21,
+   "fileCategory": "config"
+  },
+  {
+   "path": "frontend/src/App.jsx",
+   "language": "javascript",
+   "sizeLines": 11,
+   "fileCategory": "code"
+  },
+  {
+   "path": "frontend/src/api/client.js",
+   "language": "javascript",
+   "sizeLines": 33,
+   "fileCategory": "code"
+  },
+  {
+   "path": "frontend/src/api/kiosk.js",
+   "language": "javascript",
+   "sizeLines": 50,
+   "fileCategory": "code"
+  },
+  {
+   "path": "frontend/src/api/store.js",
+   "language": "javascript",
+   "sizeLines": 18,
+   "fileCategory": "code"
+  },
+  {
+   "path": "frontend/src/components/AgentBubble.jsx",
+   "language": "javascript",
+   "sizeLines": 15,
+   "fileCategory": "code"
+  },
+  {
+   "path": "frontend/src/components/BottomBar.jsx",
+   "language": "javascript",
+   "sizeLines": 20,
+   "fileCategory": "code"
+  },
+  {
+   "path": "frontend/src/components/Button.jsx",
+   "language": "javascript",
+   "sizeLines": 9,
+   "fileCategory": "code"
+  },
+  {
+   "path": "frontend/src/components/CartItem.jsx",
+   "language": "javascript",
+   "sizeLines": 36,
+   "fileCategory": "code"
+  },
+  {
+   "path": "frontend/src/components/ChoiceList.jsx",
+   "language": "javascript",
+   "sizeLines": 67,
+   "fileCategory": "code"
+  },
+  {
+   "path": "frontend/src/components/GuideAnimation.jsx",
+   "language": "javascript",
+   "sizeLines": 17,
+   "fileCategory": "code"
+  },
+  {
+   "path": "frontend/src/components/MenuCard.jsx",
+   "language": "javascript",
+   "sizeLines": 22,
+   "fileCategory": "code"
+  },
+  {
+   "path": "frontend/src/components/MicIndicator.jsx",
+   "language": "javascript",
+   "sizeLines": 32,
+   "fileCategory": "code"
+  },
+  {
+   "path": "frontend/src/components/Modal.jsx",
+   "language": "javascript",
+   "sizeLines": 19,
+   "fileCategory": "code"
+  },
+  {
+   "path": "frontend/src/components/ProgressBar.jsx",
+   "language": "javascript",
+   "sizeLines": 17,
+   "fileCategory": "code"
+  },
+  {
+   "path": "frontend/src/hooks/useBarcodeScanner.js",
+   "language": "javascript",
+   "sizeLines": 19,
+   "fileCategory": "code"
+  },
+  {
+   "path": "frontend/src/hooks/useIdleTimer.js",
+   "language": "javascript",
+   "sizeLines": 39,
+   "fileCategory": "code"
+  },
+  {
+   "path": "frontend/src/hooks/useKioskSession.js",
+   "language": "javascript",
+   "sizeLines": 188,
+   "fileCategory": "code"
+  },
+  {
+   "path": "frontend/src/hooks/useMenuCatalog.js",
+   "language": "javascript",
+   "sizeLines": 34,
+   "fileCategory": "code"
+  },
+  {
+   "path": "frontend/src/hooks/useVoice.js",
+   "language": "javascript",
+   "sizeLines": 241,
+   "fileCategory": "code"
+  },
+  {
+   "path": "frontend/src/lib/barcode.js",
+   "language": "javascript",
+   "sizeLines": 22,
+   "fileCategory": "code"
+  },
+  {
+   "path": "frontend/src/lib/format.js",
+   "language": "javascript",
+   "sizeLines": 10,
+   "fileCategory": "code"
+  },
+  {
+   "path": "frontend/src/lib/lib.test.js",
+   "language": "javascript",
+   "sizeLines": 206,
+   "fileCategory": "code"
+  },
+  {
+   "path": "frontend/src/lib/paginate.js",
+   "language": "javascript",
+   "sizeLines": 11,
+   "fileCategory": "code"
+  },
+  {
+   "path": "frontend/src/lib/screen.js",
+   "language": "javascript",
+   "sizeLines": 125,
+   "fileCategory": "code"
+  },
+  {
+   "path": "frontend/src/lib/tts.js",
+   "language": "javascript",
+   "sizeLines": 56,
+   "fileCategory": "code"
+  },
+  {
+   "path": "frontend/src/lib/vad.js",
+   "language": "javascript",
+   "sizeLines": 89,
+   "fileCategory": "code"
+  },
+  {
+   "path": "frontend/src/lib/voice.test.js",
+   "language": "javascript",
+   "sizeLines": 158,
+   "fileCategory": "code"
+  },
+  {
+   "path": "frontend/src/lib/wav.js",
+   "language": "javascript",
+   "sizeLines": 53,
+   "fileCategory": "code"
+  },
+  {
+   "path": "frontend/src/main.jsx",
+   "language": "javascript",
+   "sizeLines": 10,
+   "fileCategory": "code"
+  },
+  {
+   "path": "frontend/src/screens/CompleteScreen.jsx",
+   "language": "javascript",
+   "sizeLines": 29,
+   "fileCategory": "code"
+  },
+  {
+   "path": "frontend/src/screens/ConfirmScreen.jsx",
+   "language": "javascript",
+   "sizeLines": 62,
+   "fileCategory": "code"
+  },
+  {
+   "path": "frontend/src/screens/CouponScreen.jsx",
+   "language": "javascript",
+   "sizeLines": 50,
+   "fileCategory": "code"
+  },
+  {
+   "path": "frontend/src/screens/IdleScreen.jsx",
+   "language": "javascript",
+   "sizeLines": 18,
+   "fileCategory": "code"
+  },
+  {
+   "path": "frontend/src/screens/Kiosk.jsx",
+   "language": "javascript",
+   "sizeLines": 251,
+   "fileCategory": "code"
+  },
+  {
+   "path": "frontend/src/screens/KioskStage.jsx",
+   "language": "javascript",
+   "sizeLines": 22,
+   "fileCategory": "code"
+  },
+  {
+   "path": "frontend/src/screens/MenuBrowser.jsx",
+   "language": "javascript",
+   "sizeLines": 142,
+   "fileCategory": "code"
+  },
+  {
+   "path": "frontend/src/screens/MenuScreen.jsx",
+   "language": "javascript",
+   "sizeLines": 39,
+   "fileCategory": "code"
+  },
+  {
+   "path": "frontend/src/screens/OptionScreen.jsx",
+   "language": "javascript",
+   "sizeLines": 40,
+   "fileCategory": "code"
+  },
+  {
+   "path": "frontend/src/screens/PaymentScreen.jsx",
+   "language": "javascript",
+   "sizeLines": 65,
+   "fileCategory": "code"
+  },
+  {
+   "path": "frontend/src/store-screens/KitchenOrders.jsx",
+   "language": "javascript",
+   "sizeLines": 95,
+   "fileCategory": "code"
+  },
+  {
+   "path": "frontend/src/store-screens/PickupBoard.jsx",
+   "language": "javascript",
+   "sizeLines": 65,
+   "fileCategory": "code"
+  },
+  {
+   "path": "frontend/src/store-screens/usePolling.js",
+   "language": "javascript",
+   "sizeLines": 28,
+   "fileCategory": "code"
+  },
+  {
+   "path": "frontend/src/styles/kiosk.css",
+   "language": "css",
+   "sizeLines": 192,
+   "fileCategory": "markup"
+  },
+  {
+   "path": "frontend/src/styles/tokens.css",
+   "language": "css",
+   "sizeLines": 32,
+   "fileCategory": "markup"
+  },
+  {
+   "path": "frontend/vite.config.js",
+   "language": "javascript",
+   "sizeLines": 14,
+   "fileCategory": "code"
+  },
+  {
+   "path": "k8s/DEPLOY_LOG.md",
+   "language": "markdown",
+   "sizeLines": 56,
+   "fileCategory": "infra"
+  },
+  {
+   "path": "k8s/README.md",
+   "language": "markdown",
+   "sizeLines": 52,
+   "fileCategory": "infra"
+  },
+  {
+   "path": "k8s/backend.yaml",
+   "language": "yaml",
+   "sizeLines": 58,
+   "fileCategory": "infra"
+  },
+  {
+   "path": "k8s/frontend.yaml",
+   "language": "yaml",
+   "sizeLines": 52,
+   "fileCategory": "infra"
+  },
+  {
+   "path": "k8s/ingress.yaml",
+   "language": "yaml",
+   "sizeLines": 26,
+   "fileCategory": "infra"
+  },
+  {
+   "path": "k8s/kustomization.yaml",
+   "language": "yaml",
+   "sizeLines": 21,
+   "fileCategory": "infra"
+  },
+  {
+   "path": "k8s/managed-cert.yaml",
+   "language": "yaml",
+   "sizeLines": 9,
+   "fileCategory": "infra"
+  },
+  {
+   "path": "k8s/model.yaml",
+   "language": "yaml",
+   "sizeLines": 53,
+   "fileCategory": "infra"
+  },
+  {
+   "path": "k8s/namespace.yaml",
+   "language": "yaml",
+   "sizeLines": 4,
+   "fileCategory": "infra"
+  },
+  {
+   "path": "k8s/postgres.yaml",
+   "language": "yaml",
+   "sizeLines": 57,
+   "fileCategory": "infra"
+  },
+  {
+   "path": "model/.dockerignore",
+   "language": "unknown",
+   "sizeLines": 5,
+   "fileCategory": "infra"
+  },
+  {
+   "path": "model/Dockerfile",
+   "language": "dockerfile",
+   "sizeLines": 11,
+   "fileCategory": "infra"
+  },
+  {
+   "path": "model/README.md",
+   "language": "markdown",
+   "sizeLines": 56,
+   "fileCategory": "docs"
+  },
+  {
+   "path": "model/app/__init__.py",
+   "language": "python",
+   "sizeLines": 0,
+   "fileCategory": "code"
+  },
+  {
+   "path": "model/app/main.py",
+   "language": "python",
+   "sizeLines": 136,
+   "fileCategory": "code"
+  },
+  {
+   "path": "model/app/nlu_gen.py",
+   "language": "python",
+   "sizeLines": 89,
+   "fileCategory": "code"
+  },
+  {
+   "path": "model/app/nlu_intent.py",
+   "language": "python",
+   "sizeLines": 72,
+   "fileCategory": "code"
+  },
+  {
+   "path": "model/app/nlu_llm.py",
+   "language": "python",
+   "sizeLines": 118,
+   "fileCategory": "code"
+  },
+  {
+   "path": "model/app/stt.py",
+   "language": "python",
+   "sizeLines": 191,
+   "fileCategory": "code"
+  },
+  {
+   "path": "model/data/.gitkeep",
+   "language": "unknown",
+   "sizeLines": 0,
+   "fileCategory": "code"
+  },
+  {
+   "path": "model/notebooks/.gitkeep",
+   "language": "unknown",
+   "sizeLines": 0,
+   "fileCategory": "code"
+  },
+  {
+   "path": "model/notebooks/nlu_gen_colab.ipynb",
+   "language": "ipynb",
+   "sizeLines": 387,
+   "fileCategory": "code"
+  },
+  {
+   "path": "model/notebooks/nlu_intent_colab.ipynb",
+   "language": "ipynb",
+   "sizeLines": 382,
+   "fileCategory": "code"
+  },
+  {
+   "path": "model/notebooks/whisper_finetune_colab.ipynb",
+   "language": "ipynb",
+   "sizeLines": 554,
+   "fileCategory": "code"
+  },
+  {
+   "path": "model/requirements.txt",
+   "language": "txt",
+   "sizeLines": 10,
+   "fileCategory": "docs"
+  },
+  {
+   "path": "model/scripts/Dockerfile.prep",
+   "language": "dockerfile",
+   "sizeLines": 4,
+   "fileCategory": "infra"
+  },
+  {
+   "path": "model/scripts/fetch_model.sh",
+   "language": "shell",
+   "sizeLines": 19,
+   "fileCategory": "script"
+  },
+  {
+   "path": "model/scripts/fetch_nlu_model.sh",
+   "language": "shell",
+   "sizeLines": 27,
+   "fileCategory": "script"
+  },
+  {
+   "path": "model/scripts/make_nlu_data.py",
+   "language": "python",
+   "sizeLines": 317,
+   "fileCategory": "code"
+  },
+  {
+   "path": "model/scripts/nlu_gen_testset.csv",
+   "language": "csv",
+   "sizeLines": 26,
+   "fileCategory": "data"
+  },
+  {
+   "path": "model/scripts/nlu_testset.csv",
+   "language": "csv",
+   "sizeLines": 124,
+   "fileCategory": "data"
+  },
+  {
+   "path": "model/scripts/prepare_aihub.py",
+   "language": "python",
+   "sizeLines": 381,
+   "fileCategory": "code"
+  },
+  {
+   "path": "model/weights/.gitkeep",
+   "language": "unknown",
+   "sizeLines": 0,
+   "fileCategory": "code"
+  },
+  {
+   "path": "scripts/deploy.ps1",
+   "language": "powershell",
+   "sizeLines": 46,
+   "fileCategory": "script"
+  },
+  {
+   "path": "scripts/deploy.sh",
+   "language": "shell",
+   "sizeLines": 41,
+   "fileCategory": "script"
+  },
+  {
+   "path": "scripts/rollback.sh",
+   "language": "shell",
+   "sizeLines": 39,
+   "fileCategory": "script"
+  }
+ ],
+ "totalFiles": 139,
+ "filteredByIgnore": 3,
+ "estimatedComplexity": "moderate",
+ "failures": [],
+ "stats": {
+  "filesScanned": 139,
+  "byCategory": {
+   "config": 3,
+   "code": 89,
+   "docs": 16,
+   "infra": 21,
+   "markup": 3,
+   "script": 5,
+   "data": 2
+  },
+  "byLanguage": {
+   "config": 1,
+   "unknown": 8,
+   "json": 2,
+   "markdown": 15,
+   "python": 36,
+   "yaml": 12,
+   "dockerfile": 4,
+   "txt": 3,
+   "javascript": 44,
+   "html": 1,
+   "conf": 1,
+   "css": 2,
+   "ipynb": 3,
+   "shell": 4,
+   "csv": 2,
+   "powershell": 1
+  }
+ },
+ "name": "fundamental1-project",
+ "description": "어르신을 위한 음성 주문 키오스크: React 손님·매장 화면, FastAPI 주문·대화 백엔드, Whisper 음성 인식·의도 파악 모델 서버, PostgreSQL, GKE 배포",
+ "languages": [
+  "python",
+  "javascript",
+  "css",
+  "html",
+  "yaml",
+  "dockerfile",
+  "shell",
+  "markdown"
+ ],
+ "frameworks": [
+  "React",
+  "Vite",
+  "FastAPI",
+  "SQLAlchemy",
+  "Docker Compose",
+  "Kubernetes"
+ ],
+ "importMap": {
+  ".env.example": [],
+  ".gitattributes": [],
+  ".github/notion-team.json": [],
+  ".github/pull_request_template.md": [],
+  ".github/scripts/notion_worklog.py": [],
+  ".github/workflows/ci.yml": [],
+  ".github/workflows/notion-worklog.yml": [],
+  "AGENTS.md": [],
+  "CLAUDE.md": [],
+  "README.md": [],
+  "backend/.dockerignore": [],
+  "backend/Dockerfile": [],
+  "backend/app/__init__.py": [],
+  "backend/app/db.py": [],
+  "backend/app/errors.py": [],
+  "backend/app/main.py": [
+   "backend/app/db.py",
+   "backend/app/errors.py",
+   "backend/app/routers/__init__.py",
+   "backend/app/routers/kitchen.py",
+   "backend/app/routers/menus.py",
+   "backend/app/routers/orders.py",
+   "backend/app/routers/sessions.py",
+   "backend/app/seed.py",
+   "backend/app/services/__init__.py"
+  ],
+  "backend/app/models.py": [
+   "backend/app/db.py"
+  ],
+  "backend/app/routers/__init__.py": [],
+  "backend/app/routers/common.py": [
+   "backend/app/errors.py",
+   "backend/app/models.py",
+   "backend/app/services/__init__.py",
+   "backend/app/services/dialog.py"
+  ],
+  "backend/app/routers/kitchen.py": [
+   "backend/app/db.py",
+   "backend/app/errors.py",
+   "backend/app/models.py",
+   "backend/app/seed.py",
+   "backend/app/services/__init__.py",
+   "backend/app/services/pricing.py"
+  ],
+  "backend/app/routers/menus.py": [
+   "backend/app/db.py",
+   "backend/app/errors.py",
+   "backend/app/models.py"
+  ],
+  "backend/app/routers/orders.py": [
+   "backend/app/db.py",
+   "backend/app/errors.py",
+   "backend/app/models.py",
+   "backend/app/services/__init__.py",
+   "backend/app/services/dialog.py",
+   "backend/app/services/payments.py"
+  ],
+  "backend/app/routers/sessions.py": [
+   "backend/app/db.py",
+   "backend/app/errors.py",
+   "backend/app/models.py",
+   "backend/app/routers/common.py",
+   "backend/app/services/__init__.py",
+   "backend/app/services/dialog.py"
+  ],
+  "backend/app/seed.py": [
+   "backend/app/models.py"
+  ],
+  "backend/app/services/__init__.py": [],
+  "backend/app/services/cart.py": [
+   "backend/app/db.py",
+   "backend/app/errors.py",
+   "backend/app/models.py",
+   "backend/app/services/pricing.py"
+  ],
+  "backend/app/services/dialog.py": [
+   "backend/app/db.py",
+   "backend/app/errors.py",
+   "backend/app/models.py",
+   "backend/app/services/nlu.py",
+   "backend/app/services/pricing.py"
+  ],
+  "backend/app/services/nlu.py": [
+   "backend/app/models.py",
+   "backend/app/seed.py"
+  ],
+  "backend/app/services/payments.py": [
+   "backend/app/db.py",
+   "backend/app/errors.py",
+   "backend/app/models.py",
+   "backend/app/services/dialog.py"
+  ],
+  "backend/app/services/pricing.py": [
+   "backend/app/db.py",
+   "backend/app/models.py"
+  ],
+  "backend/app/services/tts.py": [],
+  "backend/requirements-dev.txt": [],
+  "backend/requirements.txt": [],
+  "backend/tests/conftest.py": [
+   "backend/app/db.py",
+   "backend/app/main.py",
+   "backend/app/seed.py"
+  ],
+  "backend/tests/test_dine_phrases.py": [],
+  "backend/tests/test_kiosk_flow.py": [],
+  "backend/tests/test_nlu_llm.py": [
+   "backend/app/services/__init__.py",
+   "backend/app/services/nlu.py"
+  ],
+  "backend/tests/test_screen_voice.py": [],
+  "backend/tests/test_stt_hints.py": [
+   "backend/app/routers/__init__.py"
+  ],
+  "backend/tests/test_tts.py": [
+   "backend/app/services/__init__.py",
+   "backend/app/services/tts.py"
+  ],
+  "backend/tests/test_undo_and_more.py": [],
+  "docker-compose.dev.yml": [],
+  "docker-compose.yml": [],
+  "docs/.gitkeep": [],
+  "docs/ai/catch-up.md": [],
+  "docs/ai/notion.md": [],
+  "docs/ai/wrap-up.md": [],
+  "docs/plan/decisions.md": [],
+  "frontend/.dockerignore": [],
+  "frontend/Dockerfile": [],
+  "frontend/docs/figma-ui-prompt.md": [],
+  "frontend/docs/frontend-plan-easy.md": [],
+  "frontend/docs/frontend-plan.md": [],
+  "frontend/docs/frontend-work-report.md": [],
+  "frontend/e2e/kiosk-flow.mjs": [],
+  "frontend/index.html": [],
+  "frontend/nginx.conf": [],
+  "frontend/package.json": [],
+  "frontend/src/App.jsx": [
+   "frontend/src/screens/Kiosk.jsx",
+   "frontend/src/store-screens/KitchenOrders.jsx",
+   "frontend/src/store-screens/PickupBoard.jsx"
+  ],
+  "frontend/src/api/client.js": [],
+  "frontend/src/api/kiosk.js": [
+   "frontend/src/api/client.js"
+  ],
+  "frontend/src/api/store.js": [
+   "frontend/src/api/client.js"
+  ],
+  "frontend/src/components/AgentBubble.jsx": [],
+  "frontend/src/components/BottomBar.jsx": [],
+  "frontend/src/components/Button.jsx": [],
+  "frontend/src/components/CartItem.jsx": [
+   "frontend/src/lib/format.js"
+  ],
+  "frontend/src/components/ChoiceList.jsx": [
+   "frontend/src/lib/paginate.js"
+  ],
+  "frontend/src/components/GuideAnimation.jsx": [],
+  "frontend/src/components/MenuCard.jsx": [
+   "frontend/src/lib/format.js"
+  ],
+  "frontend/src/components/MicIndicator.jsx": [
+   "frontend/src/hooks/useVoice.js"
+  ],
+  "frontend/src/components/Modal.jsx": [],
+  "frontend/src/components/ProgressBar.jsx": [
+   "frontend/src/lib/screen.js"
+  ],
+  "frontend/src/hooks/useBarcodeScanner.js": [
+   "frontend/src/lib/barcode.js"
+  ],
+  "frontend/src/hooks/useIdleTimer.js": [],
+  "frontend/src/hooks/useKioskSession.js": [
+   "frontend/src/api/kiosk.js",
+   "frontend/src/lib/screen.js"
+  ],
+  "frontend/src/hooks/useMenuCatalog.js": [
+   "frontend/src/api/kiosk.js"
+  ],
+  "frontend/src/hooks/useVoice.js": [
+   "frontend/src/lib/tts.js",
+   "frontend/src/lib/vad.js",
+   "frontend/src/lib/wav.js"
+  ],
+  "frontend/src/lib/barcode.js": [],
+  "frontend/src/lib/format.js": [],
+  "frontend/src/lib/lib.test.js": [
+   "frontend/src/components/ChoiceList.jsx",
+   "frontend/src/lib/barcode.js",
+   "frontend/src/lib/paginate.js",
+   "frontend/src/lib/screen.js"
+  ],
+  "frontend/src/lib/paginate.js": [],
+  "frontend/src/lib/screen.js": [],
+  "frontend/src/lib/tts.js": [],
+  "frontend/src/lib/vad.js": [],
+  "frontend/src/lib/voice.test.js": [
+   "frontend/src/lib/tts.js",
+   "frontend/src/lib/vad.js",
+   "frontend/src/lib/wav.js"
+  ],
+  "frontend/src/lib/wav.js": [],
+  "frontend/src/main.jsx": [
+   "frontend/src/App.jsx",
+   "frontend/src/styles/kiosk.css"
+  ],
+  "frontend/src/screens/CompleteScreen.jsx": [
+   "frontend/src/components/Button.jsx"
+  ],
+  "frontend/src/screens/ConfirmScreen.jsx": [
+   "frontend/src/components/CartItem.jsx",
+   "frontend/src/components/ChoiceList.jsx",
+   "frontend/src/components/Modal.jsx",
+   "frontend/src/lib/format.js",
+   "frontend/src/lib/screen.js"
+  ],
+  "frontend/src/screens/CouponScreen.jsx": [
+   "frontend/src/components/ChoiceList.jsx",
+   "frontend/src/components/GuideAnimation.jsx",
+   "frontend/src/lib/screen.js"
+  ],
+  "frontend/src/screens/IdleScreen.jsx": [],
+  "frontend/src/screens/Kiosk.jsx": [
+   "frontend/src/components/AgentBubble.jsx",
+   "frontend/src/components/BottomBar.jsx",
+   "frontend/src/components/ChoiceList.jsx",
+   "frontend/src/components/MicIndicator.jsx",
+   "frontend/src/components/Modal.jsx",
+   "frontend/src/components/ProgressBar.jsx",
+   "frontend/src/hooks/useBarcodeScanner.js",
+   "frontend/src/hooks/useIdleTimer.js",
+   "frontend/src/hooks/useKioskSession.js",
+   "frontend/src/hooks/useMenuCatalog.js",
+   "frontend/src/hooks/useVoice.js",
+   "frontend/src/lib/screen.js",
+   "frontend/src/screens/CompleteScreen.jsx",
+   "frontend/src/screens/ConfirmScreen.jsx",
+   "frontend/src/screens/CouponScreen.jsx",
+   "frontend/src/screens/IdleScreen.jsx",
+   "frontend/src/screens/KioskStage.jsx",
+   "frontend/src/screens/MenuBrowser.jsx",
+   "frontend/src/screens/MenuScreen.jsx",
+   "frontend/src/screens/OptionScreen.jsx",
+   "frontend/src/screens/PaymentScreen.jsx"
+  ],
+  "frontend/src/screens/KioskStage.jsx": [],
+  "frontend/src/screens/MenuBrowser.jsx": [
+   "frontend/src/api/kiosk.js",
+   "frontend/src/components/ChoiceList.jsx",
+   "frontend/src/components/MenuCard.jsx"
+  ],
+  "frontend/src/screens/MenuScreen.jsx": [
+   "frontend/src/components/ChoiceList.jsx",
+   "frontend/src/components/MenuCard.jsx",
+   "frontend/src/lib/format.js"
+  ],
+  "frontend/src/screens/OptionScreen.jsx": [
+   "frontend/src/components/ChoiceList.jsx"
+  ],
+  "frontend/src/screens/PaymentScreen.jsx": [
+   "frontend/src/components/ChoiceList.jsx",
+   "frontend/src/components/GuideAnimation.jsx",
+   "frontend/src/lib/format.js",
+   "frontend/src/lib/screen.js"
+  ],
+  "frontend/src/store-screens/KitchenOrders.jsx": [
+   "frontend/src/api/store.js",
+   "frontend/src/screens/KioskStage.jsx",
+   "frontend/src/store-screens/usePolling.js"
+  ],
+  "frontend/src/store-screens/PickupBoard.jsx": [
+   "frontend/src/api/store.js",
+   "frontend/src/screens/KioskStage.jsx",
+   "frontend/src/store-screens/usePolling.js"
+  ],
+  "frontend/src/store-screens/usePolling.js": [],
+  "frontend/src/styles/kiosk.css": [],
+  "frontend/src/styles/tokens.css": [],
+  "frontend/vite.config.js": [],
+  "k8s/DEPLOY_LOG.md": [],
+  "k8s/README.md": [],
+  "k8s/backend.yaml": [],
+  "k8s/frontend.yaml": [],
+  "k8s/ingress.yaml": [],
+  "k8s/kustomization.yaml": [],
+  "k8s/managed-cert.yaml": [],
+  "k8s/model.yaml": [],
+  "k8s/namespace.yaml": [],
+  "k8s/postgres.yaml": [],
+  "model/.dockerignore": [],
+  "model/Dockerfile": [],
+  "model/README.md": [],
+  "model/app/__init__.py": [],
+  "model/app/main.py": [
+   "model/app/__init__.py",
+   "model/app/nlu_gen.py",
+   "model/app/nlu_intent.py",
+   "model/app/nlu_llm.py",
+   "model/app/stt.py"
+  ],
+  "model/app/nlu_gen.py": [],
+  "model/app/nlu_intent.py": [],
+  "model/app/nlu_llm.py": [],
+  "model/app/stt.py": [],
+  "model/data/.gitkeep": [],
+  "model/notebooks/.gitkeep": [],
+  "model/notebooks/nlu_gen_colab.ipynb": [],
+  "model/notebooks/nlu_intent_colab.ipynb": [],
+  "model/notebooks/whisper_finetune_colab.ipynb": [],
+  "model/requirements.txt": [],
+  "model/scripts/Dockerfile.prep": [],
+  "model/scripts/fetch_model.sh": [],
+  "model/scripts/fetch_nlu_model.sh": [],
+  "model/scripts/make_nlu_data.py": [],
+  "model/scripts/nlu_gen_testset.csv": [],
+  "model/scripts/nlu_testset.csv": [],
+  "model/scripts/prepare_aihub.py": [],
+  "model/weights/.gitkeep": [],
+  "scripts/deploy.ps1": [],
+  "scripts/deploy.sh": [],
+  "scripts/rollback.sh": []
+ }
+}
