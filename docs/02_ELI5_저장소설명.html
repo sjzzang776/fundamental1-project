@@ -171,16 +171,13 @@
 
 <section class="scene">
   <span class="num">07 · 직접 해 보기</span>
-  <h2>세 가지만 해 보세요</h2>
-  <pre># 1) 브라우저 데모 (서버 없이, 휴대폰 크롬·사파리에서 말로 주문)
-https://sjzzang776.github.io/fundamental1-project/demo/
-
-# 2) 내 컴퓨터에서 전체 실행 (Docker Desktop 필요, 모델 파일 약 1.3GB)
+  <h2>두 가지만 해 보세요</h2>
+  <pre># 1) 내 컴퓨터에서 전체 실행 (Docker Desktop 필요, 모델 파일 약 1.3GB)
 cp .env.example .env
 bash model/scripts/fetch_model.sh && bash model/scripts/fetch_nlu_model.sh
 docker compose up --build        # → http://localhost:3000
 
-# 3) 대화 규칙 시험만 (DB·모델 없이 1분)
+# 2) 대화 규칙 시험만 (DB·모델 없이 1분)
 cd backend && pip install -r requirements-dev.txt && pytest -q   # 109개</pre>
   <p class="one">먼저 열어 볼 파일: <code>backend/app/services/dialog.py</code> → <code>backend/app/services/nlu.py</code> → <code>frontend/src/hooks/useVoice.js</code></p>
 </section>
