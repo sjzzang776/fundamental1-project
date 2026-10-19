@@ -1,5 +1,5 @@
 // 음성: 녹음(최대 15초) → 서버 /voice, 안내 문장 읽어 주기.
-// 우리 서버의 음성 안내(/api/tts)가 아직 준비 중이라 브라우저에 들어 있는 읽어 주기(speechSynthesis)를 쓴다.
+// 음성 안내는 브라우저에 들어 있는 읽어 주기(speechSynthesis)로 확정 (PM 결정 2026-10-19). 서버 /api/tts 는 쓰지 않는다.
 import { useCallback, useEffect, useRef, useState } from 'react'
 
 const MAX_RECORD_MS = 15000

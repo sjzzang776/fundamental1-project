@@ -1,5 +1,6 @@
 // s02-kitchen-orders: 주방 주문 관리 (가로 1920 × 1080). 주소: /kitchen
 // MVP: 결제된 주문 목록 + [완료] 버튼. 위쪽에 직원 호출 알림(어느 키오스크, 어느 단계)을 띄운다.
+import { useState } from 'react'
 import { storeApi } from '../api/store.js'
 import KioskStage from '../screens/KioskStage.jsx'
 import { usePolling } from './usePolling.js'
@@ -18,6 +19,16 @@ const REASON = { user_request: '손님이 불렀어요', payment_failed: '결제
 export default function KitchenOrders() {
   const orders = usePolling(storeApi.kitchenOrders)
   const calls = usePolling(storeApi.staffCalls)
+
+  const [resetMsg, setResetMsg] = useState('')
+  const resetCoupons = async () => {
+    try {
+      await storeApi.resetDemoCoupons()
+      setResetMsg('✅ 테스트 쿠폰을 다시 쓸 수 있어요')
+    } catch (err) {
+      setResetMsg(err.status === 404 ? '⚠️ 서버가 아직 지원하지 않아요' : `⚠️ ${err.message}`)
+    }
+  }
 
   const act = async (fn) => {
     await fn().catch(() => {})
@@ -44,7 +55,13 @@ export default function KitchenOrders() {
         )}
         <header className="kitchen__head">
           <h1>주방 주문</h1>
-          <span>{orders.error ? '⚠️ 서버와 연결이 끊겼어요' : `${orders.data?.length ?? 0}건`}</span>
+          <span className="kitchen__tools">
+            {orders.error ? '⚠️ 서버와 연결이 끊겼어요' : `${orders.data?.length ?? 0}건`}
+            <button type="button" className="btn btn--secondary btn--small" onClick={resetCoupons}>
+              🔄 시연용 쿠폰 초기화
+            </button>
+            {resetMsg && <small>{resetMsg}</small>}
+          </span>
         </header>
         <div className="kitchen__grid">
           {orders.data?.map((o) => (

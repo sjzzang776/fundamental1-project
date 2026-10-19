@@ -12,7 +12,7 @@ import { useIdleTimer } from '../hooks/useIdleTimer.js'
 import { useKioskSession } from '../hooks/useKioskSession.js'
 import { useMenuCatalog } from '../hooks/useMenuCatalog.js'
 import { useVoice } from '../hooks/useVoice.js'
-import { idleTimerAllowed, scannerAllowed, screenOf } from '../lib/screen.js'
+import { SIDE_GROUP, choiceInfo, idleTimerAllowed, scannerAllowed, screenOf } from '../lib/screen.js'
 import CompleteScreen from './CompleteScreen.jsx'
 import ConfirmScreen from './ConfirmScreen.jsx'
 import CouponScreen from './CouponScreen.jsx'
@@ -86,19 +86,30 @@ export default function Kiosk() {
   const agentState = micState === 'error' ? 'idle' : micState
   const choices = res.choices ?? []
   const common = { choices, onChoose: k.choose, disabled: k.busy }
+  const info = (label) => choiceInfo(res, label)
 
   let body
   switch (screen) {
     case 'menu':
-      body = <MenuScreen {...common} cart={res.cart} catalog={catalog} onBrowse={() => setBrowsing(true)} />
+      body = <MenuScreen {...common} cart={res.cart} catalog={catalog} info={info} onBrowse={() => setBrowsing(true)} />
       break
     case 'option-set':
     case 'option-drink':
     case 'option-size':
-      body = <OptionScreen {...common} screen={screen} optionPrice={catalog.optionPrice} />
+    case 'option-side':
+    case 'option-other':
+      body = <OptionScreen {...common} screen={screen} optionPrice={catalog.optionPrice} info={info} />
       break
     case 'confirm':
-      body = <ConfirmScreen {...common} cart={res.cart} onChangeQuantity={k.changeQuantity} />
+      body = (
+        <ConfirmScreen
+          {...common}
+          cart={res.cart}
+          sides={catalog.setGroups[SIDE_GROUP]}
+          onChangeQuantity={k.changeQuantity}
+          onChangeSide={k.changeSide}
+        />
+      )
       break
     case 'coupon-ask':
     case 'coupon-scan':
