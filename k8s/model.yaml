@@ -27,8 +27,8 @@ spec:
           env:
             - name: BACKEND_URL # 메뉴 이름 힌트를 가져올 백엔드 주소
               value: http://backend:8000
-            - name: NLU_GEN_THREADS # 생성 모델(nlu-gen-v1) CPU 스레드 = 아래 cpu 요청과 같게
-              value: "8"
+            - name: NLU_GEN_THREADS # 생성 모델 CPU 스레드. cpu 요청보다 적게 (같게 하면 CPU 제한에 걸려 오히려 느림: 8→1.7초, 6→0.6초)
+              value: "6"
           readinessProbe: # 모델을 다 불러온 뒤에만 요청을 받는다
             httpGet:
               path: /ready
