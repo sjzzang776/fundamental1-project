@@ -1,0 +1,26 @@
+# https 입구. 브라우저는 https(또는 localhost)에서만 마이크를 허락하므로 음성 주문에 꼭 필요하다
+# - 고정 주소: gcloud compute addresses create fundamental1-ip --global
+# - 주소 이름: <IP 를 - 로 이은 것>.sslip.io (무료, 따로 사지 않아도 됨). IP 가 바뀌면 managed-cert.yaml 도 바꾼다
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: fundamental1
+  annotations:
+    kubernetes.io/ingress.class: gce
+    kubernetes.io/ingress.global-static-ip-name: fundamental1-ip
+    networking.gke.io/managed-certificates: fundamental1-cert
+    networking.gke.io/v1beta1.FrontendConfig: fundamental1-frontendconfig
+spec:
+  defaultBackend:
+    service:
+      name: frontend
+      port:
+        number: 80
+---
+apiVersion: networking.gke.io/v1beta1
+kind: FrontendConfig
+metadata:
+  name: fundamental1-frontendconfig
+spec:
+  redirectToHttps: # http 로 들어오면 https 로 보낸다
+    enabled: true
