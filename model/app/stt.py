@@ -111,6 +111,23 @@ def menu_hints() -> list[str]:
     return _hints
 
 
+NO_SPEECH_PROB = 0.6  # Whisper 가 "말소리가 아닐 확률"을 이보다 높게 본 구간은 버린다
+
+
+def looks_like_hint_echo(transcript: str, hints: list[str]) -> bool:
+    """말소리가 거의 없을 때 Whisper 가 힌트(메뉴 이름 목록)를 그대로 읽어 버리는 경우.
+    예: "아이스크림 콘, 애플파이, 미디엄, 라지, 빅맥 버거, …" → 손님이 하지 않은 말이므로 버린다.
+    쉼표로 나눈 조각 6개 이상이 거의(80%) 힌트 단어 그대로면 힌트를 읽은 것으로 본다.
+    (손님이 "빅맥, 콜라, 감자튀김, 애플파이 주세요"처럼 몇 개를 이어 말하는 것은 남긴다)"""
+    if not hints:
+        return False
+    parts = [p.strip(" .") for p in transcript.split(",") if p.strip(" .")]
+    if len(parts) < 6:
+        return False
+    hint_set = set(hints)
+    return sum(p in hint_set for p in parts) >= 0.8 * len(parts)
+
+
 def transcribe(audio: BinaryIO, hints: list[str] | None = None) -> dict:
     """hints 를 주면 그 단어를, 안 주면 백엔드 메뉴 이름을 힌트로 쓴다. 빈 목록이면 힌트 없이 인식."""
     model = get_model()
@@ -127,8 +144,11 @@ def transcribe(audio: BinaryIO, hints: list[str] | None = None) -> dict:
     if info.duration > MAX_AUDIO_SECONDS + 0.5:
         raise AudioTooLongError(f"{info.duration:.1f}초")
 
-    segments = list(segments)
+    segments = [s for s in segments if s.no_speech_prob < NO_SPEECH_PROB]  # 말소리가 아닌 구간(잡음) 버림
     transcript = " ".join(s.text.strip() for s in segments).strip()
+    if looks_like_hint_echo(transcript, hints):
+        logger.warning("STT 힌트를 그대로 읽은 결과라 버림: %s", transcript[:80])
+        segments, transcript = [], ""
     # 구간별 평균 로그 확률을 0~1 사이 값으로 바꿔 신뢰도로 쓴다
     confidence = (
         math.exp(sum(s.avg_logprob for s in segments) / len(segments)) if segments else 0.0
