@@ -44,7 +44,7 @@ kubectl -n fundamental1 create secret generic db-secret --from-literal=POSTGRES_
 | 직전 버전으로 되돌리기 | `kubectl -n fundamental1 rollout undo deployment/backend` |
 | 잠시 모두 끄기 (CPU 요금 절약) | `kubectl -n fundamental1 scale deploy --all --replicas=0` 과 `kubectl -n fundamental1 scale statefulset postgres --replicas=0` |
 | 다시 켜기 | 위 명령에서 `--replicas=1` |
-| 시연 전 테스트 쿠폰 초기화 | `curl -X POST https://8-232-203-94.sslip.io/api/demo/reset-coupons` |
+| 시연 전 테스트 쿠폰 초기화 | `curl -X POST -d "" https://8-232-203-94.sslip.io/api/demo/reset-coupons` |
 | **완전히 정리 (발표 후)** | `gcloud container clusters delete fundamental1-cluster --region=asia-northeast3` · `gcloud compute addresses delete fundamental1-ip --global` · `gcloud artifacts repositories delete fundamental1 --location=asia-northeast3` |
 
 ※ 주방 화면·쿠폰 초기화에는 잠금이 없습니다(데모용). 주소를 팀 밖에 널리 공유하지 마세요.
