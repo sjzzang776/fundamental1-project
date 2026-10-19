@@ -1,7 +1,15 @@
 import { describe, expect, it, vi } from 'vitest'
 import { createBarcodeReader } from './barcode.js'
 import { paginate } from './paginate.js'
-import { choiceInfo, idleTimerAllowed, isPaymentChoice, scannerAllowed, screenOf, sideOf } from './screen.js'
+import {
+  choiceInfo,
+  idleTimerAllowed,
+  idleTimerRunning,
+  isPaymentChoice,
+  scannerAllowed,
+  screenOf,
+  sideOf,
+} from './screen.js'
 
 const res = (step, choices, cart) => ({ step, choices, cart })
 
@@ -103,6 +111,29 @@ describe('choiceInfo · sideOf', () => {
 
   it('단품은 사이드가 없다', () => {
     expect(sideOf({ is_set: false, options: [] }, sides)).toBeNull()
+  })
+})
+
+describe('idleTimerRunning: 무응답 타이머를 세는지', () => {
+  const base = { screen: 'payment', inPayment: false, busy: false, speaking: false, listening: false, warned: false }
+
+  it('조용히 기다리는 중이면 센다', () => {
+    expect(idleTimerRunning(base)).toBe(true)
+  })
+
+  it('안내를 읽는 중·손님 말을 듣는 중에는 멈춘다', () => {
+    expect(idleTimerRunning({ ...base, speaking: true })).toBe(false)
+    expect(idleTimerRunning({ ...base, listening: true })).toBe(false)
+  })
+
+  it('"도움이 필요하세요?"를 띄운 뒤에는 그 안내를 읽는 중에도 계속 센다 (안 그러면 처음 화면으로 영영 안 돌아감)', () => {
+    expect(idleTimerRunning({ ...base, warned: true, speaking: true })).toBe(true)
+  })
+
+  it('카드를 넣은 뒤(결제 중)·서버 응답 대기·주문 완료에는 세지 않는다', () => {
+    expect(idleTimerRunning({ ...base, inPayment: true, warned: true })).toBe(false)
+    expect(idleTimerRunning({ ...base, busy: true })).toBe(false)
+    expect(idleTimerRunning({ ...base, screen: 'done', warned: true })).toBe(false)
   })
 })
 

@@ -1,6 +1,6 @@
 // 손님 화면 전체. 서버 응답 → 어떤 화면인지(screenOf) → 그 화면의 본문을 공통 틀 안에 그린다.
 // 공통 틀 (위에서 아래로): 진행 표시 · 안내 말풍선 · 마이크 · 본문(버튼) · 하단 고정 바
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import AgentBubble from '../components/AgentBubble.jsx'
 import BottomBar from '../components/BottomBar.jsx'
 import ChoiceList from '../components/ChoiceList.jsx'
@@ -12,7 +12,7 @@ import { useIdleTimer } from '../hooks/useIdleTimer.js'
 import { useKioskSession } from '../hooks/useKioskSession.js'
 import { useMenuCatalog } from '../hooks/useMenuCatalog.js'
 import { HANDS_FREE, useVoice } from '../hooks/useVoice.js'
-import { SIDE_GROUP, choiceInfo, idleTimerAllowed, scannerAllowed, screenOf } from '../lib/screen.js'
+import { SIDE_GROUP, choiceInfo, idleTimerRunning, scannerAllowed, screenOf } from '../lib/screen.js'
 import CompleteScreen from './CompleteScreen.jsx'
 import ConfirmScreen from './ConfirmScreen.jsx'
 import CouponScreen from './CouponScreen.jsx'
@@ -46,8 +46,16 @@ export default function Kiosk() {
   }, [res, payment?.phase]) // eslint-disable-line react-hooks/exhaustive-deps
 
   // 무응답 15초 → "도움이 필요하세요?" → 15초 더 → 처음 화면 (결제 중·말하는 중·듣는 중에는 멈춤)
+  const warnedRef = useRef(false) // 직전 화면에서 "도움이 필요하세요?"를 띄웠는지
   const warned = useIdleTimer({
-    enabled: idleTimerAllowed(screen) && !inPayment && !k.busy && !voice.speaking && voice.micState !== 'listening',
+    enabled: idleTimerRunning({
+      screen,
+      inPayment,
+      busy: k.busy,
+      speaking: voice.speaking,
+      listening: voice.micState === 'listening',
+      warned: warnedRef.current,
+    }),
     resetKey: res,
     onTimeout: () => {
       setBrowsing(false)
@@ -55,6 +63,7 @@ export default function Kiosk() {
       k.endByTimeout()
     },
   })
+  warnedRef.current = warned
   useEffect(() => {
     if (warned) voice.speak('도움이 필요하세요?')
   }, [warned]) // eslint-disable-line react-hooks/exhaustive-deps
