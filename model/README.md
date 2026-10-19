@@ -1,8 +1,9 @@
-# model/ · 음성 인식(STT) 모델 서버
+# model/ · 음성 인식(STT) · 의도 파악(NLU) 모델 서버
 
 | 주소 | 하는 일 |
 |---|---|
 | `POST /stt` | 음성(wav/webm, 최대 15초) → 글자. 선택 항목 `hints`(쉼표 구분 단어) |
+| `POST /nlu` | 백엔드 규칙이 못 알아들은 손님 말 → 키오스크 표준 문장 (`{"rewrite": "포장", "confidence": 0.93}`) |
 | `GET /health` | 서버 상태 + `stt_ready`(모델 불러오기 끝났는지) |
 | `GET /ready` | 모델 준비됐으면 200, 불러오는 중이면 503 → 쿠버네티스 readinessProbe 용 |
 | `POST /predict` | (임시) 연결 테스트 |
@@ -33,3 +34,23 @@ docker compose build model                 # Dockerfile 의 COPY weights 로 이
 1. 내 컴퓨터(한국 IP)에서 데이터 준비: `model/scripts/prepare_aihub.py` (AI Hub 는 해외 IP 차단 → Colab 에서 직접 못 받음)
 2. Colab 학습: `model/notebooks/whisper_finetune_colab.ipynb`
 3. 결과 zip 을 새 Release 로 올리고 `fetch_model.sh` 의 기본 태그를 바꿈
+
+## 의도 파악 (C안: 규칙 먼저, 못 알아들은 말만 `/nlu`)
+`/nlu` 는 아래 순서로 답합니다. 아무것도 없으면 503 → 백엔드는 규칙만 씁니다.
+
+| 순서 | 엔진 | 준비 | 특징 |
+|---|---|---|---|
+| 1 | 분류 모델 `weights/nlu-intent-v1/` | `bash model/scripts/fetch_nlu_model.sh` | 표준 문장 18개 중 하나. CPU 수십 ms, 공짜 |
+| 2 | Claude | `.env` 에 `ANTHROPIC_API_KEY` | 메뉴 이름이 들어간 말까지. 유료(API 크레딧) |
+| (예정) | 생성 모델 `nlu-gen-v1` (Qwen2.5-1.5B LoRA, GGUF) | 학습 중 | 메뉴 이름까지, 우리 서버 CPU 로 |
+
+다시 학습하기
+1. 데이터 만들기: `python model/scripts/make_nlu_data.py` → `model/data/nlu_data.zip` (말투를 섞어 자동 생성, 시험 문장 `nlu_testset.csv`·`nlu_gen_testset.csv` 는 사람이 따로 씀)
+2. Colab 학습: 분류 `model/notebooks/nlu_intent_colab.ipynb` · 생성 `model/notebooks/nlu_gen_colab.ipynb`
+3. 결과 zip 을 Release(`model-nlu-intent-v1` 등)로 올리고 fetch 스크립트로 받음
+
+| 환경변수 | 기본값 | 설명 |
+|---|---|---|
+| `NLU_INTENT_MODEL` | `weights/nlu-intent-v1` | 분류 모델 폴더 |
+| `NLU_INTENT_THRESHOLD` | 학습 때 정한 값 | 이보다 확신이 낮으면 "모름" |
+| `ANTHROPIC_API_KEY` / `NLU_MODEL` | 없음 / `claude-opus-5-5` | Claude 사용 |

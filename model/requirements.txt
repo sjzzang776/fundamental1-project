@@ -5,3 +5,5 @@ faster-whisper==1.2.1
 httpx==0.28.1  # 백엔드 메뉴 이름(힌트) 가져오기
 av==18.1.0  # 음성 파일 읽기. 19 이상은 faster-whisper 와 맞지 않음 (metadata_errors 오류)
 anthropic==1.15.0  # 의도 파악 C안: 규칙이 못 알아들은 말만 LLM으로 다시 쓰기 (/nlu)
+onnxruntime==1.20.1  # 의도 파악 분류 모델(nlu-intent-v1) 실행
+tokenizers==0.21.0
