@@ -1,0 +1,21 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: fundamental1
+resources:
+  - namespace.yaml
+  - postgres.yaml
+  - model.yaml
+  - backend.yaml
+  - frontend.yaml
+  - managed-cert.yaml
+  - ingress.yaml
+images:
+  - name: frontend
+    newName: asia-northeast3-docker.pkg.dev/project-b10d899d-6de4-4ec8-a03/fundamental1/frontend
+    newTag: latest
+  - name: backend
+    newName: asia-northeast3-docker.pkg.dev/project-b10d899d-6de4-4ec8-a03/fundamental1/backend
+    newTag: latest
+  - name: model
+    newName: asia-northeast3-docker.pkg.dev/project-b10d899d-6de4-4ec8-a03/fundamental1/model
+    newTag: latest

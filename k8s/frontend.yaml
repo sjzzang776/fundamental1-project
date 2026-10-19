@@ -1,0 +1,52 @@
+# 화면(Nginx). 바깥에서는 ingress.yaml 의 https 입구로만 들어온다
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: frontend
+          ports:
+            - containerPort: 80
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+          resources:
+            requests:
+              cpu: 250m
+              memory: 256Mi
+---
+apiVersion: cloud.google.com/v1
+kind: BackendConfig
+metadata:
+  name: frontend-backendconfig
+spec:
+  timeoutSec: 60 # 음성 인식이 처음에 오래 걸릴 수 있어 기본 30초보다 길게
+  healthCheck:
+    requestPath: /
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+  annotations:
+    cloud.google.com/neg: '{"ingress": true}'
+    cloud.google.com/backend-config: '{"default": "frontend-backendconfig"}'
+spec:
+  type: ClusterIP
+  selector:
+    app: frontend
+  ports:
+    - port: 80
+      targetPort: 80

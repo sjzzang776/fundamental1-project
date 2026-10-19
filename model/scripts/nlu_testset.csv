@@ -1,0 +1,124 @@
+step,text,label
+DINE_TYPE,여기서 먹고 일어날게요,매장에서
+DINE_TYPE,가게 안에서 먹을 거예요,매장에서
+DINE_TYPE,자리 잡았어 여기서 먹어,매장에서
+DINE_TYPE,먹고 갈 거니까 쟁반에 줘,매장에서
+DINE_TYPE,저기 창가에 앉아서 먹을게,매장에서
+DINE_TYPE,여기서 해결하고 갈게요,매장에서
+DINE_TYPE,여서 먹을 끼라,매장에서
+DINE_TYPE,가져갈 거 아니고 먹고 가요,매장에서
+DINE_TYPE,집에 가져갈 거예요,포장
+DINE_TYPE,싸 가지고 가야 돼요,포장
+DINE_TYPE,가지고 가게 봉투에 넣어 주세요,포장
+DINE_TYPE,가다가 먹을 거예요,포장
+DINE_TYPE,영감 갖다 줄 거여,포장
+DINE_TYPE,싸 갈 거니까 담아 줘,포장
+DINE_TYPE,차에 가서 먹을라고,포장
+DINE_TYPE,여기서 안 먹고 가져가요,포장
+DINE_TYPE,포장 포장,포장
+OPTION,음료수랑 감자 다 같이 줘,세트로 주세요
+OPTION,콜라랑 감자 다 나오는 거,세트로 주세요
+OPTION,같이 딸려 나오는 걸로 해 줘,세트로 주세요
+MENU,세트 메뉴로 할게,세트로 주세요
+OPTION,세트로 해 주시오,세트로 주세요
+OPTION,버거 하나만 있으면 돼요,단품으로 주세요
+OPTION,다른 건 필요 없고 그거만,단품으로 주세요
+OPTION,음료는 안 먹어요 햄버거만 줘,단품으로 주세요
+OPTION,세트 안 할래요,단품으로 주세요
+OPTION,따로따로 말고 그것만,단품으로 주세요
+OPTION,제일 큰 걸로 줘,라지로 주세요
+OPTION,양 많은 걸로 할게,라지로 주세요
+OPTION,크은 거,라지로 주세요
+OPTION,큰 사이즈 주이소,라지로 주세요
+OPTION,기본으로 할게요,미디엄으로 주세요
+OPTION,보통 사이즈요,미디엄으로 주세요
+OPTION,중간 크기로 줘유,미디엄으로 주세요
+OPTION,너무 크지 않은 걸로,미디엄으로 주세요
+MENU,여기 뭐가 제일 맛있어요,추천해 주세요
+MENU,뭘 시켜야 좋을지 모르겠어,추천해 주세요
+MENU,잘 팔리는 걸로 하나 골라 줘,추천해 주세요
+MENU,아무거나 괜찮은 거 줘요,추천해 주세요
+MENU,손녀가 먹을 건데 뭐가 좋아,추천해 주세요
+MENU,처음이라 하나도 몰라요 추천 좀,추천해 주세요
+MENU,뭐 먹으면 좋겠노,추천해 주세요
+MENU,이제 다 시켰어,주문할게요
+MENU,더 고를 거 없어요,주문할게요
+MENU,이 정도면 됐다,주문할게요
+MENU,계산할게요,주문할게요
+MENU,이제 결제하자,주문할게요
+MENU,이거면 충분해,주문할게요
+MENU,됐어 됐어,주문할게요
+MENU,그만 시킬게요 계산해 줘,주문할게요
+CONFIRM,예 그거 맞아요,맞아요
+CONFIRM,그렇게 주세요,맞아요
+CONFIRM,다 맞습니다,맞아요
+CONFIRM,그래 그거야,맞아요
+CONFIRM,응 맞어,맞아요
+CONFIRM,그렇게 해 주이소,맞아요
+CONFIRM,맞는 거 같아,맞아요
+CONFIRM,됐어요 그걸로,맞아요
+CONFIRM,어 그래 됐다,맞아요
+CONFIRM,잘못됐어요,수정할게요
+CONFIRM,내가 시킨 거 아닌데,수정할게요
+CONFIRM,다시 골라야겠어,수정할게요
+CONFIRM,틀리게 나왔네,수정할게요
+CONFIRM,아니 아니 그거 말고,수정할게요
+CONFIRM,바꿀 거 있어요,수정할게요
+CONFIRM,아니여,수정할게요
+COUPON,쿠폰 있지 있어,쿠폰 있어요
+COUPON,핸드폰에 할인 쿠폰 있어요,쿠폰 있어요
+COUPON,바코드 찍을게요,쿠폰 있어요
+COUPON,어 있어 쿠폰,쿠폰 있어요
+COUPON,쿠폰 쓸래,쿠폰 있어요
+COUPON,응,쿠폰 있어요
+COUPON,그래 있어,쿠폰 있어요
+COUPON,그런 거 없는데,없어요
+COUPON,쿠폰이 뭐예요 없어요,없어요
+COUPON,안 써요 그런 거,없어요
+COUPON,없다,없어요
+COUPON,쿠폰 안 갖고 왔어,없어요
+COUPON,그냥 돈 낼게요,없어요
+COUPON,아니,없어요
+COUPON,아뇨 없어요,없어요
+PAYMENT,한 번 더 해 볼게,다시 결제할게요
+PAYMENT,카드 다시 꽂아 볼게요,다시 결제할게요
+PAYMENT,다른 카드 넣을게,다시 결제할게요
+PAYMENT,다시 해 줘,다시 결제할게요
+PAYMENT,응 다시,다시 결제할게요
+MENU,내가 뭐 시켰더라,장바구니 보여줘
+MENU,지금까지 고른 거 말해 줘요,장바구니 보여줘
+OPTION,뭐 담겨 있어요 지금,장바구니 보여줘
+CONFIRM,주문한 거 다시 보여 줘,장바구니 보여줘
+MENU,똑같은 거 하나 더 줘,하나 더 주세요
+MENU,그거 또 한 개,하나 더 주세요
+MENU,같은 걸로 하나만 더,하나 더 주세요
+MENU,하나 더 시킬게요,하나 더 주세요
+MENU,처음부터 다시 할래요,처음으로
+OPTION,맨 앞으로 돌아가 줘,처음으로
+CONFIRM,처음 화면으로 가 줘,처음으로
+COUPON,다시 처음부터 해야겠다,처음으로
+MENU,안 살 거예요,취소
+CONFIRM,주문 그만할게,취소
+OPTION,다 그만둘래요,취소
+PAYMENT,안 할래 취소해 줘,취소
+DINE_TYPE,나중에 다시 올게,취소
+MENU,사람 좀 불러 주세요,직원 불러줘
+OPTION,모르겠다 직원 와 줘,직원 불러줘
+PAYMENT,카드가 안 돼 사람 좀,직원 불러줘
+COUPON,여기 일하는 사람 없어요,직원 불러줘
+CONFIRM,저기요 좀 와 봐요,직원 불러줘
+DINE_TYPE,도와줄 사람 없나,직원 불러줘
+MENU,날이 많이 춥네,NONE
+MENU,우리 아들이 오기로 했는데,NONE
+OPTION,뭐라는지 모르겠네,NONE
+DINE_TYPE,아이고 다리야,NONE
+MENU,국밥 한 그릇 주세요,NONE
+MENU,짬뽕 있어요,NONE
+CONFIRM,잠깐만 기다려 봐,NONE
+COUPON,안경이 어디 갔나,NONE
+PAYMENT,손이 시려서,NONE
+MENU,음 그러니까 그 뭐더라,NONE
+OPTION,우리 손주는 학교 갔어,NONE
+MENU,커피 맛있는 집 어디예요,NONE
+DINE_TYPE,화면이 너무 밝아,NONE
+MENU,냉면 두 개요,NONE

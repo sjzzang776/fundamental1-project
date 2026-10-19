@@ -1,16 +1,18 @@
-// 음성: 손님이 말하면 버튼 없이 바로 듣고, 말을 멈추면 바로 서버 /voice 로 보낸다.
+// 음성: 기본은 마이크 버튼을 눌러 말하고, 다 말하면 다시 눌러 서버 /voice 로 보낸다 (PM 결정 2026-10-19: 자동 감지는 아직 인식이 불안정).
+// 아래는 손 안 대고 듣기(VITE_HANDS_FREE=1)일 때:
 // 음성 안내는 브라우저에 들어 있는 읽어 주기(speechSynthesis)로 확정 (PM 결정 2026-10-19). 서버 /api/tts 는 쓰지 않는다.
 // - 주문 중에는 마이크를 계속 열어 두고 소리 크기만 본다. 주변 소음보다 4배 이상 큰 목소리가 0.3초 이어지면 녹음 시작(직전 0.4초 포함).
 // - 1초 조용하면 녹음을 끝내 16kHz WAV로 보낸다(최대 14초). 안내를 읽는 중에 손님이 말하면 안내를 멈춘다(끼어들기).
 // - 결제·응답 대기·안내 창에서는 멈춤(paused). 마이크 버튼으로도 직접 시작·끝낼 수 있다.
-// - 끄려면 빌드할 때 VITE_HANDS_FREE=0 (예전처럼 버튼을 눌러 말하기)
+// - 켜려면 빌드할 때 VITE_HANDS_FREE=1
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { createSpeechDetector, rmsOf } from '../lib/vad.js'
 import { encodeWav } from '../lib/wav.js'
 
-export const HANDS_FREE = import.meta.env.VITE_HANDS_FREE !== '0'
+export const HANDS_FREE = import.meta.env.VITE_HANDS_FREE === '1'
 const PRE_ROLL_MS = 400
 const FRAME_SIZE = 2048
+const MANUAL_MAX_MS = 14000 // 버튼으로 시작했는데 끝 버튼을 안 누르면 14초에 보낸다 (서버 최대 15초)
 
 export function useVoice({ onRecorded }) {
   // off: 마이크 닫힘 · waiting: 말하면 바로 들음 · listening: 듣는 중 · error: 마이크 없음/권한 없음
@@ -23,6 +25,7 @@ export function useVoice({ onRecorded }) {
   const detectorRef = useRef(createSpeechDetector())
   const preRollRef = useRef([]) // 직전 0.4초
   const captureRef = useRef(null) // 듣는 중인 소리 조각들
+  const manualRef = useRef(null) // 버튼으로 시작했으면 지금까지 들은 시간(ms). 조용해도 끝내지 않는다
   const pausedRef = useRef(true)
   const speakingRef = useRef(false)
   const utterRef = useRef(null)
@@ -66,6 +69,7 @@ export function useVoice({ onRecorded }) {
     const audio = audioRef.current
     const chunks = captureRef.current
     captureRef.current = null
+    manualRef.current = null
     detectorRef.current.reset()
     if (!audio || !chunks?.length) {
       if (audio) setMicState('waiting')
@@ -92,6 +96,11 @@ export function useVoice({ onRecorded }) {
       while (pre.length * dtMs > PRE_ROLL_MS) pre.shift()
 
       if (captureRef.current) captureRef.current.push(copy)
+      if (manualRef.current !== null) {
+        manualRef.current += dtMs
+        if (manualRef.current >= MANUAL_MAX_MS) finishCapture()
+        return
+      }
       if (pausedRef.current && !captureRef.current) return
 
       const event = detectorRef.current.push(rmsOf(copy), dtMs, { speaking: speakingRef.current })
@@ -133,6 +142,7 @@ export function useVoice({ onRecorded }) {
     const audio = audioRef.current
     audioRef.current = null
     captureRef.current = null
+    manualRef.current = null
     preRollRef.current = []
     if (audio) {
       audio.proc.onaudioprocess = null
@@ -150,7 +160,9 @@ export function useVoice({ onRecorded }) {
   }, [])
 
   // 마이크 버튼: 기다리는 중이면 바로 듣기 시작, 듣는 중이면 바로 끝내고 보내기
+  // 안내를 읽는 중에 누르면 안내를 바로 멈추고 듣는다
   const toggleListening = useCallback(async () => {
+    if (!captureRef.current && speakingRef.current) stopSpeaking()
     if (!audioRef.current) await open()
     if (!audioRef.current) return
     if (captureRef.current) {
@@ -158,8 +170,9 @@ export function useVoice({ onRecorded }) {
     } else {
       detectorRef.current.forceStart()
       beginCapture()
+      manualRef.current = 0
     }
-  }, [open, beginCapture, finishCapture])
+  }, [open, beginCapture, finishCapture, stopSpeaking])
 
   useEffect(
     () => () => {

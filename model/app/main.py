@@ -1,3 +1,4 @@
+import logging
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, File, Form, UploadFile
@@ -5,14 +6,16 @@ from fastapi.concurrency import run_in_threadpool
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 
-from app import stt
+from app import nlu_gen, nlu_intent, nlu_llm, stt
 
 MODEL_VERSION = stt.MODEL_VERSION
+logger = logging.getLogger("uvicorn.error")
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     stt.preload_in_background()
+    nlu_gen.preload_in_background()
     yield
 
 
@@ -28,9 +31,18 @@ class PredictRequest(BaseModel):
     text: str
 
 
+class NluRequest(BaseModel):
+    text: str
+    step: str | None = None
+    cart: list[str] = []
+    history: list = []
+    menus: list[str] = []
+    options: list[str] = []
+
+
 @app.get("/health")
 def health():
-    return {"status": "ok", "model_version": MODEL_VERSION, "stt_ready": stt.is_ready()}
+    return {"status": "ok", "model_version": MODEL_VERSION, "stt_ready": stt.is_ready(), "nlu_intent": nlu_intent.available(), "nlu_gen": nlu_gen.is_ready(), "nlu_llm": nlu_llm.available()}
 
 
 @app.get("/ready")
@@ -39,6 +51,55 @@ def ready():
     if stt.is_ready():
         return {"ready": True, "model_version": MODEL_VERSION}
     return error(503, "MODEL_LOADING", "음성 인식 모델을 불러오는 중입니다")
+
+
+# 분류 모델은 메뉴 문장으로 학습하지 않아서, 메뉴가 섞인 말("감자는 빼 줘")에도 이 답을 고를 때가 있다.
+# 메뉴와 헷갈리기 쉽거나 주문을 지우는 답이므로, 생성 모델이 있으면 한 번 더 물어 생성 모델 답을 쓴다.
+CHECK_WITH_GEN = {"세트로 주세요", "단품으로 주세요", "라지로 주세요", "미디엄으로 주세요", "하나 더 주세요", "취소", "처음으로"}
+
+
+def _understand(req: NluRequest) -> dict:
+    # 1) 작은 분류 모델 (빠르고 공짜): 표준 문장 18개 중 하나로 확신하면 바로 답한다
+    tried = nlu_intent.available()
+    picked = None
+    if tried:
+        picked = nlu_intent.classify(req.text, req.step)
+        if picked["rewrite"] and not (picked["rewrite"] in CHECK_WITH_GEN and nlu_gen.available()):
+            return picked
+    # 2) 우리가 파인튜닝한 작은 LLM (있으면): 메뉴 이름이 들어간 말까지 다시 쓴다 (CPU, 공짜)
+    if nlu_gen.available():
+        tried = True
+        try:
+            result = nlu_gen.rewrite(req.text, req.step)
+            if result["rewrite"]:
+                return result
+        except Exception:
+            logger.exception("생성 모델 실패")
+    if picked and picked["rewrite"]:  # 생성 모델이 모른다고 하면 분류 모델 답을 쓴다
+        return picked
+    # 3) Claude (API 키가 있을 때만): 위 둘이 못 한 말
+    if nlu_llm.available():
+        try:
+            return nlu_llm.rewrite(req.text, req.step, req.menus, req.options, req.cart, req.history)
+        except nlu_llm.NluUnavailable:
+            if not tried:
+                raise
+    if tried:  # 우리 모델은 있으니 503 대신 "모름" (백엔드가 1분 동안 /nlu 를 건너뛰지 않게)
+        return {"rewrite": "", "confidence": 0.0, "model": nlu_gen.model_version() or nlu_intent.model_version()}
+    raise nlu_llm.NluUnavailable("의도 파악 모델도 API 키도 없습니다")
+
+
+@app.post("/nlu")
+async def nlu(req: NluRequest):
+    """백엔드 규칙이 못 알아들은 손님 말을 키오스크가 아는 표준 문장으로 바꾼다 (C안).
+
+    순서: 분류 모델(nlu-intent-v1) → 생성 모델(nlu-gen-v1) → Claude(ANTHROPIC_API_KEY 있으면). 없는 것은 건너뜀.
+    응답: {"rewrite": "포장", "confidence": 0.9, "model": "..."}. 둘 다 없으면 503 → 백엔드는 규칙만 쓴다.
+    """
+    try:
+        return await run_in_threadpool(_understand, req)
+    except nlu_llm.NluUnavailable as e:
+        return error(503, "NLU_UNAVAILABLE", str(e))
 
 
 @app.post("/stt")

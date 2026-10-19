@@ -23,6 +23,10 @@ services:
     build: ./model
     ports:
       - "8001:8001"
+    environment:
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      NLU_MODEL: ${NLU_MODEL:-claude-opus-5-5}
+      NLU_EFFORT: ${NLU_EFFORT:-low}
 
   db:
     image: postgres:16-alpine
