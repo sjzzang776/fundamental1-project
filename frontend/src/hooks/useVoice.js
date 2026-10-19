@@ -160,7 +160,9 @@ export function useVoice({ onRecorded }) {
   }, [])
 
   // 마이크 버튼: 기다리는 중이면 바로 듣기 시작, 듣는 중이면 바로 끝내고 보내기
+  // 안내를 읽는 중에 누르면 안내를 바로 멈추고 듣는다
   const toggleListening = useCallback(async () => {
+    if (!captureRef.current && speakingRef.current) stopSpeaking()
     if (!audioRef.current) await open()
     if (!audioRef.current) return
     if (captureRef.current) {
@@ -170,7 +172,7 @@ export function useVoice({ onRecorded }) {
       beginCapture()
       manualRef.current = 0
     }
-  }, [open, beginCapture, finishCapture])
+  }, [open, beginCapture, finishCapture, stopSpeaking])
 
   useEffect(
     () => () => {
