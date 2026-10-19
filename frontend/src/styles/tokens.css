@@ -1,0 +1,32 @@
+/* 디자인 규칙 (Figma `kiosk/*` 변수 + 2차 디자인 색). 화면에서 색·글자 크기를 직접 쓰지 말고 이 값을 쓴다.
+   글자와 배경 대비는 7:1 이상 (WCAG AAA). 연한 회색 글씨는 쓰지 않는다. */
+:root {
+  --bg: #fff8e7;
+  --surface: #ffffff;
+  --text-primary: #1a1a1a;
+  --text-secondary: #3d3d3d;
+  --primary: #a8101a; /* 케첩 빨강: 흰 글씨와 대비 7.6:1 */
+  --primary-text: #ffffff;
+  --accent: #ffc72c; /* 골드 옐로: 진한 글씨와 함께만 */
+  --danger: #8a0c14;
+  --success: #1b5e20;
+  --focus: #ffc72c; /* 빛나는 안내 영역 */
+  --line: #1a1a1a;
+
+  --fs-display: 96px;
+  --fs-title: 56px;
+  --fs-button: 40px;
+  --fs-body: 32px;
+  --fs-caption: 28px;
+
+  --sp-1: 8px;
+  --sp-2: 16px;
+  --sp-3: 24px;
+  --sp-4: 32px;
+  --sp-6: 48px;
+  --sp-8: 64px;
+
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --btn-min-h: 120px;
+}
