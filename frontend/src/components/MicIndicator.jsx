@@ -1,7 +1,7 @@
 import { HANDS_FREE } from '../hooks/useVoice.js'
 
 // Figma 부품 `MicIndicator`: listening / speaking / idle / error.
-// 기본: 버튼을 눌러 말하고 다시 눌러 끝낸다. handsFree(VITE_HANDS_FREE=1)면 말하면 바로 듣고 멈추면 보낸다.
+// 기본: 말하면 바로 듣고 멈추면 보낸다(handsFree). 버튼을 눌러 직접 시작하면 다시 눌러 끝낸다. VITE_HANDS_FREE=0 이면 버튼으로만.
 const TEXT = {
   idle: '눌러서 말하기',
   listening: '듣고 있어요 · 다 말하면 다시 눌러 주세요',

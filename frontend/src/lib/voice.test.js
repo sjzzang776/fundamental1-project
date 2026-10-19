@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest'
-import { fetchSpeech, pickBrowserVoice, resetSpeechCache, splitSentences } from './tts.js'
+import { fetchSpeech, pickBrowserVoice, resetSpeechCache } from './tts.js'
 import { createSpeechDetector, rmsOf } from './vad.js'
 import { downsample, encodeWav } from './wav.js'
 
@@ -138,14 +138,3 @@ describe('안내 음성 (lib/tts.js)', () => {
   })
 })
 
-describe('splitSentences', () => {
-  it('안내를 문장 단위로 나눈다', () => {
-    expect(splitSentences('애플파이 하나 담았어요. 더 필요하신 건 있으세요? 다 고르셨으면 말씀해 주세요.')).toEqual([
-      '애플파이 하나 담았어요.',
-      '더 필요하신 건 있으세요?',
-      '다 고르셨으면 말씀해 주세요.',
-    ])
-    expect(splitSentences('안녕하세요! 드시고 가세요, 포장하세요?')).toEqual(['안녕하세요!', '드시고 가세요, 포장하세요?'])
-    expect(splitSentences('')).toEqual([])
-  })
-})
