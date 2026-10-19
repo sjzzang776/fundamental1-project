@@ -9,7 +9,7 @@
 | 실제 서비스 (GKE 배포) | https://8-232-203-94.sslip.io/ ― **휴대폰에서 열어야 잘 동작합니다** (세로 화면 기준 설계, 마이크 권한 허용) |
 | 그림으로 먼저 보기 | [00_ELI5_저장소설명.pdf](00_ELI5_저장소설명.pdf) (4쪽, 처음 보는 개발자용) |
 | 코드 구조 대시보드 | [온라인으로 보기](https://sjzzang776.github.io/fundamental1-project/dashboard/) · [구조 분석 문서](docs/01_UnderstandAnything_분석.md) · [내 컴퓨터에서 보는 법](#코드-구조-대시보드-understand-anything) |
-| 노션 (팀 문서) | [처음 노션](https://app.notion.com/p/likelion/A-3f144860a4f48025bb02f67f3f518c67) → 무료 블록 수 초과로 [새 노션](https://app.notion.com/p/Notion-3fe68523797880cc8097f968a9ccd5c9)으로 옮김 (이후 기록은 새 노션) |
+| 노션 (팀 문서) | [처음 노션](https://app.notion.com/p/Fundamental-1-project-3fb4c378882381178dc9f732fd1d2cff) → 무료 블록 수 초과로 [새 노션](https://app.notion.com/p/Notion-3fe68523797880cc8097f968a9ccd5c9)으로 옮김 (이후 기록은 새 노션) |
 
 ---
 
