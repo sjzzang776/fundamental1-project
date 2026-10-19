@@ -48,7 +48,7 @@
 ## 구성 (폴더 지도)
 
 ```
-frontend/   React 손님 화면(/) · 픽업 호출(/pickup) · 주방(/kitchen), Nginx
+frontend/   React 손님 화면 · 픽업 호출 · 주방 화면, Nginx
 backend/    FastAPI: 세션·대화·메뉴·주문·주방 API, 말 이해 규칙, 장바구니·쿠폰·모의 결제, 안내 음성 합성
 model/      FastAPI 모델 서버: /stt(음성 인식), /nlu(의도 파악), 학습 노트북·데이터 준비 스크립트
 k8s/        GKE 배포 매니페스트, 배포 기록(DEPLOY_LOG.md)
