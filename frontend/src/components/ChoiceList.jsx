@@ -12,7 +12,14 @@ export function ChoiceButton({ icon, label, sub, onClick, disabled, variant = 'p
   )
 }
 
-export default function ChoiceList({ choices, onChoose, disabled, describe = () => ({}), moreLabel = '다른 것 보기' }) {
+export default function ChoiceList({
+  choices,
+  onChoose,
+  disabled,
+  describe = () => ({}),
+  moreLabel = '다른 것 보기',
+  backLabel = '앞으로',
+}) {
   const pages = paginate(choices)
   const [page, setPage] = useState(0)
   useEffect(() => setPage(0), [choices.join('|')])
@@ -33,7 +40,7 @@ export default function ChoiceList({ choices, onChoose, disabled, describe = () 
         <ChoiceButton
           variant="secondary"
           icon={last ? '◀' : '▶'}
-          label={last ? '앞으로' : moreLabel}
+          label={last ? backLabel : moreLabel}
           sub={`${page + 1} / ${pages.length}쪽`}
           onClick={() => setPage(last ? 0 : page + 1)}
         />

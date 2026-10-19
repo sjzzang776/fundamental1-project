@@ -77,6 +77,7 @@ export default function MenuBrowser({ catalog, onAdd, onClose }) {
           onChoose={question.pick}
           describe={(c) => ({ sub: question.sub?.[c] ?? (c === '세트' ? '감자튀김 + 음료' : undefined) })}
           moreLabel="다른 음료 보기"
+          backLabel="처음 음료"
         />
       ) : (
         <>

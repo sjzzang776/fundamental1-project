@@ -11,6 +11,8 @@ export const storeApi = {
   setOrderStatus: (orderId, status) =>
     request(`/api/kitchen/orders/${orderId}`, { method: 'PATCH', body: { status }, headers: kitchenHeaders }),
   staffCalls: () => request('/api/staff-calls?resolved=false', { headers: kitchenHeaders }),
+  // 시연 전: 테스트 쿠폰 TEST0001~0005 를 처음 상태로 (백엔드 PR #19 · 이슈 #14)
+  resetDemoCoupons: () => request('/api/demo/reset-coupons', { method: 'POST', headers: kitchenHeaders }),
   resolveStaffCall: (callId) =>
     request(`/api/staff-calls/${callId}`, { method: 'PATCH', body: { resolved: true }, headers: kitchenHeaders }),
 }

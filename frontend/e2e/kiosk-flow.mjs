@@ -15,6 +15,10 @@ const check = (name, ok, extra = '') => {
   log(`${ok ? 'PASS' : 'FAIL'} ${name} ${extra}`)
 }
 
+// 시작 전에 테스트 쿠폰을 처음 상태로 (백엔드 PR #19의 시연용 기능. 없으면 넘어감)
+const reset = await fetch(`${BASE}/api/demo/reset-coupons`, { method: 'POST' }).catch(() => null)
+log(`쿠폰 초기화: ${reset?.status ?? '연결 안 됨'}`)
+
 const browser = await chromium.launch()
 const kiosk = await browser.newPage({ viewport: { width: 540, height: 960 }, deviceScaleFactor: 2 })
 const errors = []
@@ -56,7 +60,8 @@ check('음료 1쪽: 버튼 4개(음료 3 + 다른 음료 보기)', page1 === 4, 
 await tap('다른 음료 보기')
 await shot(kiosk, '03b-option-drink-2')
 check('음료 2쪽에 오렌지 주스 +700원', (await choice('오렌지 주스').innerText()).includes('+700원'))
-await tap('앞으로')
+check('음료 2쪽 돌아가기 버튼은 [처음 음료]', (await choice('처음 음료').count()) === 1)
+await tap('처음 음료')
 await tap('코카콜라 제로')
 await shot(kiosk, '03c-option-size')
 check('사이즈 질문', (await bubble()).includes('사이즈'))
@@ -73,6 +78,21 @@ check('[하나 더] → 16,000원', (await kiosk.locator('.cart-total').innerTex
 await kiosk.getByRole('button', { name: '− 빼기' }).click()
 await wait()
 check('[빼기] → 8,000원', (await kiosk.locator('.cart-total').innerText()).includes('8,000원'))
+
+// 사이드 바꾸기 (이슈 #13): 후렌치 후라이 → 맥너겟 4조각(+500원) → 다시 후렌치 후라이
+check('확인 화면에 "사이드: 후렌치 후라이"', (await kiosk.locator('.cart-item__side').innerText()).includes('후렌치 후라이'))
+await kiosk.getByRole('button', { name: '🔄 바꾸기' }).click()
+await wait(400)
+await shot(kiosk, '04b-side-change')
+await kiosk.getByRole('button', { name: /맥너겟 4조각/ }).click()
+await wait()
+check('사이드 맥너겟으로 바꾸면 8,500원', (await kiosk.locator('.cart-total').innerText()).includes('8,500원'))
+check('사이드 줄도 맥너겟으로 바뀜', (await kiosk.locator('.cart-item__side').innerText()).includes('맥너겟'))
+await kiosk.getByRole('button', { name: '🔄 바꾸기' }).click()
+await wait(400)
+await kiosk.getByRole('button', { name: /후렌치 후라이/ }).click()
+await wait()
+check('다시 후렌치 후라이 → 8,000원', (await kiosk.locator('.cart-total').innerText()).includes('8,000원'))
 
 await tap('맞아요')
 await shot(kiosk, '05a-coupon-ask')
@@ -161,12 +181,16 @@ await wait()
 await tap('단품')
 check('메뉴판에서 담기 (불고기 버거 2,500원)', (await bubble()).includes('불고기 버거') && (await kiosk.locator('.cart-summary').innerText()).includes('2,500원'))
 
-// 무응답: 15초 → 도움 안내, 15초 더 → 대기 화면
+// 결제 화면(카드 넣기 전)에서 손님이 떠남: 15초 → 도움 안내, 15초 더 → 대기 화면 (이슈 #14)
+await tap('주문할게요')
+await tap('맞아요')
+await tap('없어요')
+check('결제 화면까지 감', (await kiosk.locator('.progress__text').innerText()).includes('결제'))
 await kiosk.waitForTimeout(15500)
 await shot(kiosk, 'e02-need-help')
-check('15초 무응답 → "도움이 필요하세요?"', await kiosk.getByText('도움이 필요하세요?').first().isVisible())
+check('결제 화면 15초 무응답 → "도움이 필요하세요?"', await kiosk.getByText('도움이 필요하세요?').first().isVisible())
 await kiosk.waitForTimeout(15500)
-check('30초 무응답 → 대기 화면', await kiosk.getByRole('button', { name: '주문 시작' }).isVisible())
+check('결제 화면 30초 무응답 → 대기 화면', await kiosk.getByRole('button', { name: '주문 시작' }).isVisible())
 
 check('화면 오류(JS 에러) 없음', errors.length === 0, errors.join(' | '))
 await browser.close()
