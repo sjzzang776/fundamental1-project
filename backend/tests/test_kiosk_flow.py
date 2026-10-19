@@ -143,6 +143,202 @@ def test_staff_call(client):
     assert calls[0]["reason"] == "user_request"
 
 
+# ---------- 모델 파트 음성 주문 시험에서 나온 문제 (PR #7) ----------
+
+def test_option_said_before_its_question_is_remembered(client):
+    sid = start(client)
+    say(client, sid, "매장")
+    b = say(client, sid, "빅맥 세트 하나 주세요")
+    assert "음료" in b["reply_text"]
+    b = say(client, sid, "라지로 주세요")  # 음료를 묻는데 사이즈를 먼저 말함
+    assert "다시 한번" not in b["reply_text"]
+    assert "사이즈는 라지로" in b["reply_text"] and "음료" in b["reply_text"]
+    b = say(client, sid, "콜라")  # 사이즈는 이미 정했으니 다시 묻지 않는다
+    assert b["step"] == "MENU"
+    assert b["cart"]["items"][0]["label"] == "빅맥 세트(라지, 후렌치 후라이, 코카콜라)"
+
+
+def test_side_said_while_choosing_set_is_not_added_separately(client):
+    sid = start(client)
+    say(client, sid, "매장")
+    say(client, sid, "빅맥 세트")
+    b = say(client, sid, "감자튀김이요")
+    assert b["cart"]["items"] == []  # 단품 후렌치 후라이로 따로 담기면 안 된다
+    assert "사이드는 후렌치 후라이로" in b["reply_text"]
+    say(client, sid, "콜라")
+    b = say(client, sid, "미디엄")
+    assert len(b["cart"]["items"]) == 1
+    assert b["cart"]["total_amount"] == 7200  # 모델 파트 시험에서는 9,500원으로 잘못 나왔음
+
+
+def test_side_choice_overrides_default(client):
+    sid = start(client)
+    say(client, sid, "매장")
+    say(client, sid, "빅맥 세트")
+    say(client, sid, "너겟이요")
+    say(client, sid, "콜라")
+    b = say(client, sid, "미디엄")
+    assert b["cart"]["items"][0]["label"] == "빅맥 세트(미디엄, 맥너겟 4조각, 코카콜라)"
+    assert b["cart"]["total_amount"] == 7700
+
+
+def test_whole_set_in_one_sentence(client):
+    sid = start(client)
+    say(client, sid, "매장")
+    b = say(client, sid, "빅맥 라지 제로콜라로 주세요")  # '세트'라고 안 해도 세트 옵션을 말했으니 세트
+    assert b["step"] == "MENU"
+    assert b["cart"]["items"][0]["label"] == "빅맥 세트(라지, 후렌치 후라이, 코카콜라 제로)"
+    assert b["cart"]["total_amount"] == 8000
+
+
+def test_korean_number_words(client):
+    sid = start(client)
+    say(client, sid, "매장")
+    b = say(client, sid, "애플파이 여섯 개 주세요")
+    assert b["cart"]["items"][0]["quantity"] == 6
+    b = say(client, sid, "애플파이 일곱 개로 해 주세요")
+    assert b["cart"]["items"][0]["quantity"] == 7
+    b = say(client, sid, "두 개 더 주세요")
+    assert b["cart"]["items"][0]["quantity"] == 9
+
+
+def test_cola_zero_word_order(client):
+    sid = start(client)
+    say(client, sid, "매장")
+    say(client, sid, "빅맥 세트")
+    say(client, sid, "콜라 제로")
+    b = say(client, sid, "미디엄")
+    assert "코카콜라 제로" in b["cart"]["items"][0]["label"]
+    b = say(client, sid, "콜라 제로 하나")
+    assert b["cart"]["items"][-1]["menu_name"] == "코카콜라 제로 (M)"
+
+
+def test_cola_zero_during_set_is_set_drink(client):
+    # 모델 파트 PR #8: 세트 음료를 고르는 중 "콜라 제로로 주세요" → 단품이 따로 담기던 문제
+    sid = start(client)
+    say(client, sid, "매장")
+    say(client, sid, "빅맥 세트 하나 주세요")
+    b = say(client, sid, "콜라 제로로 주세요")
+    assert b["cart"]["items"] == [] and "사이즈" in b["reply_text"]
+    b = say(client, sid, "미디엄")
+    assert [i["label"] for i in b["cart"]["items"]] == ["빅맥 세트(미디엄, 후렌치 후라이, 코카콜라 제로)"]
+
+
+# ---------- 프론트 요청 (이슈 #15): 화면 구분 값 question, 버튼 정보 choice_items ----------
+
+def test_question_codes_follow_screens(client):
+    b = client.post("/api/sessions", json={"kiosk_id": 1}).json()
+    sid = b["session_id"]
+    assert b["question"] == "DINE_TYPE"
+    b = say(client, sid, "매장")
+    assert b["question"] == "MENU"
+    bigmac = b["choice_items"][0]
+    assert bigmac["label"] == "빅맥" and bigmac["price"] == 5500 and bigmac["set_price"] == 7200 and "menu_id" in bigmac
+    b = say(client, sid, "빅맥")
+    assert b["question"] == "SET_OR_SINGLE"
+    b = say(client, sid, "세트")
+    assert b["question"] == "SET_DRINK"
+    juice = next(c for c in b["choice_items"] if c["label"] == "오렌지 주스")
+    assert juice["extra_price"] == 700 and "option_item_id" in juice
+    b = say(client, sid, "콜라")
+    assert b["question"] == "SET_SIZE"
+    b = say(client, sid, "미디엄")
+    assert b["question"] == "MENU_MORE"
+    b = say(client, sid, "주문할게요")
+    assert b["question"] == "CONFIRM"
+    b = say(client, sid, "맞아요")
+    assert b["question"] == "COUPON_ASK"
+    b = say(client, sid, "쿠폰 있어요")
+    assert b["question"] == "COUPON_SCAN" and b["awaiting"] == "COUPON_SCAN"
+    b = client.post(f"/api/sessions/{sid}/coupon", json={"barcode": "???"}).json()
+    assert b["question"] == "COUPON_READ_FAILED"
+    b = say(client, sid, "취소")
+    assert b["question"] == "CANCEL_CONFIRM"
+
+
+def test_payment_and_done_questions(client):
+    sid = start(client)
+    b = voice_order_until_payment(client, sid)
+    b = say(client, sid, "없어요")
+    assert b["question"] == "PAYMENT"
+    failed = pay(client, b["cart"]["order_id"], "f1", success=False)
+    assert failed["question"] == "PAYMENT_RETRY"
+    ok = pay(client, b["cart"]["order_id"], "f2")
+    assert ok["question"] == "DONE"
+
+
+# ---------- 기획 결정 (이슈 #13): 확인 화면에서 세트 사이드 바꾸기 ----------
+
+def test_change_side_on_confirm_screen_by_button(client, option_ids):
+    sid = start(client)
+    say(client, sid, "매장")
+    say(client, sid, "빅맥 세트")
+    say(client, sid, "콜라")
+    say(client, sid, "라지")
+    b = say(client, sid, "주문할게요")
+    item = b["cart"]["items"][0]
+    side = next(o for o in item["options"] if o["group"] == "세트 사이드")
+    assert side["name"] == "후렌치 후라이"
+    r = client.patch(f"/api/sessions/{sid}/cart/items/{item['item_id']}", json={"option_item_ids": [option_ids["맥너겟 4조각"]]})
+    b = r.json()
+    assert r.status_code == 200 and b["step"] == "CONFIRM"
+    assert b["cart"]["items"][0]["label"] == "빅맥 세트(라지, 맥너겟 4조각, 코카콜라)"  # 다른 옵션은 그대로
+    assert b["cart"]["total_amount"] == 8500
+
+
+def test_change_side_on_confirm_screen_by_voice(client):
+    sid = start(client)
+    say(client, sid, "매장")
+    say(client, sid, "빅맥 세트")
+    say(client, sid, "콜라")
+    say(client, sid, "미디엄")
+    say(client, sid, "주문할게요")
+    b = say(client, sid, "사이드 치즈스틱으로 바꿔 주세요")
+    assert b["step"] == "CONFIRM" and "사이드를 치즈스틱 2조각으로 바꿨어요" in b["reply_text"]
+    assert len(b["cart"]["items"]) == 1 and b["cart"]["total_amount"] == 7700
+
+
+# ---------- 이슈 #14: 결제 단계에서 떠난 주문이 쿠폰을 붙잡는 문제 ----------
+
+def _order_with_coupon_at_payment(client, barcode):
+    sid = start(client)
+    voice_order_until_payment(client, sid)
+    b = client.post(f"/api/sessions/{sid}/coupon", json={"barcode": barcode}).json()
+    assert b["step"] == "PAYMENT"
+    return sid, b["cart"]["order_id"]
+
+
+def test_new_customer_releases_abandoned_payment_coupon(client):
+    _, old_order = _order_with_coupon_at_payment(client, "TEST0003")  # 손님이 결제 화면에서 떠남
+    sid2 = start(client)  # 다음 손님
+    assert client.get(f"/api/orders/{old_order}").json()["status"] == "cancelled"
+    voice_order_until_payment(client, sid2)
+    b = client.post(f"/api/sessions/{sid2}/coupon", json={"barcode": "TEST0003"}).json()
+    assert b["step"] == "PAYMENT" and b["cart"]["discount_amount"] == 450
+
+
+def test_idle_payment_session_is_cleaned(client, monkeypatch):
+    from app.services import dialog
+    sid, order_id = _order_with_coupon_at_payment(client, "TEST0003")
+    monkeypatch.setattr(dialog, "PAYMENT_IDLE_LIMIT_SEC", -1)  # 결제 화면에서 3분이 지났다고 치기
+    r = client.post(f"/api/sessions/{sid}/chat", json={"text": "응"})
+    assert r.status_code == 410
+    order = client.get(f"/api/orders/{order_id}").json()
+    assert order["status"] == "cancelled" and order["coupon"] is None
+
+
+def test_demo_reset_lets_test_coupon_be_used_again(client):
+    sid, order_id = _order_with_coupon_at_payment(client, "TEST0003")
+    pay(client, order_id, "demo-1")
+    assert client.post("/api/demo/reset-coupons").json()["reset"] == ["TEST0001", "TEST0002", "TEST0003", "TEST0004", "TEST0005"]
+    sid2 = start(client)
+    voice_order_until_payment(client, sid2)
+    b = client.post(f"/api/sessions/{sid2}/coupon", json={"barcode": "TEST0003"}).json()
+    assert b["step"] == "PAYMENT"
+    b = client.post(f"/api/sessions/{sid2}/coupon", json={"barcode": "TEST0005"})
+    assert b.status_code == 409  # 이미 쿠폰을 붙였으니 두 번째는 안 됨
+
+
 # ---------- 쿠폰 (기획서 5-1의 5단계, 5-2 쿠폰 예외) ----------
 
 def test_percent_coupon(client):

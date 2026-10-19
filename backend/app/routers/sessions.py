@@ -17,6 +17,8 @@ router = APIRouter(prefix="/api", tags=["주문 세션·대화"])
 
 MODEL_URL = os.getenv("MODEL_URL", "http://localhost:8001")
 MAX_AUDIO_BYTES = 5 * 1024 * 1024
+# 음성 인식은 CPU에서 평소 약 3초지만, 모델 서버가 켜진 직후 처음 몇 번은 10초 넘게 걸린다
+STT_TIMEOUT_SEC = float(os.getenv("STT_TIMEOUT_SEC", "30"))
 
 
 class StartRequest(BaseModel):
@@ -52,14 +54,9 @@ def start_session(req: StartRequest | None = None, db: Session = Depends(get_db)
     req = req or StartRequest()
     if db.get(Kiosk, req.kiosk_id) is None:
         raise ApiError(404, "KIOSK_NOT_FOUND", "없는 키오스크입니다", {"kiosk_id": req.kiosk_id})
-    # 같은 키오스크에서 끝나지 않은 이전 세션은 정리한다 (결제 중이면 그대로 둔다)
+    # 같은 키오스크에서 새 손님이 시작했다 = 이전 손님은 떠났다. 결제 단계였어도 정리해서 쿠폰을 풀어 준다 (이슈 #14)
     for old in db.scalars(select(KioskSession).where(KioskSession.kiosk_id == req.kiosk_id, KioskSession.ended_at.is_(None))):
-        if old.step == dialog.PAYMENT:
-            continue
-        for order in old.orders:
-            if order.status in cart_svc.OPEN_STATUSES:
-                dialog.cancel_order(old, order)
-        dialog.end_session(old, "timeout")
+        dialog.expire_session(old, "timeout")
     session = KioskSession(kiosk_id=req.kiosk_id, step=dialog.DINE_TYPE, dialog_state={})
     db.add(session)
     db.flush()
@@ -81,10 +78,7 @@ def end_session(session_id: int, reason: str = "cancelled", db: Session = Depend
         raise ApiError(400, "INVALID_INPUT", "reason 은 cancelled 또는 timeout 입니다")
     session = load_session(db, session_id, allow_done=True)
     if session.ended_at is None:
-        for order in session.orders:
-            if order.status in cart_svc.OPEN_STATUSES:
-                dialog.cancel_order(session, order)
-        dialog.end_session(session, reason)
+        dialog.expire_session(session, reason)
         db.commit()
     return Response(status_code=204)
 
@@ -106,7 +100,7 @@ async def voice(session_id: int, audio: UploadFile = File(...), db: Session = De
     if not data or len(data) > MAX_AUDIO_BYTES:
         raise ApiError(400, "INVALID_AUDIO", "녹음 파일이 비었거나 너무 큽니다 (최대 5MB)")
     try:
-        async with httpx.AsyncClient(timeout=10) as client:
+        async with httpx.AsyncClient(timeout=STT_TIMEOUT_SEC) as client:
             r = await client.post(
                 f"{MODEL_URL}/stt", files={"audio": (audio.filename or "audio.webm", data, audio.content_type or "audio/webm")}
             )

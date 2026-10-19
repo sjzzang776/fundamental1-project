@@ -32,6 +32,7 @@ def request_payment(db: Session, order: Order, idempotency_key: str, method: str
     state = dict(order.session.dialog_state or {})
     state["awaiting"] = None
     order.session.dialog_state = state
+    order.session.last_active_at = now_utc()  # 결제 중인 손님은 떠난 것으로 보지 않는다
     db.flush()
     return payment
 
@@ -75,6 +76,7 @@ def _fail(payment: Payment, reason: str) -> None:
     state["awaiting"] = "PAYMENT_RETRY"
     session.dialog_state = state
     session.step = dialog.PAYMENT
+    session.last_active_at = now_utc()
 
 
 def confirm(db: Session, payment: Payment, amount: int, success: bool, pg_transaction_id: str | None,
@@ -105,13 +107,14 @@ def confirm(db: Session, payment: Payment, amount: int, success: bool, pg_transa
         raise ApiError(409, "INVALID_STATE", "이미 끝난 결제입니다", {"payment_status": payment.status})
 
     state = dict(session.dialog_state or {})
-    text, choices = dialog.prompt(db, session, order, state)
+    text, choices, question = dialog.prompt(db, session, order, state)
     return {
         **payment_view(payment),
         "order_status": order.status,
         "order_number": order.order_number,
         "fail_reason": payment.fail_reason,
         "step": session.step,
+        "question": question,
         "reply_text": text,
         "choices": choices,
     }
