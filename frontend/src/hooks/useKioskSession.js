@@ -79,6 +79,15 @@ export function useKioskSession() {
     },
     [run],
   )
+  // 확인 화면 사이드 바꾸기: 지금 사이드만 새 사이드로 바꾼 옵션 목록을 보낸다.
+  // (백엔드 PR #19는 사이드 하나만 보내도 되지만, 전체를 보내면 예전 백엔드에서도 똑같이 동작한다)
+  const changeSide = useCallback(
+    (item, oldSide, newSide) => {
+      const ids = item.options.map((o) => (o.option_item_id === oldSide.option_item_id ? newSide.id : o.option_item_id))
+      return run(() => kioskApi.updateItem(sessionId(), item.item_id, { option_item_ids: ids }))
+    },
+    [run],
+  )
   const scanCoupon = useCallback((barcode) => run(() => kioskApi.scanCoupon(sessionId(), barcode)), [run])
 
   const callStaff = useCallback(
@@ -126,9 +135,24 @@ export function useKioskSession() {
       if (result.order_status === 'paid') {
         const done = await kioskApi.getOrder(result.order_id).catch(() => null)
         setOrder(done ?? { order_number: result.order_number })
-        setRes({ ...prev, step: 'DONE', reply_text: result.reply_text, choices: [], cart: { ...prev.cart, status: 'paid' } })
+        setRes({
+          ...prev,
+          step: 'DONE',
+          question: result.question ?? 'DONE',
+          reply_text: result.reply_text,
+          choices: [],
+          choice_items: [],
+          cart: { ...prev.cart, status: 'paid' },
+        })
       } else {
-        setRes({ ...prev, step: result.step, reply_text: result.reply_text, choices: result.choices })
+        setRes({
+          ...prev,
+          step: result.step,
+          question: result.question ?? null,
+          reply_text: result.reply_text,
+          choices: result.choices,
+          choice_items: result.choice_items ?? [],
+        })
       }
     },
     [payment, run],
@@ -152,6 +176,7 @@ export function useKioskSession() {
     sendVoice,
     addItem,
     changeQuantity,
+    changeSide,
     scanCoupon,
     callStaff,
     finishPayment,

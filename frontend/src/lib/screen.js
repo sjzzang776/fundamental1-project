@@ -1,6 +1,6 @@
-// 서버 응답(step + choices)을 보고 어떤 화면을 보여 줄지 정한다.
-// OPTION·COUPON·PAYMENT 단계는 화면이 여러 개인데 응답에 구분 값이 없어서 버튼 글자로 구분한다.
-// (백엔드에 awaiting/question 필드 추가를 요청해 둠: frontend/docs/frontend-plan.md 7번)
+// 서버 응답을 보고 어떤 화면을 보여 줄지 정한다.
+// 백엔드 PR #19부터 응답에 화면 구분 값 `question` 이 있어서 그 값을 먼저 쓴다.
+// question 이 없는 예전 응답이면 step + 버튼 글자(choices)로 짐작한다.
 
 export const CHOICE = {
   CARD_PAY: '카드 결제',
@@ -22,9 +22,40 @@ export const PROGRESS = {
 }
 export const PROGRESS_TOTAL = 6
 
+// 백엔드 question 값 → 화면 (노션 API 명세 · 백엔드 PR #19)
+const BY_QUESTION = {
+  DINE_TYPE: 'dine',
+  MENU: 'menu',
+  MENU_MORE: 'menu',
+  EDIT: 'menu',
+  RECOMMEND: 'menu',
+  SIMILAR_MENU: 'menu',
+  SET_OR_SINGLE: 'option-set',
+  SET_DRINK: 'option-drink',
+  SET_SIZE: 'option-size',
+  SET_SIDE: 'option-side',
+  OPTION: 'option-other',
+  CONFIRM: 'confirm',
+  COUPON_ASK: 'coupon-ask',
+  COUPON_SCAN: 'coupon-scan',
+  COUPON_READ_FAILED: 'coupon-scan',
+  COUPON_READ_FAILED_TWICE: 'coupon-problem',
+  COUPON_UNUSABLE: 'coupon-problem',
+  COUPON_ADD_MENU: 'coupon-menu-missing',
+  PAYMENT: 'payment',
+  PAYMENT_RETRY: 'payment-fail',
+  CANCEL_CONFIRM: 'cancel-confirm',
+  CANCELLED: 'ended',
+  DONE: 'done',
+}
+
 export function screenOf(res) {
   if (!res) return 'idle'
-  const { step, choices = [], cart } = res
+  return BY_QUESTION[res.question] ?? guessScreen(res)
+}
+
+// question 이 없을 때(예전 백엔드): 버튼 글자로 짐작
+function guessScreen({ step, choices = [], cart }) {
   const has = (c) => choices.includes(c)
 
   if (has(CHOICE.CANCEL_YES)) return 'cancel-confirm'
@@ -55,17 +86,31 @@ export function screenOf(res) {
   }
 }
 
+// 버튼 하나에 붙은 정보 (choice_items: menu_id·가격·사진 또는 option_item_id·추가 금액). 없으면 빈 객체
+export function choiceInfo(res, label) {
+  return res?.choice_items?.find((item) => item.label === label) ?? {}
+}
+
 // 버튼을 눌렀을 때 /chat 대신 결제 API를 불러야 하는 버튼
 export function isPaymentChoice(choice) {
   return choice === CHOICE.CARD_PAY || choice === CHOICE.RETRY_PAY
 }
 
-// 무응답 타이머를 멈춰야 하는 화면 (결제 중·주문 끝)
+// 무응답 타이머를 쓰지 않는 화면. 결제 화면은 카드를 넣기 전까지는 타이머를 쓴다
+// (손님이 떠나면 주문을 정리해 쿠폰이 묶이지 않게 · 이슈 #14). 카드를 넣은 뒤에는 Kiosk 에서 멈춘다.
 export function idleTimerAllowed(screen) {
-  return !['idle', 'payment', 'payment-fail', 'done', 'ended'].includes(screen)
+  return !['idle', 'done', 'ended'].includes(screen)
 }
 
 // 바코드 스캐너 입력을 받는 화면
 export function scannerAllowed(screen) {
   return ['coupon-ask', 'coupon-scan', 'coupon-problem', 'coupon-menu-missing'].includes(screen)
+}
+
+// 세트 사이드 옵션 (확인 화면 "사이드: 후렌치 후라이 [바꾸기]")
+export const SIDE_GROUP = '세트 사이드'
+
+export function sideOf(item, sideNames) {
+  if (!item.is_set) return null
+  return item.options.find((o) => (o.group ? o.group === SIDE_GROUP : sideNames.includes(o.name))) ?? null
 }

@@ -91,6 +91,7 @@ button:focus-visible { outline: 6px solid var(--focus); outline-offset: 4px; }
   background: var(--surface); border: 4px solid var(--line); border-radius: var(--radius-lg);
 }
 .menu-card__photo { font-size: 140px; line-height: 1.2; background: #fdecc0; border-radius: var(--radius-md); width: 100%; text-align: center; }
+.menu-card__photo--img { height: 200px; object-fit: contain; }
 .menu-card__name { font-size: 36px; font-weight: 800; text-align: center; min-height: 2.6em; display: flex; align-items: center; }
 .menu-card__price { font-size: 44px; font-weight: 900; color: var(--primary); display: flex; flex-direction: column; align-items: center; }
 .menu-card__price small { font-size: var(--fs-caption); color: var(--text-secondary); }
@@ -101,6 +102,7 @@ button:focus-visible { outline: 6px solid var(--focus); outline-offset: 4px; }
 .cart-item__info { display: flex; flex-direction: column; gap: var(--sp-1); }
 .cart-item__name { font-size: 40px; font-weight: 800; }
 .cart-item__price { font-size: var(--fs-body); }
+.cart-item__side { display: flex; justify-content: space-between; align-items: center; gap: var(--sp-2); padding: var(--sp-1) var(--sp-2); background: #fdecc0; border-radius: var(--radius-md); font-size: var(--fs-body); }
 .cart-item__actions { display: flex; gap: var(--sp-2); }
 .cart-item__actions .btn { flex: 1; }
 .cart-total { margin: 0; font-size: 48px; text-align: right; }
@@ -178,6 +180,8 @@ button:focus-visible { outline: 6px solid var(--focus); outline-offset: 4px; }
 .kitchen { height: 100%; display: flex; flex-direction: column; gap: var(--sp-3); padding: var(--sp-4); background: #ececec; }
 .kitchen__head { display: flex; justify-content: space-between; align-items: center; font-size: 40px; font-weight: 800; }
 .kitchen__head h1 { margin: 0; font-size: var(--fs-title); }
+.kitchen__tools { display: flex; align-items: center; gap: var(--sp-3); }
+.kitchen__tools small { font-size: var(--fs-caption); }
 .kitchen__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--sp-3); overflow-y: auto; align-content: start; }
 .ticket { background: var(--surface); border: 4px solid var(--line); border-radius: var(--radius-md); padding: var(--sp-3); display: flex; flex-direction: column; gap: var(--sp-2); }
 .ticket header { display: flex; justify-content: space-between; align-items: baseline; font-size: var(--fs-body); font-weight: 700; }
