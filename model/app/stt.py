@@ -1,7 +1,10 @@
 """음성 → 글자 (STT). Whisper small 을 faster-whisper(CTranslate2)로 실행한다.
 
+기본 모델: weights/whisper-small-elderly-v1 (노인 음성 파인튜닝, model/scripts/fetch_model.sh 로 받음)이 있으면 그것,
+없으면 원본 Whisper small 을 내려받아 쓴다.
+
 환경변수
-- WHISPER_MODEL: 모델 이름("small") 또는 변환된 모델 폴더 경로 (파인튜닝 후 교체용)
+- WHISPER_MODEL: 모델 이름("small") 또는 변환된 모델 폴더 경로 (지정하면 위 기본값 대신 사용)
 - WHISPER_DEVICE: cpu / cuda
 - WHISPER_COMPUTE_TYPE: int8(CPU 권장) / float16(GPU)
 - WHISPER_DOWNLOAD_DIR: 모델을 내려받아 둘 폴더 (개발 모드에서는 model/weights 에 저장됨)
@@ -22,7 +25,11 @@ from faster_whisper import WhisperModel
 
 logger = logging.getLogger("uvicorn.error")
 
-MODEL_NAME = os.getenv("WHISPER_MODEL", "small")
+FINETUNED_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "weights", "whisper-small-elderly-v1")
+MODEL_NAME = os.getenv("WHISPER_MODEL") or (
+    FINETUNED_DIR if os.path.exists(os.path.join(FINETUNED_DIR, "model.bin")) else "small"
+)
+MODEL_VERSION = os.path.basename(MODEL_NAME) if os.path.isdir(MODEL_NAME) else f"whisper-{MODEL_NAME}"
 DEVICE = os.getenv("WHISPER_DEVICE", "cpu")
 COMPUTE_TYPE = os.getenv("WHISPER_COMPUTE_TYPE", "int8")
 DOWNLOAD_DIR = os.getenv("WHISPER_DOWNLOAD_DIR", "/app/weights/whisper")
@@ -54,6 +61,10 @@ def get_model() -> WhisperModel:
             )
             logger.info("Whisper '%s' 로드 완료 (%.1f초)", MODEL_NAME, time.perf_counter() - start)
     return _model
+
+
+def is_ready() -> bool:
+    return _model is not None
 
 
 def preload_in_background() -> None:
