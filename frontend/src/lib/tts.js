@@ -49,10 +49,3 @@ export function pickBrowserVoice(voices) {
   return ko[0] || null
 }
 
-// 안내를 문장 단위로 나눈다. 고정 문장("더 필요하신 건 있으세요?")은 저장된 음성을 다시 쓰고, 바뀌는 문장만 새로 만든다
-export function splitSentences(text) {
-  return (text || '')
-    .split(/(?<=[.?!])\s+/)
-    .map((s) => s.trim())
-    .filter(Boolean)
-}

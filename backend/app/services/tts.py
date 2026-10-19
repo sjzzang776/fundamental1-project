@@ -1,19 +1,23 @@
 """안내 문장 → 사람 목소리 음성 (Google Cloud Text-to-Speech, Chirp 3 HD).
 
 PM 결정 2026-10-19 (변경): 브라우저 기계음 대신 사람에 가까운 HD 목소리. 키가 없거나 실패하면 화면은 브라우저 목소리로 대신 읽는다.
-- 한 번 만든 음성은 메모리에 저장해 다시 쓴다 (안내 문장은 반복이 많아 대부분 바로 나감, 비용도 줄어듦)
-- 서버가 켜질 때 자주 나오는 안내 문장을 미리 만들어 둔다 (HD 목소리는 문장당 1~2초 걸림)
+- 안내를 문장 단위로 나눠 만들고(동시에), 하나의 MP3 로 이어 붙여 보낸다 → 화면은 한 번에 재생 (문장 사이가 끊기지 않음)
+- 한 번 만든 문장 음성은 메모리에 저장해 다시 쓴다 (고정 문장 "더 필요하신 건 있으세요?" 등은 바로 나감, 비용도 줄어듦)
+- 서버가 켜질 때 자주 나오는 안내 문장을 미리 만들어 둔다 (HD 목소리는 문장당 0.6~1초 걸림)
+- 문장 안의 쉼표는 빼고 읽힌다 (HD 목소리가 쉼표에서 너무 길게 쉬어 어색함: "드시고 가세요, 포장하세요?")
 
 환경변수
 - TTS_API_KEY: Google Cloud API 키 (Text-to-Speech 에만 쓰도록 제한). 없으면 /api/tts 는 503
 - TTS_VOICE: 목소리 (기본 ko-KR-Chirp3-HD-Aoede, 여성). 예: ko-KR-Chirp3-HD-Charon (남성)
-- TTS_RATE: 말 빠르기 (기본 0.95, 어르신이 듣기 편하게 조금 천천히)
+- TTS_RATE: 말 빠르기 (기본 1.1. HD 목소리는 기본 속도가 느린 편이라 조금 빠르게)
 """
 import base64
 import logging
 import os
+import re
 import threading
 from collections import OrderedDict
+from concurrent.futures import ThreadPoolExecutor
 
 import httpx
 
@@ -21,7 +25,7 @@ log = logging.getLogger("backend")
 
 API_KEY = os.getenv("TTS_API_KEY", "")
 VOICE = os.getenv("TTS_VOICE", "ko-KR-Chirp3-HD-Aoede")
-RATE = float(os.getenv("TTS_RATE", "0.95"))
+RATE = float(os.getenv("TTS_RATE", "1.1"))
 URL = "https://texttospeech.googleapis.com/v1/text:synthesize"
 CACHE_SIZE = 500
 
@@ -50,8 +54,28 @@ def available() -> bool:
     return bool(API_KEY)
 
 
+_pool = ThreadPoolExecutor(max_workers=4)
+
+
+def split_sentences(text: str) -> list[str]:
+    return [s.strip() for s in re.split(r"(?<=[.?!])\s+", text or "") if s.strip()]
+
+
+def speak_text(sentence: str) -> str:
+    """읽힐 글자: 문장 안 쉼표는 빼서 자연스럽게 이어 읽게 한다."""
+    return re.sub(r"\s*,\s*", " ", sentence).strip()
+
+
 def synthesize(text: str) -> bytes:
-    """MP3 바이트. 저장해 둔 게 있으면 바로 돌려준다."""
+    """안내 전체 → MP3 하나 (문장별 음성을 동시에 만들어 이어 붙임. MP3 는 이어 붙여도 그대로 재생된다)."""
+    sentences = split_sentences(text) or [text.strip()]
+    if len(sentences) == 1:
+        return synthesize_sentence(sentences[0])
+    return b"".join(_pool.map(synthesize_sentence, sentences))
+
+
+def synthesize_sentence(text: str) -> bytes:
+    """문장 하나 → MP3 바이트. 저장해 둔 게 있으면 바로 돌려준다."""
     text = text.strip()
     with _lock:
         if text in _cache:
@@ -60,7 +84,7 @@ def synthesize(text: str) -> bytes:
     if not API_KEY:
         raise TtsUnavailable("TTS_API_KEY 가 없습니다")
     body = {
-        "input": {"text": text},
+        "input": {"text": speak_text(text)},
         "voice": {"languageCode": "ko-KR", "name": VOICE},
         "audioConfig": {"audioEncoding": "MP3", "speakingRate": RATE},
     }
@@ -85,7 +109,7 @@ def prewarm_in_background() -> None:
     def run():
         for text in COMMON_PROMPTS:
             try:
-                synthesize(text)
+                synthesize_sentence(text)
             except TtsUnavailable as e:
                 log.warning("안내 음성 미리 만들기 실패: %s", e)
                 return

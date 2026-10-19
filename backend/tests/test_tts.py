@@ -34,9 +34,17 @@ def test_사람_목소리_MP3를_돌려주고_같은_문장은_다시_만들지_
         r = client.post("/api/tts", json={"text": "드시고 가세요, 포장하세요?"})
         assert r.status_code == 200
         assert r.headers["content-type"] == "audio/mpeg"
-        assert r.content == "MP3:드시고 가세요, 포장하세요?".encode()
+        assert r.content == "MP3:드시고 가세요 포장하세요?".encode()  # 쉼표에서 길게 쉬지 않게 빼고 읽힘
     assert len(fake_google) == 1  # 두 번째부터는 저장해 둔 음성
     assert fake_google[0]["voice"]["name"] == tts.VOICE
+
+
+def test_여러_문장은_문장별로_만들어_하나로_이어_붙이고_문장은_다시_쓴다(client, fake_google):
+    r = client.post("/api/tts", json={"text": "애플파이 하나 담았어요. 더 필요하신 건 있으세요?"})
+    assert r.content == "MP3:애플파이 하나 담았어요.MP3:더 필요하신 건 있으세요?".encode()
+    r = client.post("/api/tts", json={"text": "빅맥 하나 담았어요. 더 필요하신 건 있으세요?"})
+    assert r.content.endswith("MP3:더 필요하신 건 있으세요?".encode())
+    assert len(fake_google) == 3  # "더 필요하신 건 있으세요?" 는 한 번만 만듦
 
 
 def test_Google이_실패하면_503(client, monkeypatch):
