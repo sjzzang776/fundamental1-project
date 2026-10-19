@@ -5,7 +5,7 @@ from fastapi.concurrency import run_in_threadpool
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 
-from app import stt
+from app import nlu_llm, stt
 
 MODEL_VERSION = stt.MODEL_VERSION
 
@@ -28,9 +28,18 @@ class PredictRequest(BaseModel):
     text: str
 
 
+class NluRequest(BaseModel):
+    text: str
+    step: str | None = None
+    cart: list[str] = []
+    history: list = []
+    menus: list[str] = []
+    options: list[str] = []
+
+
 @app.get("/health")
 def health():
-    return {"status": "ok", "model_version": MODEL_VERSION, "stt_ready": stt.is_ready()}
+    return {"status": "ok", "model_version": MODEL_VERSION, "stt_ready": stt.is_ready(), "nlu_llm": nlu_llm.available()}
 
 
 @app.get("/ready")
@@ -39,6 +48,20 @@ def ready():
     if stt.is_ready():
         return {"ready": True, "model_version": MODEL_VERSION}
     return error(503, "MODEL_LOADING", "음성 인식 모델을 불러오는 중입니다")
+
+
+@app.post("/nlu")
+async def nlu(req: NluRequest):
+    """백엔드 규칙이 못 알아들은 손님 말을 키오스크가 아는 표준 문장으로 바꾼다 (LLM, C안).
+
+    응답: {"rewrite": "포장", "confidence": 0.9}. API 키가 없거나 LLM이 실패하면 503 → 백엔드는 규칙만 쓴다.
+    """
+    try:
+        return await run_in_threadpool(
+            nlu_llm.rewrite, req.text, req.step, req.menus, req.options, req.cart, req.history
+        )
+    except nlu_llm.NluUnavailable as e:
+        return error(503, "NLU_UNAVAILABLE", str(e))
 
 
 @app.post("/stt")

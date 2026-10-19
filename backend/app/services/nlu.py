@@ -1,7 +1,9 @@
 """손님 말 → 의도(intent)와 메뉴·옵션 찾기.
 
-1) 모델 서버의 POST /nlu 가 있으면 의도는 모델 결과를 쓴다 (노션 API 명세 "모델 입출력 형식").
-2) 모델 서버가 없거나 실패하면 아래 규칙으로 판단한다. 지금은 모델 서버에 /nlu 가 없어서 규칙을 쓴다.
+C안 (PM 결정 2026-10-19): 규칙 먼저, 못 알아들을 때만 LLM.
+1) 아래 규칙으로 먼저 판단한다 (빠르고 결과가 항상 같음).
+2) 규칙이 뜻을 못 잡으면 모델 서버 POST /nlu (LLM)가 손님 말을 표준 문장으로 다시 쓰고, 그 문장을 다시 규칙으로 읽는다.
+   모델 서버에 API 키가 없거나 실패하면 규칙 결과 그대로 ("다시 말씀해 주세요").
 메뉴·옵션 이름 찾기는 항상 백엔드가 메뉴 DB와 별명으로 한다.
 """
 import os
@@ -17,7 +19,8 @@ from ..models import MenuItem, OptionItem
 from ..seed import OPTION_ALIASES
 
 MODEL_URL = os.getenv("MODEL_URL", "http://localhost:8001")
-MODEL_TIMEOUT_SEC = 3.0
+MODEL_TIMEOUT_SEC = float(os.getenv("NLU_TIMEOUT_SEC", "8"))  # LLM 다시 쓰기는 못 알아들은 말에만 쓰므로 조금 넉넉히
+MODEL_MIN_CONFIDENCE = 0.5
 MODEL_RETRY_AFTER_SEC = 60  # 모델 서버가 실패하면 이 시간 동안은 바로 규칙을 쓴다
 
 INTENTS = {
@@ -203,24 +206,31 @@ def _rule_intent(t: str, p: Parsed) -> str:
 _model_down_until = 0.0
 
 
-def _model_intent(text: str, context: dict) -> tuple[str, float] | None:
+def _model_rewrite(text: str, catalog: Catalog, context: dict) -> str | None:
+    """모델 서버 /nlu(LLM)에게 손님 말을 키오스크가 아는 표준 문장으로 다시 써 달라고 한다. 실패하면 None."""
     global _model_down_until
     if time.monotonic() < _model_down_until:
         return None
+    payload = {
+        "text": text,
+        **context,
+        "menus": [m.name for m in catalog.menus.values()],
+        "options": sorted({o.name for o in catalog.options.values()}),
+    }
     try:
-        r = httpx.post(f"{MODEL_URL}/nlu", json={"text": text, **context}, timeout=MODEL_TIMEOUT_SEC)
+        r = httpx.post(f"{MODEL_URL}/nlu", json=payload, timeout=MODEL_TIMEOUT_SEC)
         r.raise_for_status()
         body = r.json()
-        intent = body.get("intent")
-        if intent not in INTENTS:
+        if float(body.get("confidence", 0)) < MODEL_MIN_CONFIDENCE:
             return None
-        return intent, float(body.get("confidence", 0))
-    except (httpx.HTTPError, ValueError):
+        return (body.get("rewrite") or "").strip() or None
+    except (httpx.HTTPError, ValueError, TypeError):
+        # API 키가 없거나(503) LLM이 실패하면 잠시 규칙만 쓴다 (손님을 매번 기다리게 하지 않게)
         _model_down_until = time.monotonic() + MODEL_RETRY_AFTER_SEC
         return None
 
 
-def parse(text: str, catalog: Catalog, context: dict | None = None) -> Parsed:
+def parse(text: str, catalog: Catalog, context: dict | None = None, _rewritten: bool = False) -> Parsed:
     t = norm(text)
     p = Parsed(text=text, intent="UNKNOWN")
     p.menus = _find(t, catalog.menu_keys, "menu")
@@ -238,10 +248,26 @@ def parse(text: str, catalog: Catalog, context: dict | None = None) -> Parsed:
         p.set_choice = False
 
     p.intent = _rule_intent(t, p)
-    model = _model_intent(text, context or {})
-    if model and model[1] >= 0.6:
-        p.intent, p.source = model[0], "model"
+
+    # C안: 규칙이 못 알아들었을 때만 LLM(모델 서버 /nlu)에게 표준 문장으로 다시 써 달라고 한 뒤, 그 문장을 다시 규칙으로 읽는다.
+    # LLM 결과도 메뉴 DB·규칙을 거치므로 없는 메뉴가 담기지 않는다. 실패하면 지금처럼 "다시 말씀해 주세요".
+    if not _rewritten and _needs_help(p):
+        rewritten = _model_rewrite(text, catalog, context or {})
+        if rewritten and norm(rewritten) != t:
+            q = parse(rewritten, catalog, context, _rewritten=True)
+            if not _needs_help(q):
+                q.text, q.source = text, f"llm:{rewritten}"
+                return q
     return p
+
+
+def _needs_help(p: Parsed) -> bool:
+    """규칙이 뜻을 못 잡은 경우: 의도를 모르거나("다시 말씀해 주세요"), "~주세요"인데 메뉴를 못 찾았거나("그 메뉴는 없어요"),
+    담기·빼기·바꾸기라면서 대상(메뉴·옵션·수량)을 못 찾은 경우."""
+    if p.intent in {"UNKNOWN", "UNKNOWN_MENU"}:
+        return True
+    found = p.menus or p.options or p.dine_type or p.set_choice is not None or p.qty_delta or p.qty_absolute
+    return p.intent in {"ADD_ITEM", "REMOVE_ITEM", "CHANGE_OPTION", "CHANGE_QTY"} and not found
 
 
 def similar_menu(text: str, catalog: Catalog) -> MenuItem | None:
