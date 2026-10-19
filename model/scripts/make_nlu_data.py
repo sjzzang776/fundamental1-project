@@ -7,13 +7,17 @@
 말투 조각(앞말·끝말·사투리·띄어쓰기 없음·인식 오류)을 섞어 늘린다.
 시험용 문장(model/scripts/nlu_testset.csv)은 사람이 따로 쓴 것으로, 학습 데이터와 겹치지 않게 뺀다.
 
-    python model/scripts/make_nlu_data.py          # → model/data/nlu/ (cls_*.csv, gen_*.jsonl, testset.csv, gen_testset.csv) + nlu_data.zip
+    python model/scripts/make_nlu_data.py          # → model/data/nlu/ (cls_*.csv, gen_*.jsonl, gen2_*.jsonl, testset.csv, gen_testset.csv, gen2_meta.json) + nlu_data.zip
 """
 import csv
 import json
 import random
+import sys
 import zipfile
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from app import nlu_codes  # noqa: E402  생성 모델 v2 의 짧은 답 코드 (서버와 같은 파일)
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "data" / "nlu"
@@ -299,6 +303,21 @@ def main() -> None:
                 f.write(json.dumps({"step": step, "text": text, "rewrite": rewrite}, ensure_ascii=False) + "\n")
     (OUT / "testset.csv").write_bytes(TESTSET.read_bytes())
     (OUT / "gen_testset.csv").write_bytes(GEN_TESTSET.read_bytes())
+    # 생성 모델 v2: 같은 문장을 짧은 코드로 ("맥스파이시 상하이 버거 2개 주세요" → "+M02*2"), 입력은 "단계|손님 말" 한 줄
+    tab = nlu_codes.tables([n.split(" (")[0] for n in MENUS], list(DRINK_OPTIONS))
+    fixed = set(INTENTS)
+    to_code = lambda sentence: nlu_codes.encode(sentence, tab, fixed)  # noqa: E731
+    for name, rows in (("gen2_train.jsonl", gen[g_val:]), ("gen2_val.jsonl", gen[:g_val])):
+        with (OUT / name).open("w", encoding="utf-8") as f:
+            for step, text, rewrite in rows:
+                f.write(json.dumps({"step": step, "text": text, "code": to_code(rewrite)}, ensure_ascii=False) + "\n")
+    with (OUT / "gen2_testset.jsonl").open("w", encoding="utf-8") as f:
+        for r in test + gen_test:
+            label = "" if r["label"] in (NONE, "") else r["label"]
+            f.write(json.dumps({"step": r["step"], "text": r["text"], "code": to_code(label)}, ensure_ascii=False) + "\n")
+    (OUT / "gen2_meta.json").write_text(json.dumps(
+        {"format": "code-v2", "prompt_format": "{step}|{text}\n", "unknown": nlu_codes.UNKNOWN, "fixed": sorted(fixed), **tab},
+        ensure_ascii=False, indent=2), encoding="utf-8")
     (OUT / "meta.json").write_text(json.dumps(
         {"labels": labels, "none_label": NONE, "step_names": STEP_NAMES, "input_format": "{step} | {text}", "seed": SEED},
         ensure_ascii=False, indent=2), encoding="utf-8")

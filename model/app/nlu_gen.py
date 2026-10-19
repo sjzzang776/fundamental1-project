@@ -4,10 +4,12 @@
 예: (메뉴) "그 매운 닭 버거 두 개" → "맥스파이시 상하이 버거 2개 주세요"
 Qwen2.5-1.5B-Instruct + LoRA 를 GGUF(Q4_K_M, 약 1GB)로 바꿔 llama.cpp 로 CPU 에서 돌린다. API 비용·인터넷 없음.
 결과 문장은 백엔드가 다시 규칙·메뉴 DB 로 읽으므로, 모델이 없는 메뉴를 말해도 장바구니에 담기지 않는다.
-학습: model/notebooks/nlu_gen_colab.ipynb · 모델 파일: model/scripts/fetch_nlu_model.sh (weights/nlu-gen-v1/)
+학습: v1 model/notebooks/nlu_gen_colab.ipynb · v2 nlu_gen2_colab.ipynb · 모델 파일: model/scripts/fetch_nlu_model.sh
+v2(nlu-gen-v2, Qwen2.5-0.5B): 지시문 없이 "단계|손님 말" 한 줄을 넣고 짧은 코드("+M02*2")로 답한다 → CPU 를 줄여도 빠름.
+코드는 nlu_codes.py 로 표준 문장으로 바꿔 백엔드에 넘긴다 (백엔드는 v1 과 같음). weights/nlu-gen-v2 가 있으면 v2 를 쓴다.
 
 환경변수
-- NLU_GEN_MODEL: 모델 폴더 (기본 weights/nlu-gen-v1). 없으면 이 단계는 건너뜀
+- NLU_GEN_MODEL: 모델 폴더 (기본: weights/nlu-gen-v2 가 있으면 그것, 없으면 weights/nlu-gen-v1). 없으면 이 단계는 건너뜀
 - NLU_GEN_THREADS: CPU 스레드 수 (기본: CPU 개수, 최대 8)
 - NLU_GEN: 0 이면 끔
 """
@@ -17,9 +19,13 @@ import os
 import threading
 import time
 
+from app import nlu_codes
+
 logger = logging.getLogger("uvicorn.error")
 
-DEFAULT_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "weights", "nlu-gen-v1")
+_WEIGHTS = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "weights")
+DEFAULT_DIR = next((os.path.join(_WEIGHTS, n) for n in ("nlu-gen-v2", "nlu-gen-v1")
+                    if os.path.exists(os.path.join(_WEIGHTS, n, "model.gguf"))), os.path.join(_WEIGHTS, "nlu-gen-v1"))
 MODEL_DIR = os.getenv("NLU_GEN_MODEL") or DEFAULT_DIR
 THREADS = int(os.getenv("NLU_GEN_THREADS") or min(os.cpu_count() or 4, 8))
 CONFIDENCE = 0.7  # 생성 모델은 확률을 따로 내지 않으므로 고정값 (백엔드 기준 0.5 이상)
@@ -69,8 +75,14 @@ def model_version() -> str | None:
     return _loaded[1].get("model_version") if _loaded else None
 
 
+def _is_v2(meta: dict) -> bool:
+    return meta.get("format") == "code-v2"
+
+
 def _prompt(meta: dict, text: str, step: str | None) -> str:
-    # 학습 때(Qwen2.5 chat template)와 똑같은 모양
+    if _is_v2(meta):  # 학습 때와 똑같이 "MENU|그 매운 닭 버거 두 개" + 줄바꿈
+        return meta["prompt_format"].format(step=step or "", text=text)
+    # v1: 학습 때(Qwen2.5 chat template)와 똑같은 모양
     user = meta["user_format"].format(step=meta["step_names"].get(step or "", step or ""), text=text)
     return (f"<|im_start|>system\n{meta['system']}<|im_end|>\n"
             f"<|im_start|>user\n{user}<|im_end|>\n<|im_start|>assistant\n")
@@ -80,10 +92,12 @@ def rewrite(text: str, step: str | None) -> dict:
     llm, meta = _load()
     t0 = time.time()
     with _run_lock:
-        out = llm.create_completion(_prompt(meta, text, step), max_tokens=32, temperature=0.0,
-                                    stop=["<|im_end|>", "\n"])
+        out = llm.create_completion(_prompt(meta, text, step), max_tokens=12 if _is_v2(meta) else 32,
+                                    temperature=0.0, stop=["<|im_end|>", "<|endoftext|>", "\n"])
     answer = out["choices"][0]["text"].strip()
-    if not answer or meta.get("unknown", "(모름)") in answer or answer == "모름":
+    if _is_v2(meta):  # 짧은 코드 → 표준 문장 (모르는 코드·"?" 는 "")
+        answer = nlu_codes.decode(answer, meta, set(meta.get("fixed", [])))
+    elif not answer or meta.get("unknown", "(모름)") in answer or answer == "모름":
         answer = ""
     return {"rewrite": answer, "confidence": CONFIDENCE if answer else 0.0,
             "model": meta.get("model_version", "nlu-gen"), "ms": round((time.time() - t0) * 1000)}
