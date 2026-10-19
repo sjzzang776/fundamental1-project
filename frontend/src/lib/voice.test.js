@@ -15,12 +15,12 @@ function run(detector, levels, speaking = false) {
 const repeat = (rms, ms) => Array(Math.round(ms / FRAME_MS)).fill(rms)
 
 describe('createSpeechDetector: 말하면 바로 듣기', () => {
-  it('조용하다가 목소리가 0.2초 이어지면 시작, 1초 조용하면 끝', () => {
+  it('조용하다가 목소리가 0.3초 이어지면 시작, 1초 조용하면 끝', () => {
     const d = createSpeechDetector()
     const events = run(d, [...repeat(0.005, 1000), ...repeat(0.1, 800), ...repeat(0.005, 1200)])
     expect(events.map(([, e]) => e)).toEqual(['start', 'end'])
-    // 목소리 시작(20번째 조각) 후 0.2초(4조각) 안에 시작 신호
-    expect(events[0][0]).toBeLessThanOrEqual(20 + 4)
+    // 목소리 시작(20번째 조각) 후 0.3초(6조각) 안에 시작 신호
+    expect(events[0][0]).toBeLessThanOrEqual(20 + 6)
   })
 
   it('짧은 소리(기침·물건 소리 0.1초)는 말로 보지 않는다', () => {
@@ -36,9 +36,9 @@ describe('createSpeechDetector: 말하면 바로 듣기', () => {
 
   it('시끄러운 곳에서는 소음보다 확실히 큰 소리만 말로 본다', () => {
     const d = createSpeechDetector()
-    // 소음 0.03 이 계속 → 0.05 정도는 말로 안 봄, 0.15 는 말로 봄
+    // 소음 0.03 이 계속 → 0.05 정도는 말로 안 봄, 0.2(소음의 4배 이상)는 말로 봄
     expect(run(d, [...repeat(0.03, 2000), ...repeat(0.05, 500)])).toEqual([])
-    expect(run(d, repeat(0.15, 300)).map(([, e]) => e)).toEqual(['start'])
+    expect(run(d, repeat(0.2, 400)).map(([, e]) => e)).toEqual(['start'])
   })
 
   it('키오스크가 말하는 중에는 기준이 높아서 스피커 소리(0.04)로는 시작하지 않는다', () => {
@@ -78,5 +78,25 @@ describe('wav: 서버로 보낼 녹음 파일', () => {
     expect(view.getUint16(22, true)).toBe(1) // 모노
     expect(view.getUint32(24, true)).toBe(16000)
     expect(view.getUint16(34, true)).toBe(16)
+  })
+})
+
+describe('주변 소음보다 확실히 큰 말만', () => {
+  it('소음의 4배가 안 되는 소리(옆 사람 말소리 등)는 무시한다', () => {
+    const d = createSpeechDetector()
+    run(d, repeat(0.02, 2000)) // 매장 소음
+    expect(run(d, repeat(0.06, 1000))).toEqual([]) // 소음의 3배 → 무시
+    expect(run(d, repeat(0.25, 400)).map(([, e]) => e)).toEqual(['start']) // 키오스크 앞 손님의 또렷한 목소리 → 인식
+  })
+
+  it('조용한 방이어도 너무 작은 소리(0.025)는 무시한다', () => {
+    const d = createSpeechDetector()
+    run(d, repeat(0.002, 1000))
+    expect(run(d, repeat(0.025, 1000))).toEqual([])
+  })
+
+  it('0.2초짜리 큰 소리(문 닫는 소리 등)는 무시한다', () => {
+    const d = createSpeechDetector()
+    expect(run(d, [...repeat(0.005, 1000), ...repeat(0.3, 200), ...repeat(0.005, 1000)])).toEqual([])
   })
 })
