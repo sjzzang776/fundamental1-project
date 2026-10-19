@@ -6,13 +6,10 @@
 
 | 바로 보기 | 주소 |
 |---|---|
-| **브라우저 데모** (서버 없이, 말로 주문해 보기) | **https://sjzzang776.github.io/fundamental1-project/demo/** |
 | 실제 서비스 (GKE 배포) | https://8-232-203-94.sslip.io/ ― **휴대폰에서 열어야 잘 동작합니다** (세로 화면 기준 설계, 마이크 권한 허용) |
 | 그림으로 먼저 보기 | [00_ELI5_저장소설명.pdf](00_ELI5_저장소설명.pdf) (4쪽, 처음 보는 개발자용) |
 | 코드 구조 대시보드 | [온라인으로 보기](https://sjzzang776.github.io/fundamental1-project/dashboard/) · [구조 분석 문서](docs/01_UnderstandAnything_분석.md) · [내 컴퓨터에서 보는 법](#코드-구조-대시보드-understand-anything) |
 | 노션 (팀 문서) | [처음 노션](https://app.notion.com/p/likelion/A-3f144860a4f48025bb02f67f3f518c67) → 무료 블록 수 초과로 [새 노션](https://app.notion.com/p/Notion-3fe68523797880cc8097f968a9ccd5c9)으로 옮김 (이후 기록은 새 노션) |
-
-![데모 화면](docs/img/demo_mobile.png)
 
 ---
 
@@ -53,7 +50,7 @@ backend/    FastAPI: 세션·대화·메뉴·주문·주방 API, 말 이해 규�
 model/      FastAPI 모델 서버: /stt(음성 인식), /nlu(의도 파악), 학습 노트북·데이터 준비 스크립트
 k8s/        GKE 배포 매니페스트, 배포 기록(DEPLOY_LOG.md)
 scripts/    배포·되돌리기 스크립트
-docs/       기획 결정, AI 작업 루틴, 이 정리 문서들(구조 분석·ELI5·데모·대시보드·그림)
+docs/       기획 결정, AI 작업 루틴, 이 정리 문서들(구조 분석·ELI5·대시보드·그림)
 .github/    CI(4개 컨테이너 실행 확인), PR 내용을 노션 작업 로그로 옮기는 워크플로
 ```
 
@@ -112,17 +109,11 @@ docs/       기획 결정, AI 작업 루틴, 이 정리 문서들(구조 분석�
 
 ![서비스 화면](docs/img/service_screens.png)
 
-## 브라우저 데모
-
-**https://sjzzang776.github.io/fundamental1-project/demo/** ― 서버 없이 브라우저에서만 돕니다.
-
-- **말로 주문:** 🎤 버튼을 누르고 말하면 됩니다. 브라우저 내장 음성 인식(Web Speech API)을 써서 **안드로이드·PC 크롬, 엣지, iPhone 사파리**에서 됩니다(마이크 권한 허용). 지원하지 않는 브라우저(파이어폭스 등)에서는 글로 입력하는 칸이 나옵니다. 화면의 "이렇게 말해 보세요" 예시를 눌러도 됩니다.
-- **같은 규칙:** 말 이해 규칙은 `backend/app/services/nlu.py`를 그대로 JavaScript로 옮겼고, 58개 문장에서 파이썬 원본과 결과가 모두 같은지 대조했습니다([`docs/demo/verify/`](docs/demo/verify/)). 대화 흐름은 `dialog.py`를 줄여 옮겼습니다(쿠폰 단계 없음).
-- **실제 서비스와 다른 점:** 음성 인식은 학습한 Whisper가 아니라 브라우저 기능이고, 의도 파악 모델(②③④)은 없으며, 메뉴는 상표 없는 일반 이름입니다.
-
 ## 설치와 실행
 
 필요한 것: Docker Desktop, (모델 파일을 받으려면) GitHub CLI 로그인
+
+> 학습한 모델 파일(AI Hub 데이터로 학습)은 데이터 이용 조건 때문에 팀원에게만 공개합니다. 모델 파일이 없으면 원본 Whisper를 내려받아 씁니다.
 
 ```bash
 cp .env.example .env                                                        # 처음 한 번

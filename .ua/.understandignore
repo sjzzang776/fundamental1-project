@@ -85,7 +85,6 @@ frontend/package-lock.json
 .claude/
 .ua/
 docs/dashboard/
-docs/demo/
 docs/img/
 docs/figures/
 docs/ua/
