@@ -27,3 +27,7 @@ model/weights/*
 Thumbs.db
 .vscode/
 .idea/
+
+# Understand-Anything 작업 파일
+.ua/.trash-*/
+.ua/tmp/
