@@ -14,7 +14,7 @@ NS="fundamental1"
 REGISTRY="$REGION-docker.pkg.dev/$PROJECT_ID/fundamental1"
 SDK_BIN="${LOCALAPPDATA:-}/Google/Cloud SDK/google-cloud-sdk/bin"
 [ -d "$SDK_BIN" ] && export PATH="$SDK_BIN:$PATH"
-GCLOUD=$(command -v gcloud || command -v gcloud.cmd)
+GCLOUD=$(command -v gcloud.cmd || command -v gcloud)  # Windows Git Bash 는 gcloud.cmd 여야 경로 문제가 없음
 
 "$GCLOUD" container clusters get-credentials "$CLUSTER" --region="$REGION" --project="$PROJECT_ID" >/dev/null
 
