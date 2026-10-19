@@ -11,7 +11,7 @@ import { useBarcodeScanner } from '../hooks/useBarcodeScanner.js'
 import { useIdleTimer } from '../hooks/useIdleTimer.js'
 import { useKioskSession } from '../hooks/useKioskSession.js'
 import { useMenuCatalog } from '../hooks/useMenuCatalog.js'
-import { useVoice } from '../hooks/useVoice.js'
+import { HANDS_FREE, useVoice } from '../hooks/useVoice.js'
 import { SIDE_GROUP, choiceInfo, idleTimerAllowed, scannerAllowed, screenOf } from '../lib/screen.js'
 import CompleteScreen from './CompleteScreen.jsx'
 import ConfirmScreen from './ConfirmScreen.jsx'
@@ -61,6 +61,27 @@ export default function Kiosk() {
 
   // 쿠폰 화면에서만 바코드 스캐너 입력을 받는다
   useBarcodeScanner(scannerAllowed(screen) && !k.busy, k.scanCoupon)
+
+  // 말하면 바로 듣기: 주문 중에는 마이크를 열어 두고, 결제·응답 대기·안내 창이 있을 때만 멈춘다
+  // (쿠폰 화면에서도 듣는다: 바코드를 대는 대신 "없어요"라고 말하면 바로 결제로 넘어감)
+  const sessionActive = screen !== 'idle'
+  const voiceAllowed =
+    HANDS_FREE &&
+    sessionActive &&
+    !['done', 'ended', 'payment', 'payment-fail'].includes(screen) &&
+    !inPayment &&
+    !k.busy &&
+    !browsing &&
+    !warned &&
+    !k.modal &&
+    !k.voiceDown
+  useEffect(() => {
+    if (HANDS_FREE && sessionActive) voice.open()
+    else voice.close()
+  }, [sessionActive]) // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    voice.setPaused(!voiceAllowed)
+  }, [voiceAllowed]) // eslint-disable-line react-hooks/exhaustive-deps
 
   // 주문이 취소·종료되면 잠깐 안내하고 처음 화면으로
   useEffect(() => {
@@ -150,7 +171,8 @@ export default function Kiosk() {
           <MicIndicator
             state={micState}
             disabled={inPayment}
-            onPress={voice.micState === 'listening' ? voice.stopListening : voice.startListening}
+            handsFree={voiceAllowed && voice.micState === 'waiting'}
+            onPress={voice.toggleListening}
           />
         )}
         <main className={`kiosk__body kiosk__body--${screen}`}>{body}</main>
