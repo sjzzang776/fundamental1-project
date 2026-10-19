@@ -1,4 +1,5 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
+import { fetchSpeech, pickBrowserVoice, resetSpeechCache, splitSentences } from './tts.js'
 import { createSpeechDetector, rmsOf } from './vad.js'
 import { downsample, encodeWav } from './wav.js'
 
@@ -98,5 +99,53 @@ describe('주변 소음보다 확실히 큰 말만', () => {
   it('0.2초짜리 큰 소리(문 닫는 소리 등)는 무시한다', () => {
     const d = createSpeechDetector()
     expect(run(d, [...repeat(0.005, 1000), ...repeat(0.3, 200), ...repeat(0.005, 1000)])).toEqual([])
+  })
+})
+
+describe('안내 음성 (lib/tts.js)', () => {
+  const blobRes = (ok = true, status = 200) => ({ ok, status, blob: async () => new Blob(['mp3']) })
+
+  it('같은 문장은 서버에 다시 묻지 않는다', async () => {
+    resetSpeechCache()
+    const fetchImpl = vi.fn(async () => blobRes())
+    await fetchSpeech('포장하세요?', { fetchImpl })
+    await fetchSpeech('포장하세요?', { fetchImpl })
+    expect(fetchImpl).toHaveBeenCalledTimes(1)
+  })
+
+  it('서버 음성이 실패하면 1분 동안은 바로 브라우저 목소리로 (서버에 안 물음)', async () => {
+    resetSpeechCache()
+    let t = 1000
+    const now = () => t
+    const fetchImpl = vi.fn(async () => blobRes(false, 503))
+    await expect(fetchSpeech('a', { fetchImpl, now })).rejects.toThrow()
+    await expect(fetchSpeech('b', { fetchImpl, now })).rejects.toThrow('TTS_DOWN')
+    expect(fetchImpl).toHaveBeenCalledTimes(1)
+    t += 61000
+    fetchImpl.mockImplementation(async () => blobRes())
+    await expect(fetchSpeech('c', { fetchImpl, now })).resolves.toBeInstanceOf(Blob)
+  })
+
+  it('브라우저 목소리는 가장 사람 같은 한국어 목소리를 고른다', () => {
+    const voices = [
+      { name: 'Microsoft Heami - Korean', lang: 'ko-KR' },
+      { name: 'Google US English', lang: 'en-US' },
+      { name: 'Microsoft SunHi Online (Natural) - Korean (Korea)', lang: 'ko-KR' },
+    ]
+    expect(pickBrowserVoice(voices).name).toContain('Natural')
+    expect(pickBrowserVoice([{ name: 'Microsoft Heami - Korean', lang: 'ko-KR' }]).name).toContain('Heami')
+    expect(pickBrowserVoice([{ name: 'Samantha', lang: 'en-US' }])).toBeNull()
+  })
+})
+
+describe('splitSentences', () => {
+  it('안내를 문장 단위로 나눈다', () => {
+    expect(splitSentences('애플파이 하나 담았어요. 더 필요하신 건 있으세요? 다 고르셨으면 말씀해 주세요.')).toEqual([
+      '애플파이 하나 담았어요.',
+      '더 필요하신 건 있으세요?',
+      '다 고르셨으면 말씀해 주세요.',
+    ])
+    expect(splitSentences('안녕하세요! 드시고 가세요, 포장하세요?')).toEqual(['안녕하세요!', '드시고 가세요, 포장하세요?'])
+    expect(splitSentences('')).toEqual([])
   })
 })

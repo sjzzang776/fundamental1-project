@@ -12,6 +12,8 @@ services:
       - "8000:8000"
     environment:
       MODEL_URL: http://model:8001
+      TTS_API_KEY: ${TTS_API_KEY:-}  # 사람 목소리 안내 (없으면 브라우저 목소리)
+      TTS_VOICE: ${TTS_VOICE:-ko-KR-Chirp3-HD-Aoede}
       DATABASE_URL: postgresql+psycopg://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
     depends_on:
       db:
