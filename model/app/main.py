@@ -1,3 +1,4 @@
+import io
 import logging
 from contextlib import asynccontextmanager
 
@@ -115,7 +116,10 @@ async def speech_to_text(audio: UploadFile = File(...), hints: str | None = Form
     except Exception as e:
         return error(503, "MODEL_UNAVAILABLE", f"음성 인식 모델을 불러오지 못했습니다: {e}")
     try:
-        return await run_in_threadpool(stt.transcribe, audio.file, hint_list)
+        data = await audio.read()
+        result = await run_in_threadpool(stt.transcribe, io.BytesIO(data), hint_list)
+        stt.save_debug(data, result, hint_list)  # STT_DEBUG_DIR 를 켰을 때만 (음성 인식 개선 분석용)
+        return result
     except stt.AudioTooLongError as e:
         return error(400, "AUDIO_TOO_LONG", f"음성은 {stt.MAX_AUDIO_SECONDS}초 이내여야 합니다 (받은 길이: {e})")
     except Exception as e:

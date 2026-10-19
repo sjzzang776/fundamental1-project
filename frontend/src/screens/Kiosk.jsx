@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import AgentBubble from '../components/AgentBubble.jsx'
 import BottomBar from '../components/BottomBar.jsx'
-import ChoiceList from '../components/ChoiceList.jsx'
+import ChoiceList, { ScreenCommand } from '../components/ChoiceList.jsx'
 import MicIndicator from '../components/MicIndicator.jsx'
 import Modal from '../components/Modal.jsx'
 import ProgressBar from '../components/ProgressBar.jsx'
@@ -33,6 +33,7 @@ export default function Kiosk() {
   const k = useKioskSession()
   const catalog = useMenuCatalog()
   const [browsing, setBrowsing] = useState(false)
+  const [uiCmd, setUiCmd] = useState(null) // 말로 화면 조작 (서버 actions 의 UI 명령)
   const voice = useVoice({ onRecorded: (blob) => k.sendVoice(blob) })
 
   const { res, payment } = k
@@ -44,6 +45,15 @@ export default function Kiosk() {
   useEffect(() => {
     if (text) voice.speak(text)
   }, [res, payment?.phase]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  // 말로 화면 조작: "다른 음료 보여 줘" → 다음 쪽, "음료 뭐 있어" → 메뉴판 음료 탭, "메뉴판 닫아 줘" → 닫기
+  useEffect(() => {
+    const ui = res?.actions?.find((a) => a.type === 'UI')
+    if (!ui) return
+    if (ui.command === 'show_menu') setBrowsing(true)
+    if (ui.command === 'close_menu') setBrowsing(false)
+    setUiCmd({ ...ui, seq: Date.now() })
+  }, [res])
 
   // 무응답 15초 → "도움이 필요하세요?" → 15초 더 → 처음 화면 (결제 중·말하는 중·듣는 중에는 멈춤)
   const warnedRef = useRef(false) // 직전 화면에서 "도움이 필요하세요?"를 띄웠는지
@@ -80,7 +90,6 @@ export default function Kiosk() {
     !['done', 'ended', 'payment', 'payment-fail'].includes(screen) &&
     !inPayment &&
     !k.busy &&
-    !browsing &&
     !warned &&
     !k.modal &&
     !k.voiceDown
@@ -173,6 +182,7 @@ export default function Kiosk() {
 
   return (
     <KioskStage>
+      <ScreenCommand.Provider value={uiCmd}>
       <div className="kiosk">
         <ProgressBar step={finished ? null : res.step} />
         <AgentBubble text={text} state={agentState} transcript={res.transcript} />
@@ -196,7 +206,12 @@ export default function Kiosk() {
         )}
 
         {browsing && screen === 'menu' && (
-          <MenuBrowser catalog={catalog} onAdd={k.addItem} onClose={() => setBrowsing(false)} />
+          <MenuBrowser
+            catalog={catalog}
+            onAdd={k.addItem}
+            onClose={() => setBrowsing(false)}
+            initialCategory={uiCmd?.command === 'show_menu' ? uiCmd.category : undefined}
+          />
         )}
 
         {warned && (
@@ -227,6 +242,7 @@ export default function Kiosk() {
           />
         )}
       </div>
+      </ScreenCommand.Provider>
     </KioskStage>
   )
 }

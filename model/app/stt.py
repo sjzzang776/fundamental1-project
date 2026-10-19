@@ -10,8 +10,11 @@
 - WHISPER_DOWNLOAD_DIR: 모델을 내려받아 둘 폴더 (개발 모드에서는 model/weights 에 저장됨)
 - BACKEND_URL: 메뉴 이름 힌트를 가져올 백엔드 주소
 - STT_MENU_HINTS: 1(기본) = 요청에 hints 가 없으면 메뉴 이름을 힌트로 씀 / 0 = 끔 (힌트는 처리 시간을 약 0.5초 늘림)
+- STT_DEBUG_DIR: 정하면 최근 녹음 STT_DEBUG_KEEP(기본 100)개를 인식 결과와 함께 이 폴더에 저장 (음성 인식 개선 분석용, 기본 끔)
+  꺼낼 때: kubectl -n fundamental1 cp <모델 Pod>:/tmp/stt-debug ./stt-debug   (Pod 를 다시 켜면 지워짐)
 """
 
+import json
 import logging
 import math
 import os
@@ -109,6 +112,32 @@ def menu_hints() -> list[str]:
         logger.warning("메뉴 힌트를 가져오지 못했습니다 (%s). 이전 힌트 %d개 사용", e, len(_hints))
         _hints_at = time.monotonic() - HINTS_TTL_SECONDS + 30  # 30초 뒤 다시 시도
     return _hints
+
+
+DEBUG_DIR = os.getenv("STT_DEBUG_DIR", "")
+DEBUG_KEEP = int(os.getenv("STT_DEBUG_KEEP", "100"))
+
+
+def save_debug(audio: bytes, result: dict, hints: list[str] | None) -> None:
+    """분석용으로 녹음과 인식 결과를 저장한다 (STT_DEBUG_DIR 를 켰을 때만). 오래된 것부터 지운다."""
+    if not DEBUG_DIR:
+        return
+    try:
+        os.makedirs(DEBUG_DIR, exist_ok=True)
+        name = time.strftime("%Y%m%d-%H%M%S") + f"-{int(time.time() * 1000) % 1000:03d}"
+        with open(os.path.join(DEBUG_DIR, name + ".wav"), "wb") as f:
+            f.write(audio)
+        with open(os.path.join(DEBUG_DIR, name + ".json"), "w", encoding="utf-8") as f:
+            json.dump({**result, "hints": hints}, f, ensure_ascii=False)
+        files = sorted(p for p in os.listdir(DEBUG_DIR) if p.endswith(".wav"))
+        for old in files[:-DEBUG_KEEP]:
+            for ext in (".wav", ".json"):
+                try:
+                    os.remove(os.path.join(DEBUG_DIR, old[:-4] + ext))
+                except OSError:
+                    pass
+    except OSError:
+        logger.exception("STT 분석용 저장 실패")
 
 
 NO_SPEECH_PROB = 0.6  # Whisper 가 "말소리가 아닐 확률"을 이보다 높게 본 구간은 버린다

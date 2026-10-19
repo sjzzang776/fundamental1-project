@@ -26,6 +26,8 @@ MODEL_RETRY_AFTER_SEC = 60  # 모델 서버가 실패하면 이 시간 동안은
 INTENTS = {
     "ADD_ITEM", "REMOVE_ITEM", "CHANGE_QTY", "CHANGE_OPTION", "ASK_MENU", "RECOMMEND", "VIEW_CART",
     "CHECKOUT", "CONFIRM", "DENY", "RESTART", "CANCEL_ORDER", "CALL_STAFF", "UNKNOWN",
+    # 화면 조작 (말로 쪽 넘기기·메뉴판 보기·다시 듣기)
+    "PAGE_NEXT", "PAGE_PREV", "SHOW_MENU", "CLOSE_MENU", "REPEAT",
 }
 
 _STRIP = re.compile(r"[\s.,!?~·'\"()\[\]+\-]")
@@ -59,6 +61,7 @@ class Parsed:
     set_choice: bool | None = None
     qty_delta: int | None = None  # "하나 더" → +1
     qty_absolute: int | None = None  # "하나만", "두 개로" → 그 수량
+    category: str | None = None  # "음료 뭐 있어", "다른 햄버거 보여 줘" → 메뉴판 종류 (버거·사이드·음료·디저트)
     source: str = "rules"
 
 
@@ -156,6 +159,34 @@ TAKEOUT_WORDS = (
 )
 
 
+# 화면 조작 말 (띄어쓰기는 norm 에서 지워짐). 메뉴·옵션 이름이 함께 나오면 주문으로 본다
+REPEAT_WORDS = ("다시말해", "다시한번말해", "다시얘기", "다시읽어", "한번더말해", "뭐라고", "뭐라구", "뭐라는", "못들었", "안들려", "잘안들", "못알아들")
+PREV_WORDS = ("이전", "앞쪽", "앞페이지", "앞장", "앞으로가", "뒤로", "처음음료", "아까거", "아까그")
+NEXT_WORDS = ("다음", "넘겨", "넘어가", "다른거", "다른것", "더보여", "더있", "다른음료", "다른메뉴", "다른햄버거", "다른버거",
+              "다른디저트", "다른사이드", "딴거")
+SHOW_WORDS = ("메뉴판", "메뉴보여", "메뉴좀보여", "뭐있", "뭐가있", "종류", "보여줘", "보여주", "보여달", "볼래", "보고싶")
+CLOSE_WORDS = ("닫아", "닫기", "그만볼", "메뉴판그만", "안볼래")
+CATEGORY_WORDS = {"버거": ("햄버거", "버거"), "사이드": ("사이드", "감자", "곁들"), "음료": ("음료", "마실", "드링크", "음료수"),
+                  "디저트": ("디저트", "후식", "아이스크림", "달달")}
+
+
+def _screen_intent(t: str, p: Parsed) -> str | None:
+    if _has(t, ("바꿔", "바꿀", "바꾸")):
+        return None  # "다른 거로 바꿔 주세요" 는 수정 (DENY·CHANGE_OPTION 규칙으로)
+    p.category = next((c for c, words in CATEGORY_WORDS.items() if _has(t, words)), None)
+    if _has(t, REPEAT_WORDS):
+        return "REPEAT"
+    if _has(t, CLOSE_WORDS):
+        return "CLOSE_MENU"
+    if _has(t, PREV_WORDS):
+        return "PAGE_PREV"
+    if _has(t, NEXT_WORDS):
+        return "PAGE_NEXT"  # "다른 음료 보여 줘": 세트 음료 화면이면 다음 쪽, 메뉴 화면이면 메뉴판(dialog 에서 정함)
+    if _has(t, ("메뉴판",)) or (_has(t, SHOW_WORDS) and (p.category or _has(t, ("메뉴",)))):
+        return "SHOW_MENU"
+    return None
+
+
 def _rule_intent(t: str, p: Parsed) -> str:
     has_m = bool(p.menus or p.options)
     if not t:
@@ -172,6 +203,8 @@ def _rule_intent(t: str, p: Parsed) -> str:
         return "REMOVE_ITEM"
     if "취소" in t and not has_m:
         return "CANCEL_ORDER"
+    if not has_m and (screen := _screen_intent(t, p)):
+        return screen
     if _has(t, ("추천", "뭐가맛있", "맛있는거", "뭐먹지", "골라줘", "인기")):
         return "RECOMMEND"
     if p.menus and _has(t, ("얼마", "칼로리", "kcal", "알레르기", "매워", "매운가", "맵나", "뭐들어", "들어가", "들었", "뭐예요", "뭐에요")):

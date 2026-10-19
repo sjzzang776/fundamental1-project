@@ -1,18 +1,37 @@
 // 메뉴판 보기: 말 대신 메뉴판에서 직접 고르는 화면 (장바구니 API 사용)
 // 접근성 규칙에 맞게 한 쪽에 메뉴 4개씩, 세트는 사이즈 → 음료를 한 번에 하나씩 묻는다.
-import { useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { kioskApi } from '../api/kiosk.js'
-import ChoiceList from '../components/ChoiceList.jsx'
+import ChoiceList, { ScreenCommand, nextPage } from '../components/ChoiceList.jsx'
 import MenuCard from '../components/MenuCard.jsx'
 
 const PER_PAGE = 4
 // 손님에게 묻는 세트 옵션 순서. 나머지(세트 사이드)는 첫 번째(기본) 선택지로 담는다 (백엔드 대화와 같음)
 const ASKED = ['세트 사이즈', '세트 음료']
 
-export default function MenuBrowser({ catalog, onAdd, onClose }) {
-  const [categoryId, setCategoryId] = useState(catalog.categories[0]?.id)
+const categoryByName = (catalog, name) => catalog.categories.find((c) => c.name === name)?.id
+
+export default function MenuBrowser({ catalog, onAdd, onClose, initialCategory }) {
+  const [categoryId, setCategoryId] = useState(categoryByName(catalog, initialCategory) ?? catalog.categories[0]?.id)
   const [page, setPage] = useState(0)
   const [picked, setPicked] = useState(null) // { detail, isSet, chosen: {groupName: item} }
+
+  // 말로 조작: "음료 뭐 있어" → 음료 탭, "다음 쪽" → 다음 쪽 (세트 질문 중이면 그 질문의 버튼 쪽은 ChoiceList 가 넘김)
+  const cmd = useContext(ScreenCommand)
+  const seenRef = useRef(cmd?.seq) // 열 때의 명령은 initialCategory 로 이미 반영됨
+  useEffect(() => {
+    if (!cmd || cmd.seq === seenRef.current) return
+    seenRef.current = cmd.seq
+    if (cmd.command === 'show_menu') {
+      const id = categoryByName(catalog, cmd.category)
+      if (id) setCategoryId(id)
+      setPage(0)
+      setPicked(null)
+    } else if (!picked) {
+      const count = Math.max(1, Math.ceil(catalog.menus.filter((m) => m.category_id === categoryId).length / PER_PAGE))
+      setPage((p) => (cmd.command === 'next_page' ? Math.min(p + 1, count - 1) : nextPage(p, count, cmd.command)))
+    }
+  }, [cmd?.seq]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const menus = catalog.menus.filter((m) => m.category_id === categoryId)
   const pages = menus.length ? [] : [[]]
