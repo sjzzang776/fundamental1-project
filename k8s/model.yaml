@@ -6,6 +6,11 @@ metadata:
   name: model
 spec:
   replicas: 1
+  # 새 Pod 를 먼저 띄우면 CPU 16개 노드가 하나 더 필요해 GCP 전체 CPU 할당량(32)을 넘는다 (2026-10-19 3차 배포에서 Pending).
+  # 그래서 이전 Pod 를 먼저 내리고 새 Pod 를 올린다. 바꾸는 1~2분 동안 음성 인식이 멈추고 백엔드는 규칙만 쓴다.
+  strategy:
+    type: RollingUpdate
+    rollingUpdate: { maxSurge: 0, maxUnavailable: 1 }
   selector:
     matchLabels:
       app: model
