@@ -160,8 +160,10 @@ export function useVoice({ onRecorded }) {
       return
     }
     try {
+      // 에코 제거는 끈다: 안내 음성(HD 목소리)은 브라우저가 재생하므로, 켜 두면 안내가 나오는 동안·직후에
+      // 손님 목소리까지 깎아 끼어들기가 안 되고 첫소리가 잘린다 ("포장해" → "보장해"). 안내 소리는 끼어들기 기준(vad.js)이 걸러 낸다.
       const stream = await navigator.mediaDevices.getUserMedia({
-        audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true },
+        audio: { echoCancellation: false, noiseSuppression: true, autoGainControl: true },
       })
       const ctx = new AudioCtx()
       await ctx.resume()
