@@ -139,6 +139,15 @@ def _has(text: str, words) -> bool:
     return any(w in text for w in words)
 
 
+# 식사 장소: 버튼 글자("매장에서", "포장")뿐 아니라 손님이 실제로 하는 말도 알아듣는다 (띄어쓰기는 norm 에서 지워짐)
+DINE_IN_WORDS = ("먹고갈", "먹고가", "여기서", "매장", "안에서", "앉아서", "홀에서")
+TAKEOUT_WORDS = (
+    "포장", "테이크아웃", "takeout",
+    "가져갈", "가져가", "가지고갈", "가지고가", "갖고갈", "갖고가", "들고갈", "들고가",
+    "싸주", "싸줘", "싸가", "집에",
+)
+
+
 def _rule_intent(t: str, p: Parsed) -> str:
     has_m = bool(p.menus or p.options)
     if not t:
@@ -212,9 +221,9 @@ def parse(text: str, catalog: Catalog, context: dict | None = None) -> Parsed:
     for m in p.menus:
         m.is_set, m.quantity = _read_after(t, m.end)
 
-    if _has(t, ("먹고갈", "먹고가", "여기서", "매장")):
+    if _has(t, DINE_IN_WORDS):
         p.dine_type = "dine_in"
-    elif _has(t, ("포장", "가져갈", "가지고갈", "테이크아웃")):
+    elif _has(t, TAKEOUT_WORDS):
         p.dine_type = "takeout"
     if "세트" in t:
         p.set_choice = True
