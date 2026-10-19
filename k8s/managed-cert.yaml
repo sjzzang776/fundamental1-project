@@ -1,0 +1,9 @@
+# 구글이 무료로 발급·갱신하는 https 인증서. 발급까지 15~60분 걸린다
+# 확인: kubectl -n fundamental1 describe managedcertificate fundamental1-cert  (Status: Active 이면 완료)
+apiVersion: networking.gke.io/v1
+kind: ManagedCertificate
+metadata:
+  name: fundamental1-cert
+spec:
+  domains:
+    - 8-232-203-94.sslip.io
