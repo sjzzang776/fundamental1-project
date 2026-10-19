@@ -105,9 +105,10 @@ export function idleTimerAllowed(screen) {
 // 무응답 타이머를 지금 세고 있어야 하는지.
 // 안내를 읽는 중·듣는 중에는 멈추지만, "도움이 필요하세요?"(warned)를 띄운 뒤에는 그 안내를 읽는 중에도 계속 센다.
 // (멈추면 타이머가 처음부터 다시 세어 "도움이 필요하세요?"만 반복되고 처음 화면으로 돌아가지 않는다)
+// 손님 말을 듣는 중(마이크 버튼을 누르고 말하는 중)에는 안내 뒤에도 멈춘다 (말하는 도중에 처음 화면으로 가지 않게)
 export function idleTimerRunning({ screen, inPayment, busy, speaking, listening, warned }) {
-  if (!idleTimerAllowed(screen) || inPayment || busy) return false
-  return warned || (!speaking && !listening)
+  if (!idleTimerAllowed(screen) || inPayment || busy || listening) return false
+  return warned || !speaking
 }
 
 // 바코드 스캐너 입력을 받는 화면

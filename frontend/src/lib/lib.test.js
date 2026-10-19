@@ -130,6 +130,10 @@ describe('idleTimerRunning: 무응답 타이머를 세는지', () => {
     expect(idleTimerRunning({ ...base, warned: true, speaking: true })).toBe(true)
   })
 
+  it('안내 뒤라도 손님이 마이크를 누르고 말하는 중이면 멈춘다 (말하는 도중에 처음 화면으로 가지 않게)', () => {
+    expect(idleTimerRunning({ ...base, warned: true, listening: true })).toBe(false)
+  })
+
   it('카드를 넣은 뒤(결제 중)·서버 응답 대기·주문 완료에는 세지 않는다', () => {
     expect(idleTimerRunning({ ...base, inPayment: true, warned: true })).toBe(false)
     expect(idleTimerRunning({ ...base, busy: true })).toBe(false)
