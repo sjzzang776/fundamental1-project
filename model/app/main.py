@@ -1,6 +1,6 @@
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI, File, Form, UploadFile
 from fastapi.concurrency import run_in_threadpool
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
@@ -34,14 +34,19 @@ def health():
 
 
 @app.post("/stt")
-async def speech_to_text(audio: UploadFile = File(...)):
-    """음성 파일(wav/webm 등, 최대 15초)을 받아 글자로 바꾼다."""
+async def speech_to_text(audio: UploadFile = File(...), hints: str | None = Form(None)):
+    """음성 파일(wav/webm 등, 최대 15초)을 받아 글자로 바꾼다.
+
+    hints: 잘 알아들어야 할 단어를 쉼표로 구분 (예: 지금 화면의 버튼 "코카콜라,코카콜라 제로,스프라이트").
+    안 보내면 백엔드 메뉴 이름·옵션·별명 전체를 힌트로 쓴다.
+    """
+    hint_list = [h.strip() for h in hints.split(",") if h.strip()] if hints is not None else None
     try:
         await run_in_threadpool(stt.get_model)
     except Exception as e:
         return error(503, "MODEL_UNAVAILABLE", f"음성 인식 모델을 불러오지 못했습니다: {e}")
     try:
-        return await run_in_threadpool(stt.transcribe, audio.file)
+        return await run_in_threadpool(stt.transcribe, audio.file, hint_list)
     except stt.AudioTooLongError as e:
         return error(400, "AUDIO_TOO_LONG", f"음성은 {stt.MAX_AUDIO_SECONDS}초 이내여야 합니다 (받은 길이: {e})")
     except Exception as e:
