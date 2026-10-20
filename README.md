@@ -109,11 +109,25 @@ docs/       기획 결정, AI 작업 루틴, 이 정리 문서들(구조 분석�
 
 ![서비스 화면](docs/img/service_screens.png)
 
+## 데이터·모델 출처와 라이선스
+
+- **음성 인식 모델 `whisper-small-elderly-v1`** 은 한국지능정보사회진흥원(NIA)의 AI 허브(aihub.or.kr) 데이터로 학습했습니다. 이 모델을 쓰거나 이 모델로 무언가를 만들 때는 아래 출처를 함께 밝혀 주세요 ([AI 허브 데이터 이용정책](https://aihub.or.kr/intrcn/guid/usagepolicy.do)).
+  > 이 모델은 과학기술정보통신부와 한국지능정보사회진흥원의 「지능정보산업 인프라 조성」 사업으로 구축된 AI 허브 데이터(「명령어 음성(노인남여)」, 「자유대화 음성(노인남여)」)를 활용하여 학습했습니다. 데이터는 AI 허브(aihub.or.kr)에서 받을 수 있습니다.
+  - 공개하는 것은 학습된 모델 가중치뿐이며, AI 허브의 원본 음성·라벨 데이터는 이 저장소에 올리지 않습니다. 데이터가 필요하면 AI 허브에서 직접 신청해 주세요.
+  - 모델을 판매 등 상업적으로 쓰려면 AI 허브 데이터 수행기관과 별도 협의가 필요할 수 있습니다.
+- **의도 파악 모델 2개** 는 팀이 직접 만든 예문(`model/data/`)으로 학습했습니다.
+
+| 모델 | 바탕 모델 | 바탕 모델 라이선스 | 학습 데이터 |
+|---|---|---|---|
+| `whisper-small-elderly-v1` | [openai/whisper-small](https://huggingface.co/openai/whisper-small) | MIT | AI 허브 (위 출처 표기) |
+| `nlu-intent-v1` | [klue/roberta-small](https://huggingface.co/klue/roberta-small) | CC-BY-SA 4.0 → 이 모델도 **CC-BY-SA 4.0** | 팀 제작 예문 |
+| `nlu-gen-v1` | [Qwen/Qwen2.5-1.5B-Instruct](https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct) | Apache 2.0 | 팀 제작 예문 |
+
 ## 설치와 실행
 
-필요한 것: Docker Desktop, (모델 파일을 받으려면) GitHub CLI 로그인
+필요한 것: Docker Desktop
 
-> 학습한 모델 파일(AI Hub 데이터로 학습)은 데이터 이용 조건 때문에 팀원에게만 공개합니다. 모델 파일이 없으면 원본 Whisper를 내려받아 씁니다.
+> 학습한 모델 파일 3개는 GitHub Release에 공개되어 있어 로그인 없이 받을 수 있습니다. 쓸 때는 아래 [데이터·모델 출처와 라이선스](#데이터모델-출처와-라이선스)를 지켜 주세요. 모델 파일이 없으면 원본 Whisper를 내려받아 씁니다.
 
 ```bash
 cp .env.example .env                                                        # 처음 한 번
