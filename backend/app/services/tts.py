@@ -9,7 +9,7 @@ PM 결정 2026-10-19 (변경): 브라우저 기계음 대신 사람에 가까운
 환경변수
 - TTS_API_KEY: Google Cloud API 키 (Text-to-Speech 에만 쓰도록 제한). 없으면 /api/tts 는 503
 - TTS_VOICE: 목소리 (기본 ko-KR-Chirp3-HD-Aoede, 여성). 예: ko-KR-Chirp3-HD-Charon (남성)
-- TTS_RATE: 말 빠르기 (기본 1.0. PM 요청 2026-10-20: 1.1 에서 10% 천천히)
+- TTS_RATE: 말 빠르기 (기본 1.1. PM 요청 2026-10-20: 10% 천천히(1.0) 해 봤으나 원래 속도가 나아 1.1 로 되돌림)
 손님이 "천천히 말해 줘" / "빨리 말해 줘" / "크게 말해 줘" 라고 하면 화면이 speed 를 보내고 그만큼 바꾼다 (SPEEDS)
 """
 import base64
@@ -26,7 +26,7 @@ log = logging.getLogger("backend")
 
 API_KEY = os.getenv("TTS_API_KEY", "")
 VOICE = os.getenv("TTS_VOICE", "ko-KR-Chirp3-HD-Aoede")
-RATE = float(os.getenv("TTS_RATE", "1.0"))
+RATE = float(os.getenv("TTS_RATE", "1.1"))
 SPEEDS = {"normal": 1.0, "slower": 0.85, "faster": 1.15, "louder": 0.92}  # 크게: 조금 천천히 또박또박
 URL = "https://texttospeech.googleapis.com/v1/text:synthesize"
 CACHE_SIZE = 500
