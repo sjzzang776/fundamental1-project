@@ -87,7 +87,7 @@ async def predict(req: PredictRequest):
 
 @app.post("/api/tts", tags=["공통"])
 async def tts(req: TtsRequest):
-    """안내 문장 → 사람 목소리 음성 MP3 (Google Cloud TTS, Chirp 3 HD). services/tts.py 참고.
+    """안내 문장 → 사람 목소리 음성 WAV (Google Cloud TTS, Chirp 3 HD). services/tts.py 참고.
 
     키가 없거나 실패하면 503 → 화면은 브라우저 목소리로 대신 읽는다.
     """
@@ -95,4 +95,4 @@ async def tts(req: TtsRequest):
         audio = await run_in_threadpool(tts_svc.synthesize, req.text, req.speed)
     except tts_svc.TtsUnavailable as e:
         raise ApiError(503, "TTS_UNAVAILABLE", "음성 안내를 만들 수 없습니다. 브라우저 목소리로 읽어 주세요", {"reason": str(e)})
-    return Response(content=audio, media_type="audio/mpeg", headers={"Cache-Control": "public, max-age=86400"})
+    return Response(content=audio, media_type="audio/wav", headers={"Cache-Control": "public, max-age=86400"})

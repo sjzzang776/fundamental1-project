@@ -12,7 +12,7 @@ import { encodeWav } from '../lib/wav.js'
 
 export const HANDS_FREE = import.meta.env.VITE_HANDS_FREE !== '0'
 const PRE_ROLL_MS = 1000 // 말 시작으로 본 때보다 1초 앞부터 보낸다 (첫소리가 잘리면 "포장해" → "보장해"로 잘못 알아들음)
-const BARGE_IN_PRE_ROLL_MS = 400 // 안내를 읽는 중에 끼어들면 0.4초만 (더 앞은 안내 목소리라 같이 글자로 바뀜)
+const BARGE_IN_PRE_ROLL_MS = 800 // 안내 중에 끼어들면 0.8초 (0.4초일 때 "불고기"의 "불"이 잘려 "치즈버거"로 인식됨, 2026-10-20 배포 녹음. 안내 중엔 시작 기준이 높아 감지가 늦음)
 const FRAME_SIZE = 2048
 const MANUAL_MAX_MS = 14000 // 버튼으로 시작했는데 끝 버튼을 안 누르면 14초에 보낸다 (서버 최대 15초)
 
@@ -90,7 +90,7 @@ export function useVoice({ onRecorded }) {
         synth.speak(utter)
       }
 
-      // 서버가 문장별 음성을 이어 붙인 MP3 하나를 준다 (고정 문장은 미리 만든 음성이라 빠름)
+      // 서버가 문장별 음성을 이어 붙인 WAV 하나를 준다 (고정 문장은 미리 만든 음성이라 빠름)
       fetchSpeech(text, { speed: speedRef.current })
         .then((blob) => {
           if (seq !== speakSeqRef.current) return
