@@ -70,6 +70,17 @@ def test_문장_앞뒤_무음을_잘라_낸다(client, fake_google):
     assert abs(seconds(r.content) - expected) < 0.03  # 원래 1.1초 → 약 0.42초
 
 
+def test_문장_안의_긴_쉼은_줄이고_짧은_쉼은_그대로(monkeypatch):
+    tone = [8000, -8000] * int(0.2 * SR / 2)
+    gap_long = [0] * int(0.31 * SR)  # "드시고 | 가세요" 사이에 목소리가 넣은 쉼
+    gap_short = [0] * int(0.06 * SR)  # 받침소리처럼 짧게 멈추는 곳
+    pcm = array.array("h", tone + gap_long + tone + gap_short + tone).tobytes()
+    out = tts.trim_silence(pcm)
+    total = len(out) / 2 / SR
+    expected = 0.6 + tts.MAX_PAUSE_S + 0.06  # 소리 0.2초 3개 + 줄인 쉼 + 그대로 둔 짧은 쉼
+    assert abs(total - expected) < 0.03
+
+
 def test_여러_문장은_무음을_잘라_0점2초_간격으로_이어_붙이고_문장은_다시_쓴다(client, fake_google):
     r = client.post("/api/tts", json={"text": "애플파이 하나 담았어요. 더 필요하신 건 있으세요?"})
     one = SPEECH_S + tts.LEAD_KEEP_S + tts.TAIL_KEEP_S

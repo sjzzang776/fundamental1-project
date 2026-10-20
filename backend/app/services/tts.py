@@ -40,6 +40,7 @@ SAMPLE_RATE = 24000
 SENTENCE_GAP_S = 0.2  # 이어 붙일 때 문장 사이 쉼
 LEAD_KEEP_S = 0.04  # 잘라 낸 뒤 앞에 남길 무음 (첫소리가 갑자기 시작하지 않게)
 TAIL_KEEP_S = 0.08
+MAX_PAUSE_S = 0.12  # 문장 안에서 이보다 길게 쉬면 이만큼으로 줄인다 (목소리가 가끔 "드시고 | 가세요" 사이를 0.3초 쉼, 2026-10-20)
 
 # 서버가 켜질 때 미리 만들어 둘 안내 문장 (dialog.py 의 고정 문장). 화면은 안내를 문장 단위로 나눠 받으므로 문장 하나씩
 COMMON_PROMPTS = [
@@ -79,7 +80,8 @@ def speak_text(sentence: str) -> str:
 
 
 def trim_silence(pcm: bytes) -> bytes:
-    """16비트 음성의 앞뒤 무음을 잘라 낸다 (소리가 가장 큰 곳의 3% 보다 작은 부분)."""
+    """16비트 음성의 앞뒤 무음을 잘라 내고, 문장 안의 긴 쉼은 MAX_PAUSE_S 로 줄인다.
+    무음 = 소리가 가장 큰 곳의 3% 보다 작은 부분 (10ms 단위로 본다)."""
     samples = array.array("h", pcm)
     if sys.byteorder == "big":
         samples.byteswap()
@@ -88,10 +90,32 @@ def trim_silence(pcm: bytes) -> bytes:
     if not levels or max(levels) == 0:
         return pcm
     th = max(max(levels) * 0.03, 150)
-    loud = [i for i, v in enumerate(levels) if v >= th]
-    start = max(0, loud[0] * win - int(LEAD_KEEP_S * SAMPLE_RATE))
-    end = min(len(samples), (loud[-1] + 1) * win + int(TAIL_KEEP_S * SAMPLE_RATE))
-    return pcm[start * 2:end * 2]
+    loud = [v >= th for v in levels]
+    first = loud.index(True)
+    last = len(loud) - 1 - loud[::-1].index(True)
+    keep_pause = int(MAX_PAUSE_S * 100)  # 10ms 칸 수
+    out = array.array("h", samples[max(0, first * win - int(LEAD_KEEP_S * SAMPLE_RATE)):first * win])
+    i = first
+    while i <= last:
+        if loud[i]:
+            out.extend(samples[i * win:(i + 1) * win])
+            i += 1
+            continue
+        j = i
+        while j <= last and not loud[j]:
+            j += 1
+        run = j - i
+        if run > keep_pause:  # 긴 쉼: 앞뒤 절반씩만 남긴다 (소리가 잦아드는 끝·시작 부분은 살림)
+            half = keep_pause // 2
+            out.extend(samples[i * win:(i + half) * win])
+            out.extend(samples[(j - (keep_pause - half)) * win:j * win])
+        else:
+            out.extend(samples[i * win:j * win])
+        i = j
+    out.extend(samples[(last + 1) * win:min(len(samples), (last + 1) * win + int(TAIL_KEEP_S * SAMPLE_RATE))])
+    if sys.byteorder == "big":
+        out.byteswap()
+    return out.tobytes()
 
 
 def to_wav(pcm: bytes) -> bytes:
