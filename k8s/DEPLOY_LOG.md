@@ -43,7 +43,7 @@ bash scripts/rollback.sh          # 바로 전 버전으로 (kubectl rollout und
 ## 배포 전 백업 (배포한 사람 PC, Git 에 올리지 않음: DB 에 주문 기록이 있음)
 | # | 위치 | 내용 |
 |---|---|---|
-| 11 | 세진 PC `Documents\프로젝트1\deploy-backups61020-1005-before-v1.0.1\` | 10차 상태 (화면·백엔드 `a8cf518` + `TTS_RATE=1.1`, 모델 `e5fe090`) |
+| 11 | 세진 PC `Documents\프로젝트1\deploy-backups\20261020-1005-before-v1.0.1\` | 10차 상태 (화면·백엔드 `a8cf518` + `TTS_RATE=1.1`, 모델 `e5fe090`) |
 | 9 | 세진 PC `Documents\프로젝트1\deploy-backups\20261020-0150-before-stt-hints\` | 8차 상태 (모두 `253dc8f`) |
 | 8 | 세진 PC `Documents\프로젝트1\deploy-backups\20261020-0120-before-test-253dc8f\` | 7차 상태 (화면 `9fa5291`, 백엔드 `fb5f31f`, 모델 `9144a34`) |
 | 7 | 세진 PC `Documents\프로젝트1\deploy-backups\20261020-0042-before-stt-guard\` | 같은 구성 (배포 전: 화면 `9fa5291`, 백엔드 `fb5f31f`, 모델 `2824c6e`) |
