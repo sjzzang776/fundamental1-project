@@ -3,8 +3,11 @@
 배포할 때마다 맨 위에 한 줄씩 추가합니다. **문제가 생기면 "되돌리기" 칸의 명령을 그대로 실행**하면 됩니다.
 이미지 태그 = 그 버전의 main 커밋. 예전 태그 이미지는 이미지 보관함(Artifact Registry)에서 지우지 않습니다.
 
+> **2026-10-21 프로젝트 종료로 배포를 모두 삭제했습니다.** 클러스터 `fundamental1-cluster`·고정 IP `fundamental1-ip`·이미지 보관함 `fundamental1`·DB 디스크·https 인증서 삭제. 주소 https://8-232-203-94.sslip.io 는 더 이상 열리지 않습니다. 다시 띄우려면 `03_k8s_gcp_deploy.md` 순서로 클러스터부터 만들고 `bash scripts/deploy.sh`. 마지막 DB·설정 백업: 세진 PC `Documents\프로젝트1\deploy-backups\20261021-1242-final-before-delete\` (DB 를 되살리려면 아래 "DB 되돌리기").
+
 | # | 날짜 (KST) | 배포한 사람 | 태그 (커밋) | 바뀐 것 | 확인 결과 | 되돌리기 |
 |---|---|---|---|---|---|---|
+| 14 | 2026-10-21 12:55 | 세진 (Claude Code) | 삭제 | 프로젝트 종료: 접속 입구(로드밸런서) → 클러스터 → 고정 IP·이미지 보관함·DB 디스크·인증서 순서로 삭제 | 남은 GCP 자원 없음 (같은 프로젝트의 다른 VM 2대와 그 IP 는 그대로) | 되돌릴 수 없음. 새로 배포 + 백업 `db.sql` 복원 |
 | 13 | 2026-10-20 11:25 | 세진 (Claude Code) | 백엔드 `f13e841` (v1.0.3) · 화면 `c330e51` · 모델 `e5fe090` | 안내 목소리 문장 안의 긴 쉼을 0.12초로 줄임 ("드시고 | 가세요" 0.31초, #54) | 첫 안내 2.97 → 2.54초, 드시고↔가세요 0.06초 · `/api/tts` 200 | 백엔드 `c330e51` 로 set image |
 | 12 | 2026-10-20 10:45 | 세진 (Claude Code) | 화면·백엔드 `c330e51` (v1.0.2) · 모델 `e5fe090` 그대로 | 안내 목소리 끊김 줄이기(쉼표 그대로, 문장 앞뒤 무음 잘라 0.2초 간격, WAV) · 안내 중 끼어들 때 앞 0.4→0.8초 (불고기→치즈버거 오인식) (#52) | `/api/tts` audio/wav 0.09초 · 화면 묶음에 0.8초 반영 · `/api/health` 200 | 화면·백엔드 `20bdb95` 로 set image |
 | 11 | 2026-10-20 10:10 | 세진 (Claude Code) | 화면·백엔드 `20bdb95` (v1.0.1) · 모델 `e5fe090` 그대로 | v1.0.1: 안내 목소리 기본 빠르기 1.1 을 이미지에 반영(#48), README(#45~#47). 모델 서버는 코드 변경이 없어 다시 켜지 않음. 10차의 `TTS_RATE=1.1` 환경변수는 코드 기본값과 같아 그대로 둠 | `tts.RATE` 1.1 · `/api/health` 200 · `/api/tts` MP3 0.11초 · 화면 200 | 화면·백엔드 `a8cf518` 로: `kubectl -n fundamental1 set image deployment/backend backend=<보관함>/backend:a8cf518` (frontend 도 같음) |
@@ -45,6 +48,7 @@ bash scripts/rollback.sh          # 바로 전 버전으로 (kubectl rollout und
 ## 배포 전 백업 (배포한 사람 PC, Git 에 올리지 않음: DB 에 주문 기록이 있음)
 | # | 위치 | 내용 |
 |---|---|---|
+| 14 | 세진 PC `Documents\프로젝트1\deploy-backups\20261021-1242-final-before-delete\` | 삭제 직전 마지막 상태 (DB · 설정 · 분석용 녹음 50개) |
 | 13 | 세진 PC `Documents\프로젝트1\deploy-backups\20261020-1122-before-inner-pause\` | 12차 상태 (화면·백엔드 `c330e51`, 모델 `e5fe090`) |
 | 12 | 세진 PC `Documents\프로젝트1\deploy-backups\20261020-1042-before-tts-wav\` | 11차 상태 (화면·백엔드 `20bdb95`, 모델 `e5fe090`) |
 | 11 | 세진 PC `Documents\프로젝트1\deploy-backups\20261020-1005-before-v1.0.1\` | 10차 상태 (화면·백엔드 `a8cf518` + `TTS_RATE=1.1`, 모델 `e5fe090`) |
